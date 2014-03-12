@@ -1,6 +1,8 @@
 package com.mbrite.patrol.common;
 
 import android.content.res.Configuration;
+import android.text.TextUtils;
+
 import java.util.Locale;
 
 /**
@@ -14,5 +16,21 @@ public class Utils {
         config.locale = locale;
         context.getResources().updateConfiguration(config,
                                                    context.getResources().getDisplayMetrics());
+    }
+
+    public static boolean isValidUsernameAndPassword(String username, String password) {
+        // TODO: attempt authentication against a network service
+        try {
+            // Simulate network access.
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            return false;
+        }
+
+        return true;
     }
 }
