@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
+                Utils.clearUsernameAndPassword(this);
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
             default:

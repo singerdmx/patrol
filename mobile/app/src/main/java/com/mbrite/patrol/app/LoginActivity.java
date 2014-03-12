@@ -62,6 +62,13 @@ public class LoginActivity extends Activity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        String[] savedUsernameAndPassword = Utils.getSavedUsernameAndPassword(this);
+        if (savedUsernameAndPassword != null) {
+            mUsernameView.setText(savedUsernameAndPassword[0]);
+            mPasswordView.setText(savedUsernameAndPassword[1]);
+            mSignInButton.performClick();
+        }
     }
 
     /**
@@ -165,6 +172,7 @@ public class LoginActivity extends Activity {
             showProgress(false);
 
             if (success) {
+                Utils.savedUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
                 startActivity(new Intent("com.mbrite.patrol.app.action.main"));
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
