@@ -3,7 +3,8 @@
 
     <string name="app_name">巡检</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">设置</string>
+    <string name="settings">设置</string>
+    <string name="logout">登出</string>
 
     <!-- Strings related to login -->
     <string name="title_activity_login">巡检</string>
