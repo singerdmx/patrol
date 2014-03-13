@@ -14,7 +14,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "started");
-        Utils.setDefaultLocale(getBaseContext());
         setContentView(R.layout.activity_main);
     }
 
