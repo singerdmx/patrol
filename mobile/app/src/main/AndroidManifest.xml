@@ -5,11 +5,11 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/patrol"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.mbrite.patrol.app.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/patrol" >
             <intent-filter>
                 <action android:name="com.mbrite.patrol.app.action.main" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -17,7 +17,7 @@
         </activity>
         <activity
             android:name="com.mbrite.patrol.app.LoginActivity"
-            android:label="@string/title_activity_login"
+            android:label="@string/patrol"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
