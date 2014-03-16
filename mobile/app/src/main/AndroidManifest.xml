@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.mbrite.patrol.app.MainActivity"
-            android:label="@string/patrol" >
+            android:label="@string/route" >
             <intent-filter>
                 <action android:name="com.mbrite.patrol.app.action.main" />
                 <category android:name="android.intent.category.DEFAULT" />
