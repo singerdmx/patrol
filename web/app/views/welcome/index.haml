@@ -1,1 +1,8 @@
 %h1 Welcome
+
+- unless admin_signed_in?
+  %p= link_to 'Sign in as Admin', new_admin_session_path
+- unless user_signed_in?
+  %p= link_to 'Sign in as User', new_user_session_path
+- if user_signed_in?
+  %p= "Signed in as: #{current_user.email}"
