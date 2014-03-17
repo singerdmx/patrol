@@ -174,6 +174,9 @@ public class LoginActivity extends Activity {
 
             if (success) {
                 Utils.savedUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
+                // TODO: make http get request to get routes and check version to see whether to skip saving file
+                String routes = "{routes :[{id:0,description:四工区重工机械12小时点巡检},{id:1,description:一工区机械8小时点巡检},{id:2,description:二工区机械10小时点巡检},{id:3,description:三工区机械8小时点巡检},{id:4,description:五工区机械8小时点巡检}], version: 1}";
+                FileMgr.write(LoginActivity.this, Constants.ROUTES_FILE_NAME, routes);
                 startActivity(new Intent("com.mbrite.patrol.app.action.main"));
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

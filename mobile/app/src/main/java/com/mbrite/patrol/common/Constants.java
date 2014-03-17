@@ -11,4 +11,7 @@ public class Constants {
     public static final String PASSWORD = "password";
 
     public static final String PREFERENCE_FILE_KEY = "com.mbrite.patrol.preference_file_key";
+
+    // File name related constants
+    public static final String ROUTES_FILE_NAME = "routes.json";
 }
