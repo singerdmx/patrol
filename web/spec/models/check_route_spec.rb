@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe CheckPath do
+describe CheckRoute do
   pending "add some examples to (or delete) #{__FILE__}"
 end

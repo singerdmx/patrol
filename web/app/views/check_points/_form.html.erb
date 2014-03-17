@@ -1,0 +1,17 @@
+<%= form_for(@check_point) do |f| %>
+  <% if @check_point.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@check_point.errors.count, "error") %> prohibited this check_point from being saved:</h2>
+
+      <ul>
+      <% @check_point.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

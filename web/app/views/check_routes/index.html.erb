@@ -1,0 +1,25 @@
+<h1>Listing check_routes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @check_routes.each do |check_route| %>
+      <tr>
+        <td><%= link_to 'Show', check_route %></td>
+        <td><%= link_to 'Edit', edit_check_route_path(check_route) %></td>
+        <td><%= link_to 'Destroy', check_route, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Check route', new_check_route_path %>
