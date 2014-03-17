@@ -6,6 +6,7 @@ import android.widget.*;
 import com.mbrite.patrol.model.Route;
 
 import java.util.*;
+import org.json.*;
 
 public class RouteProvider {
 
@@ -17,8 +18,9 @@ public class RouteProvider {
 
     public ArrayList<Route> getRoutes() {
         ArrayList<Route> routes = new ArrayList<Route>();
-        int index = 0;
+        int index = 1;
 
+        // TODO: load json data from file "routes.json"
         String[] values = new String[] {
                 "一工区机械8小时点巡检",
                 "二工区机械10小时点巡检",
@@ -27,16 +29,33 @@ public class RouteProvider {
                 "五工区机械8小时点巡检"
         };
 
+        StringBuilder sb = new StringBuilder("{routes :[");
+        sb.append("{id:0,description:四工区重工机械12小时点巡检}");
+        for (String value : values) {
+            sb.append(String.format(",{id:%d,description:%s}", index++, value));
+        }
+        sb.append("]}");
+        String data = sb.toString();
         try {
-            for (String value : values) {
-                routes.add(new Route(index++, value));
+            JSONArray routesJSON = new JSONObject(data).getJSONArray("routes");
+            for(int i = 0 ; i < routesJSON.length() ; i++) {
+                JSONObject routeJSON = routesJSON.getJSONObject(i);
+                routes.add(new Route(routeJSON.getInt("id"), routeJSON.getString("description")));
             }
         }
+        catch (JSONException ex) {
+            Toast.makeText(
+                    activity,
+                    String.format("JSONException: %s", ex.toString()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
         catch (Exception ex) {
-            // TODO: load data from get request call and display error message upon network failure
-            Toast.makeText(activity,
+            Toast.makeText(
+                    activity,
                     String.format("Error: %s", ex.toString()),
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG)
+                    .show();
         }
         return routes;
     }
