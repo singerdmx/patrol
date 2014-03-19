@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
 import android.widget.*;
-import com.mbrite.patrol.app.LoginActivity;
+import com.mbrite.patrol.app.*;
+import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.app.R;
+import com.mbrite.patrol.test.common.TestUtils;
+
+import org.junit.Assert;
 
 /**
  * Test class for LoginActivity class
@@ -24,6 +28,10 @@ import com.mbrite.patrol.app.R;
  * handle to this activity (launching it if needed).
  */
 public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
+
+    private String test_username = "admin";
+    private String test_password = "admin";
+
     public LoginActivityTest() {
         super("com.mbrite.patrol.app", LoginActivity.class);
     }
@@ -37,6 +45,8 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     public void testOnCreate() {
         Activity activity = getActivity();
 
+        TestUtils.setupFakePreferences(activity);
+
         final EditText mUsernameView = (EditText) activity.findViewById(R.id.username);
         final EditText mPasswordView = (EditText) activity.findViewById(R.id.password);
         final Button mSignInButton = (Button) activity.findViewById(R.id.sign_in_button);
@@ -49,8 +59,8 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
                 //
                 // You could also use @UiThreadTest, but activity lifecycle methods
                 // cannot be called if this annotation is used.
-                mUsernameView.setText("admin");
-                mPasswordView.setText("admin");
+                mUsernameView.setText(test_username);
+                mPasswordView.setText(test_password);
                 mSignInButton.performClick();
             }
         });
@@ -62,6 +72,8 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
             return;
         }
 
+        String[] credential = Utils.getSavedUsernameAndPassword(activity);
+        Assert.assertArrayEquals(credential, new String[] { test_username, test_password });
         // Close the activity
         activity.finish();
         setActivity(null);
