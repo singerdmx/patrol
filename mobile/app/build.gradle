@@ -29,4 +29,5 @@ dependencies {
     //
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/java-json.jar')
+    compile files('libs/junit.jar')
 }
