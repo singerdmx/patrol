@@ -31,14 +31,13 @@ class CheckRoutesController < ApplicationController
   # PATCH/PUT /check_routes/1
   # PATCH/PUT /check_routes/1.json
   def update
-    respond_to do |format|
-      if @check_route.update(check_route_params)
-        format.html { redirect_to @check_route, notice: 'Check route was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @check_route.errors, status: :unprocessable_entity }
-      end
+    begin
+      @check_route.update(check_route_params)
+      #TODO dedup
+      @check_route.assets<< Asset.find(params[:asset_id])  if (!params[:asset_id].nil?)
+      render template: 'check_routes/show', status: :ok
+    rescue Exception => e
+      render json: {:message=> e.to_s}.to_json, status: :internal_server_error
     end
   end
 

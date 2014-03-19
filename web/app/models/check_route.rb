@@ -1,3 +1,3 @@
 class CheckRoute < ActiveRecord::Base
-  has_many :check_managers, dependent: :destroy
+  has_and_belongs_to_many :assets
 end
