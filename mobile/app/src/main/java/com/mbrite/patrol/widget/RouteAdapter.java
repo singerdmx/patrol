@@ -27,12 +27,17 @@ public class RouteAdapter extends ArrayAdapter<Route> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Get rowView from inflater
         View rowView = inflater.inflate(R.layout.activity_list_item_route, parent, false);
+
+        if (position % 2 == 0){
+            rowView.setBackgroundResource(R.drawable.alterselector1);
+        } else {
+            rowView.setBackgroundResource(R.drawable.alterselector2);
+        }
 
         // Get the text view from the rowView
         TextView labelView = (TextView) rowView.findViewById(R.id.label);
