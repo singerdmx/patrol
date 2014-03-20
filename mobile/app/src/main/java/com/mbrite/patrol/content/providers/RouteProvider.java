@@ -22,7 +22,7 @@ public class RouteProvider {
         ArrayList<Route> routes = new ArrayList<Route>();
         try {
             String data = FileMgr.read(activity, Constants.ROUTES_FILE_NAME);
-            JSONArray routesJSON = new JSONObject(data).getJSONArray("routes");
+            JSONArray routesJSON = new JSONObject(data).getJSONArray(Constants.ROUTES);
             for(int i = 0 ; i < routesJSON.length() ; i++) {
                 JSONObject routeJSON = routesJSON.getJSONObject(i);
                 routes.add(new Route(routeJSON.getInt("id"), routeJSON.getString("description")));

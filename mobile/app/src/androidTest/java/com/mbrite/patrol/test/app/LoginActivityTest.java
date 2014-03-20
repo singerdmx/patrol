@@ -33,7 +33,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     private String test_password = "admin";
 
     public LoginActivityTest() {
-        super("com.mbrite.patrol.app", LoginActivity.class);
+        super(LoginActivity.class);
     }
 
     /**

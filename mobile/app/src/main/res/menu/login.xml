@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mbrite.patrol.app.MainActivity" >
 
-    <item android:id="@+id/logout"
-        android:icon="@drawable/userblock"
-        android:title="@string/logout"/>
     <item
         android:id="@+id/settings"
         android:icon="@drawable/options"

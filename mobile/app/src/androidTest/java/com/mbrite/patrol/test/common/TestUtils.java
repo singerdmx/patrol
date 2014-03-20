@@ -10,7 +10,7 @@ public class TestUtils {
 
     public static void setupFakePreferences(Activity activity) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
-        editor.putString(Constants.SITE_URL, "Fake URL");
+        editor.putString(Constants.SITE_URL, "www.fake.com");
         editor.commit();
     }
 }

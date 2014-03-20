@@ -4,46 +4,34 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.*;
 
 public class FileMgr {
 
-    public static void write(Activity activity, String fileName, String string) {
+    public static void write(Activity activity, String fileName, String string)
+            throws IOException {
+        FileOutputStream outputStream = null;
         try {
-            FileOutputStream outputStream = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
             outputStream.write(string.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            Toast.makeText(
-                    activity,
-                    String.format("Error: %s", e.toString()),
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
-    }
-
-    public static String read(Activity activity, String fileName) {
-        String result = null;
-        try {
-            InputStreamReader input = new InputStreamReader(activity.openFileInput(fileName));
-            BufferedReader reader = new BufferedReader(input);
-            StringBuilder fileData = new StringBuilder();
-            char[] buf = new char[1024];
-            int numRead = 0;
-            while((numRead=reader.read(buf)) != -1){
-                String readData = String.valueOf(buf, 0, numRead);
-                fileData.append(readData);
+        } finally {
+            if (outputStream != null) {
+                outputStream.close();
             }
-            reader.close();
-            result = fileData.toString();
-        } catch (Exception e) {
-            Toast.makeText(
-                    activity,
-                    String.format("Error: %s", e.toString()),
-                    Toast.LENGTH_LONG)
-                    .show();
         }
-        return result;
     }
 
+    public static String read(Activity activity, String fileName)
+            throws IOException {
+        return Utils.convertStreamToString(activity.openFileInput(fileName));
+    }
+
+    public static long getVersion(Activity activity, String fileName)
+            throws JSONException, IOException {
+        String fileContent = read(activity, fileName);
+        return new JSONObject(fileContent).getLong(Constants.VERSION);
+    }
 }

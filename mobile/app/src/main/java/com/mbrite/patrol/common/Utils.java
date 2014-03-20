@@ -1,10 +1,15 @@
 package com.mbrite.patrol.common;
 
 import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.app.*;
 import android.content.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Locale;
 
 /**
@@ -67,5 +72,31 @@ public class Utils {
         }
 
         return new String[] { username, password };
+    }
+
+    public static String getSiteURI(Activity activity) {
+        return PreferenceManager
+                .getDefaultSharedPreferences(activity)
+                .getString(Constants.SITE_URL, "");
+    }
+
+    public static String convertStreamToString(InputStream is) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            char[] buf = new char[1024];
+            int numRead = 0;
+
+            while((numRead=reader.read(buf)) != -1) {
+                String readData = String.valueOf(buf, 0, numRead);
+                sb.append(readData);
+            }
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+
+        return sb.toString();
     }
 }

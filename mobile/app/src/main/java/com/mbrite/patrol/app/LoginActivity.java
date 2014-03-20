@@ -10,11 +10,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.mbrite.patrol.common.*;
+import com.mbrite.patrol.connection.RestClient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
+import java.io.IOException;
 
 /**
  * A login screen that offers login via username/password.
@@ -31,6 +40,7 @@ public class LoginActivity extends Activity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Button mSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +63,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
+        mSignInButton = (Button) findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +79,26 @@ public class LoginActivity extends Activity {
             mUsernameView.setText(savedUsernameAndPassword[0]);
             mPasswordView.setText(savedUsernameAndPassword[1]);
             mSignInButton.performClick();
+        }
+    }
+
+    // Called to lazily initialize the action bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.login, menu);
+        return true;
+    }
+
+    // Called every time user clicks on an action
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -173,11 +203,42 @@ public class LoginActivity extends Activity {
             showProgress(false);
 
             if (success) {
-                Utils.savedUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
-                // TODO: make http get request to get routes and check version to see whether to skip saving file
-                String routes = "{routes :[{id:0,description:四工区重工机械12小时点巡检},{id:1,description:一工区机械8小时点巡检},{id:2,description:二工区机械10小时点巡检},{id:3,description:三工区机械8小时点巡检},{id:4,description:五工区机械8小时点巡检}], version: 1}";
-                FileMgr.write(LoginActivity.this, Constants.ROUTES_FILE_NAME, routes);
-                startActivity(new Intent("com.mbrite.patrol.app.action.main"));
+                try {
+                    Utils.savedUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
+                    RestClient client = new RestClient(LoginActivity.this);
+                    updateSavedFile(Constants.ROUTES, Constants.ROUTES_FILE_NAME, client);
+                    startActivity(new Intent("com.mbrite.patrol.app.action.main"));
+                } catch (JSONException ex) {
+                    mSignInButton.setError(ex.getLocalizedMessage());
+                    Toast.makeText(
+                            LoginActivity.this,
+                            String.format("JSONException: %s", ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                } catch (URISyntaxException ex) {
+                    mSignInButton.setError(ex.getLocalizedMessage());
+                    Toast.makeText(
+                            LoginActivity.this,
+                            String.format(getString(R.string.error_site_url_invalid),
+                                    Utils.getSiteURI(LoginActivity.this)),
+                            Toast.LENGTH_LONG)
+                            .show();
+                } catch (IOException ex) {
+                    mSignInButton.setError(ex.getLocalizedMessage());
+                    Toast.makeText(
+                            LoginActivity.this,
+                            String.format(getString(R.string.error_network_connection_failure),
+                                    Utils.getSiteURI(LoginActivity.this)),
+                            Toast.LENGTH_LONG)
+                            .show();
+                } catch (Exception ex) {
+                    mSignInButton.setError(ex.getLocalizedMessage());
+                    Toast.makeText(
+                            LoginActivity.this,
+                            String.format("Error: %s", ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -188,6 +249,19 @@ public class LoginActivity extends Activity {
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        private void updateSavedFile (String url, String fileName, RestClient client)
+                throws JSONException, URISyntaxException, IOException {
+//          String data = "{routes :[{id:0,description:四工区重工机械12小时点巡检},{id:1,description:一工区机械8小时点巡检},{id:2,description:二工区机械10小时点巡检},{id:3,description:三工区机械8小时点巡检},{id:4,description:五工区机械8小时点巡检}], version: 1}";
+            String data = client.get(url);
+            long version = new JSONObject(data).getLong(Constants.VERSION);
+            long current_version = FileMgr.getVersion(LoginActivity.this, fileName);
+
+            if (version > current_version) {
+                // update file
+                FileMgr.write(LoginActivity.this, fileName, data);
+            }
         }
     }
 }

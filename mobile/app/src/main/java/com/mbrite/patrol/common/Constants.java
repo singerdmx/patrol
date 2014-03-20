@@ -10,8 +10,13 @@ public class Constants {
 
     public static final String PASSWORD = "password";
 
+    public static final String VERSION = "version";
+
     public static final String PREFERENCE_FILE_KEY = "com.mbrite.patrol.preference_file_key";
 
+    public static final String SITE_URL = "site_url";
+
     // File name related constants
+    public static final String ROUTES = "routes";
     public static final String ROUTES_FILE_NAME = "routes.json";
 }

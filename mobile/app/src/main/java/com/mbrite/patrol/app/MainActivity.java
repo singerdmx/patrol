@@ -33,6 +33,9 @@ public class MainActivity extends Activity {
                 Utils.clearUsernameAndPassword(this);
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
+            case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
             default:
                 return false;
         }

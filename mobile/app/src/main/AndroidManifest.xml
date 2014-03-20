@@ -2,12 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mbrite.patrol.app" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/patrol"
         android:theme="@style/AppTheme" >
         <activity
+            android:theme="@android:style/Theme.Light"
             android:name="com.mbrite.patrol.app.MainActivity"
             android:label="@string/route" >
             <intent-filter>
@@ -16,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@android:style/Theme.Holo.Light"
             android:name="com.mbrite.patrol.app.LoginActivity"
             android:label="@string/patrol"
             android:windowSoftInputMode="adjustResize|stateVisible" >
@@ -23,6 +27,11 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Light"
+            android:name="com.mbrite.patrol.app.SettingsActivity"
+            android:label="@string/settings" >
         </activity>
     </application>
 

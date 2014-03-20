@@ -8,6 +8,12 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <!-- Strings related to settings -->
+    <string name="site_url">Site URL</string>
+    <string name="error_site_url_missing">Site URL is not set! Please configure it in Settings menu.</string>
+    <string name="error_site_url_invalid">Site URL %s is invalid! Please configure it in Settings menu.</string>
+    <string name="error_network_connection_failure">Failed to connect to site %s.</string>
+
     <!-- Strings related to login -->
     <string name="username">Username</string>
     <string name="password">Password</string>
