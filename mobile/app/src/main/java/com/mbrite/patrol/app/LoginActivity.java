@@ -19,11 +19,16 @@ import android.widget.*;
 import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.connection.RestClient;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpResponseException;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.apache.http.*;
 
 import java.net.URISyntaxException;
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
 
 /**
  * A login screen that offers login via username/password.
@@ -253,14 +258,38 @@ public class LoginActivity extends Activity {
 
         private void updateSavedFile (String url, String fileName, RestClient client)
                 throws JSONException, URISyntaxException, IOException {
-//          String data = "{routes :[{id:0,description:四工区重工机械12小时点巡检},{id:1,description:一工区机械8小时点巡检},{id:2,description:二工区机械10小时点巡检},{id:3,description:三工区机械8小时点巡检},{id:4,description:五工区机械8小时点巡检}], version: 1}";
-            String data = client.get(url);
-            long version = new JSONObject(data).getLong(Constants.VERSION);
-            long current_version = FileMgr.getVersion(LoginActivity.this, fileName);
-
-            if (version > current_version) {
-                // update file
-                FileMgr.write(LoginActivity.this, fileName, data);
+            Map<String, String> headers = null;
+            if (FileMgr.exists(LoginActivity.this, fileName)) {
+                JSONObject savedRoutes = new JSONObject(FileMgr.read(LoginActivity.this, fileName));
+                if (savedRoutes.has(Constants.IF_MODIFIED_SINCE) && savedRoutes.has(Constants.IF_NONE_MATCH)) {
+                    headers = new HashMap<String, String>();
+                    headers.put(Constants.IF_NONE_MATCH, savedRoutes.getString(Constants.IF_NONE_MATCH));
+                    headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
+                }
+            }
+            HttpResponse response = client.get(url, headers);
+            int statusCode = response.getStatusLine().getStatusCode();
+            switch (statusCode) {
+                case 200:
+                    // update file
+                    String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
+                    JSONArray responseData = new JSONArray(responseContent);
+                    JSONObject data = new JSONObject();
+                    data.put(url, responseData);
+                    Header ifNoneMatch = response.getFirstHeader(Constants.ETAG);
+                    Header ifModifiedSince= response.getFirstHeader(Constants.LAST_MODIFIED);
+                    if (ifNoneMatch != null && ifModifiedSince != null) {
+                        data.put(Constants.IF_NONE_MATCH, ifNoneMatch.getValue());
+                        data.put(Constants.IF_MODIFIED_SINCE, ifModifiedSince.getValue());
+                    }
+                    FileMgr.write(LoginActivity.this, fileName, data.toString());
+                    break;
+                case 304:
+                    // Not Modified
+                    break;
+                default:
+                    throw new HttpResponseException(statusCode,
+                            "Error occurred for GET request: " + url);
             }
         }
     }

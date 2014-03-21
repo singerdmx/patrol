@@ -11,6 +11,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.app.*;
@@ -33,14 +34,25 @@ public class RestClient {
         this.siteURI = new URI(site);
     }
 
-    public String get(String relativeURI) throws IOException {
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(this.siteURI.resolve(relativeURI));
-        HttpResponse response = client.execute(request);
-        return Utils.convertStreamToString(response.getEntity().getContent());
+    public HttpResponse get(String relativeURI)
+            throws IOException {
+        return get(relativeURI, null);
     }
 
-    public String post(String relativeURI, String payload, String contentType) throws IOException {
+    public HttpResponse get(String relativeURI, Map<String, String> headers)
+            throws IOException {
+        HttpClient client = new DefaultHttpClient();
+        HttpGet request = new HttpGet(this.siteURI.resolve(relativeURI));
+        if (headers != null) {
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                request.setHeader(header.getKey(), header.getValue());
+            }
+        }
+        return client.execute(request);
+    }
+
+    public String post(String relativeURI, String payload, String contentType)
+            throws IOException {
         HttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(this.siteURI.resolve(relativeURI));
         StringEntity input = new StringEntity(payload);

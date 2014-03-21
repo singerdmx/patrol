@@ -11,6 +11,10 @@ import java.io.*;
 
 public class FileMgr {
 
+    public static boolean exists(Activity activity, String fileName) {
+        return activity.getFileStreamPath(fileName).exists();
+    }
+
     public static void write(Activity activity, String fileName, String string)
             throws IOException {
         FileOutputStream outputStream = null;
@@ -27,11 +31,5 @@ public class FileMgr {
     public static String read(Activity activity, String fileName)
             throws IOException {
         return Utils.convertStreamToString(activity.openFileInput(fileName));
-    }
-
-    public static long getVersion(Activity activity, String fileName)
-            throws JSONException, IOException {
-        String fileContent = read(activity, fileName);
-        return new JSONObject(fileContent).getLong(Constants.VERSION);
     }
 }
