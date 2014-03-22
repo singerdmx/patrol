@@ -2,21 +2,12 @@ package com.mbrite.patrol.app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
-import com.mbrite.patrol.content.providers.*;
-import com.mbrite.patrol.model.Asset;
-
-import org.json.JSONException;
-
-import java.util.ArrayList;
 
 
 public class AssetsActivity extends Activity {
@@ -27,9 +18,6 @@ public class AssetsActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "started");
         setContentView(R.layout.activity_assets);
-
-//        AssetProvider assetProvider = new AssetProvider(this);
-//        ArrayList<Asset> assets = assetProvider.getAssets();
     }
 
 
