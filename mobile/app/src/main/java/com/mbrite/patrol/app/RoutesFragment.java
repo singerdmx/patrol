@@ -6,24 +6,45 @@ import android.content.*;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RouteProvider;
 import com.mbrite.patrol.model.Route;
 import com.mbrite.patrol.widget.RouteAdapter;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class RoutesFragment extends ListFragment {
     private static final String TAG = RoutesFragment.class.getSimpleName();
 
     private RouteProvider routeProvider;
-    private ArrayList<Route> routes;
+    private ArrayList<Route> routes = new ArrayList<Route>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        this.routeProvider = new RouteProvider(getActivity());
-        this.routes = routeProvider.getRoutes();
+        try {
+            this.routeProvider = new RouteProvider(getActivity());
+            this.routes = routeProvider.getRoutes();
+        }catch (JSONException ex) {
+            Toast.makeText(
+                    getActivity(),
+                    String.format("JSONException: %s", ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        } catch (Exception ex) {
+            Toast.makeText(
+                    getActivity(),
+                    String.format("Error: %s", ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
 
         RouteAdapter adapter = new RouteAdapter(
                 getActivity(),
@@ -41,10 +62,9 @@ public class RoutesFragment extends ListFragment {
                .setCancelable(false)
                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // TODO: go to AssetActivity
-                        Toast.makeText(getActivity(),
-                                String.format("%d: %s", route.id, route.description),
-                                Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getActivity(), AssetsActivity.class);
+                        intent.putExtra(Constants.ID, route.id);
+                        startActivity(intent);
                     }
                })
                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

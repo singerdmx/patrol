@@ -27,4 +27,7 @@
     <string name="confirm_route">确认路线</string>
     <string name="selected_route">选定的路线：%s</string>
 
+    <!-- Strings related to asset -->
+    <string name="asset">设备</string>
+
 </resources>

@@ -6,6 +6,8 @@ package com.mbrite.patrol.common;
 public class Constants {
     public static final String DEFAULT_LOCALE = "zh";
 
+    public static final String ID = "id";
+
     public static final String USER_NAME = "username";
 
     public static final String PASSWORD = "password";
@@ -23,4 +25,6 @@ public class Constants {
     // File name related constants
     public static final String ROUTES = "routes";
     public static final String ROUTES_FILE_NAME = "routes.json";
+    public static final String ASSETS = "assets";
+    public static final String ASSETS_FILE_NAME = "assets.json";
 }
