@@ -30,8 +30,8 @@ public class AssetProvider {
             JSONObject assetJSON = assetsJSON.getJSONObject(i);
             assets.add(
                     new Asset(
-                            assetJSON.getInt("id"),
-                            assetJSON.getString("description"),
+                            assetJSON.getInt(Constants.ID),
+                            assetJSON.getString(Constants.DESCRIPTION),
                             assetJSON.getString("serialnum")));
         }
         return assets;

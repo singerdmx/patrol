@@ -63,7 +63,7 @@ public class RoutesFragment extends ListFragment {
                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent(getActivity(), AssetsActivity.class);
-                        intent.putExtra(Constants.ID, route.id);
+                        intent.putExtra(Constants.ASSETS, route.assets);
                         startActivity(intent);
                     }
                })

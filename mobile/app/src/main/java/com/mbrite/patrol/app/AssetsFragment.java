@@ -27,12 +27,21 @@ public class AssetsFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle extras = getActivity().getIntent().getExtras();
-        int routeId = extras.getInt(Constants.ID);
+        int[] assets = extras.getIntArray(Constants.ASSETS);
+        Set<Integer> assetIndexes = new HashSet<Integer>(assets.length);
+        for (int asset : assets) {
+            assetIndexes.add(asset);
+        }
 
         try {
             this.assetProvider = new AssetProvider(getActivity());
-            this.assets = assetProvider.getAssets();
-        }catch (JSONException ex) {
+            ArrayList<Asset> allAssets = assetProvider.getAssets();
+            for (Asset asset : allAssets) {
+                if (assetIndexes.contains(asset.id)) {
+                    this.assets.add(asset);
+                }
+            }
+        } catch (JSONException ex) {
             Toast.makeText(
                     getActivity(),
                     String.format("JSONException: %s", ex.getLocalizedMessage()),

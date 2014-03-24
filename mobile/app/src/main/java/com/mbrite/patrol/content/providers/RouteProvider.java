@@ -25,7 +25,14 @@ public class RouteProvider {
         JSONArray routesJSON = new JSONObject(data).getJSONArray(Constants.ROUTES);
         for(int i = 0 ; i < routesJSON.length() ; i++) {
             JSONObject routeJSON = routesJSON.getJSONObject(i);
-            routes.add(new Route(routeJSON.getInt("id"), routeJSON.getString("description")));
+            JSONArray assets = routeJSON.getJSONArray(Constants.ASSETS);
+            int[] asset_indexes = new int[assets.length()];
+            for (int j = 0; j < assets.length(); j++) {
+                asset_indexes[j] = (Integer) assets.get(j);
+            }
+            routes.add(new Route(routeJSON.getInt(Constants.ID),
+                    routeJSON.getString(Constants.DESCRIPTION),
+                    asset_indexes));
         }
         return routes;
     }
