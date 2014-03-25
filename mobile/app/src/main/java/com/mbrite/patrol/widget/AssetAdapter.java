@@ -40,11 +40,11 @@ public class AssetAdapter extends ArrayAdapter<Asset> {
             rowView.setBackgroundResource(R.drawable.alterselector2);
         }
 
-        // Get the text view from the rowView
-        TextView labelView = (TextView) rowView.findViewById(R.id.label);
-
-        // Set the text for textView
-        labelView.setText(itemsArrayList.get(position).description);
+        Asset asset = itemsArrayList.get(position);
+        TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
+        descriptionView.setText(asset.description);
+        TextView serialNumView = (TextView) rowView.findViewById(R.id.serial_num);
+        serialNumView.setText(asset.serialNum);
 
         return rowView;
     }
