@@ -21,7 +21,7 @@ public class AssetsFragment extends ListFragment {
     private static final String TAG = AssetsFragment.class.getSimpleName();
 
     private AssetProvider assetProvider;
-    private ArrayList<Asset> assets;
+    private ArrayList<Asset> assets = new ArrayList<Asset>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

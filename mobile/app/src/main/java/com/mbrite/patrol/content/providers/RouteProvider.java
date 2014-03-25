@@ -26,13 +26,13 @@ public class RouteProvider {
         for(int i = 0 ; i < routesJSON.length() ; i++) {
             JSONObject routeJSON = routesJSON.getJSONObject(i);
             JSONArray assets = routeJSON.getJSONArray(Constants.ASSETS);
-            int[] asset_indexes = new int[assets.length()];
+            int[] assetIndexes = new int[assets.length()];
             for (int j = 0; j < assets.length(); j++) {
-                asset_indexes[j] = (Integer) assets.get(j);
+                assetIndexes[j] = (Integer) assets.get(j);
             }
             routes.add(new Route(routeJSON.getInt(Constants.ID),
                     routeJSON.getString(Constants.DESCRIPTION),
-                    asset_indexes));
+                    assetIndexes));
         }
         return routes;
     }

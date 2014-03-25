@@ -67,7 +67,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
 
         try {
             // wait for UI thread to manipulate
-            Thread.sleep(15000);
+            Thread.sleep(25000);
         } catch (InterruptedException e) {
             return;
         }
