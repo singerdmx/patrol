@@ -32,7 +32,8 @@ public class AssetProvider {
                     new Asset(
                             assetJSON.getInt(Constants.ID),
                             assetJSON.getString(Constants.DESCRIPTION),
-                            assetJSON.getString(Constants.SERIAL_NUM)));
+                            assetJSON.getString(Constants.SERIAL_NUM),
+                            assetJSON.getString(Constants.BARCODE)));
         }
         return assets;
     }
