@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.mbrite.patrol.app.*;
 import com.mbrite.patrol.model.Asset;
-import com.mbrite.patrol.model.Route;
 
 public class AssetAdapter extends ArrayAdapter<Asset> {
 

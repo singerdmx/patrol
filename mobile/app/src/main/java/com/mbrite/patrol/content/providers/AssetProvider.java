@@ -5,7 +5,6 @@ import android.app.Activity;
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.model.Asset;
-import com.mbrite.patrol.model.Route;
 
 import org.json.JSONArray;
 import org.json.JSONException;

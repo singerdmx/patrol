@@ -8,15 +8,12 @@ import android.view.View;
 import android.widget.*;
 
 import com.mbrite.patrol.common.Constants;
-import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RouteProvider;
 import com.mbrite.patrol.model.Route;
 import com.mbrite.patrol.widget.RouteAdapter;
 
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.*;
 
 public class RoutesFragment extends ListFragment {
