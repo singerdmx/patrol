@@ -28,5 +28,6 @@
 
     <!-- Strings related to asset -->
     <string name="asset">Asset</string>
+    <string name="scan_barcode">Scan Barcode</string>
 
 </resources>

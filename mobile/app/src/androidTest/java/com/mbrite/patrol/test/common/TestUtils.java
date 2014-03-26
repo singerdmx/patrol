@@ -10,7 +10,7 @@ public class TestUtils {
 
     public static void setupFakePreferences(Activity activity) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
-        editor.putString(Constants.SITE_URL, "http://10.118.97.29:3000");
+        editor.putString(Constants.SITE_URL, "http://warm-depths-4825.herokuapp.com");
         editor.commit();
     }
 }

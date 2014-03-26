@@ -29,5 +29,6 @@
 
     <!-- Strings related to asset -->
     <string name="asset">设备</string>
+    <string name="scan_barcode">扫描编码</string>
 
 </resources>
