@@ -1,34 +1,37 @@
 package com.mbrite.patrol.app;
 
-import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.TabHost.*;
+import android.widget.*;
 
 import com.mbrite.patrol.common.Utils;
 
 
-public class AssetsActivity extends Activity {
-    private static final String TAG = AssetsActivity.class.getSimpleName();
+public class BarcodeActivity extends TabActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "started");
-        setContentView(R.layout.activity_assets);
-        Button scanButton = (Button) findViewById(R.id.scan_button);
-        scanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(AssetsActivity.this, BarcodeActivity.class));
-            }
-        });
-    }
+        setContentView(R.layout.activity_barcode);
+        TabHost tabHost = getTabHost();
 
+        TabSpec scanBarcodeSpec = tabHost.newTabSpec("scan_barcode");
+        scanBarcodeSpec.setIndicator(getString(R.string.scan_barcode), getResources().getDrawable(R.drawable.barcode));
+        Intent scanBarcodeIntent = new Intent(this, ScanBarcodeActivity.class);
+        scanBarcodeSpec.setContent(scanBarcodeIntent);
+
+        TabSpec manualInputSpec = tabHost.newTabSpec("manual_input");
+        manualInputSpec.setIndicator(getString(R.string.manual_input), getResources().getDrawable(R.drawable.ic_menu_edit));
+        Intent inputBarcodeIntent = new Intent(this, InputBarcodeActivity.class);
+        manualInputSpec.setContent(inputBarcodeIntent);
+
+        tabHost.addTab(scanBarcodeSpec);
+        tabHost.addTab(manualInputSpec);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -30,5 +30,7 @@
     <!-- Strings related to asset -->
     <string name="asset">设备</string>
     <string name="scan_barcode">扫描编码</string>
+    <string name="barcode">编码</string>
+    <string name="manual_input">手动输入</string>
 
 </resources>

@@ -3,8 +3,8 @@
     package="com.mbrite.patrol.app" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
         android:allowBackup="true"
@@ -40,6 +40,21 @@
         <activity
             android:name="com.mbrite.patrol.app.AssetsActivity"
             android:label="@string/asset"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+        <activity
+            android:name="com.mbrite.patrol.app.BarcodeActivity"
+            android:label="@string/barcode"
+            android:theme="@android:style/Theme.Light">
+        </activity>
+        <activity
+            android:name="com.mbrite.patrol.app.ScanBarcodeActivity"
+            android:label="@string/scan_barcode"
+            android:theme="@android:style/Theme.Light">
+        </activity>
+        <activity
+            android:name="com.mbrite.patrol.app.InputBarcodeActivity"
+            android:label="@string/manual_input"
             android:theme="@android:style/Theme.Light">
         </activity>
     </application>
