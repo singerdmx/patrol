@@ -11,7 +11,6 @@ import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.content.providers.AssetProvider;
 import com.mbrite.patrol.model.Asset;
 import com.mbrite.patrol.widget.AssetAdapter;
-import com.mbrite.patrol.widget.RouteAdapter;
 
 import org.json.JSONException;
 
@@ -21,13 +20,14 @@ public class AssetsFragment extends ListFragment {
     private static final String TAG = AssetsFragment.class.getSimpleName();
 
     private AssetProvider assetProvider;
-    private ArrayList<Asset> assets = new ArrayList<Asset>();
+    private int[] assets;
+    private ArrayList<Asset> assetList = new ArrayList<Asset>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle extras = getActivity().getIntent().getExtras();
-        int[] assets = extras.getIntArray(Constants.ASSETS);
+        assets = extras.getIntArray(Constants.ASSETS);
         Set<Integer> assetIndexes = new HashSet<Integer>(assets.length);
         for (int asset : assets) {
             assetIndexes.add(asset);
@@ -38,7 +38,7 @@ public class AssetsFragment extends ListFragment {
             ArrayList<Asset> allAssets = assetProvider.getAssets();
             for (Asset asset : allAssets) {
                 if (assetIndexes.contains(asset.id)) {
-                    this.assets.add(asset);
+                    this.assetList.add(asset);
                 }
             }
         } catch (JSONException ex) {
@@ -57,7 +57,7 @@ public class AssetsFragment extends ListFragment {
 
         AssetAdapter adapter = new AssetAdapter(
                 getActivity(),
-                this.assets);
+                this.assetList);
         setListAdapter(adapter);
     }
 
@@ -66,12 +66,15 @@ public class AssetsFragment extends ListFragment {
         Log.d(TAG, "ROW ID: " + id);
         final Asset asset = (Asset) getListAdapter().getItem(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(String.format(getString(R.string.selected_route), asset.description))
-                .setTitle(R.string.confirm_route)
+        builder.setMessage(String.format(getString(R.string.selected_asset), asset.description))
+                .setTitle(R.string.confirm_asset)
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // TODO: move to PointsActivity
+                        Intent intent = new Intent(getActivity(), BarcodeActivity.class);
+                        intent.putExtra(Constants.ASSETS, assets);
+                        intent.putExtra(Constants.BARCODE, asset.barcode);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

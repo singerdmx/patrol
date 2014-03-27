@@ -9,26 +9,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
 
 
 public class AssetsActivity extends Activity {
     private static final String TAG = AssetsActivity.class.getSimpleName();
+    private int[] assets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "started");
         setContentView(R.layout.activity_assets);
+
+        Bundle extras = getIntent().getExtras();
+        assets = extras.getIntArray(Constants.ASSETS);
         Button scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AssetsActivity.this, BarcodeActivity.class));
+                Intent intent = new Intent(AssetsActivity.this, BarcodeActivity.class);
+                intent.putExtra(Constants.ASSETS, assets);
+                startActivity(intent);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

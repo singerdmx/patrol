@@ -15,30 +15,21 @@ import com.mbrite.patrol.common.Utils;
 public class BarcodeActivity extends TabActivity {
 
     private String targetBarcode = null;
+    private int[] assets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
-        TabHost tabHost = getTabHost();
-
-        TabSpec scanBarcodeSpec = tabHost.newTabSpec("scan_barcode");
-        scanBarcodeSpec.setIndicator(getString(R.string.scan_barcode), getResources().getDrawable(R.drawable.barcode));
-        Intent scanBarcodeIntent = new Intent(this, ScanBarcodeActivity.class);
-        scanBarcodeSpec.setContent(scanBarcodeIntent);
-
-        TabSpec manualInputSpec = tabHost.newTabSpec("manual_input");
-        manualInputSpec.setIndicator(getString(R.string.manual_input), getResources().getDrawable(R.drawable.ic_menu_edit));
-        Intent inputBarcodeIntent = new Intent(this, InputBarcodeActivity.class);
-        manualInputSpec.setContent(inputBarcodeIntent);
-
-        tabHost.addTab(scanBarcodeSpec);
-        tabHost.addTab(manualInputSpec);
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            assets = extras.getIntArray(Constants.ASSETS);
             targetBarcode = extras.getString(Constants.BARCODE);
         }
+
+        TabHost tabHost = getTabHost();
+        createTabSpec(tabHost, "scan_barcode", R.string.scan_barcode, R.drawable.barcode, ScanBarcodeActivity.class);
+        createTabSpec(tabHost, "manual_input", R.string.manual_input, R.drawable.ic_menu_edit, InputBarcodeActivity.class);
     }
 
     @Override
@@ -66,4 +57,16 @@ public class BarcodeActivity extends TabActivity {
         }
     }
 
+    private TabSpec createTabSpec(TabHost tabHost, String specTag, int indicator, int drawable, Class activityClass) {
+        TabSpec tabSpec = tabHost.newTabSpec(specTag);
+        tabSpec.setIndicator(getString(indicator), getResources().getDrawable(drawable));
+        Intent intent = new Intent(this, activityClass);
+        intent.putExtra(Constants.ASSETS, assets);
+        if (targetBarcode != null) {
+            intent.putExtra(Constants.BARCODE, targetBarcode);
+        }
+        tabSpec.setContent(intent);
+        tabHost.addTab(tabSpec);
+        return tabSpec;
+    }
 }
