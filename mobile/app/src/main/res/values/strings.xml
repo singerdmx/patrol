@@ -7,6 +7,7 @@
     <string name="logout">Log out</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="submit">Submit</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">Site URL</string>
