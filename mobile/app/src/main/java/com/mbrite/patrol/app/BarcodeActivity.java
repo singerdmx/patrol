@@ -8,10 +8,13 @@ import android.view.MenuItem;
 import android.widget.TabHost.*;
 import android.widget.*;
 
+import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
 
 
 public class BarcodeActivity extends TabActivity {
+
+    private String targetBarcode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,11 @@ public class BarcodeActivity extends TabActivity {
 
         tabHost.addTab(scanBarcodeSpec);
         tabHost.addTab(manualInputSpec);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            targetBarcode = extras.getString(Constants.BARCODE);
+        }
     }
 
     @Override

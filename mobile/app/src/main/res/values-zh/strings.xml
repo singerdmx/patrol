@@ -30,6 +30,8 @@
 
     <!-- Strings related to asset -->
     <string name="asset">设备</string>
+    <string name="confirm_asset">确认设备</string>
+    <string name="selected_asset">选定的设备: %s</string>
     <string name="scan_barcode">扫描编码</string>
     <string name="barcode">编码</string>
     <string name="manual_input">手动输入</string>
