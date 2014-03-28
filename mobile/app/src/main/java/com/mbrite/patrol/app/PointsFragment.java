@@ -1,41 +1,43 @@
 package com.mbrite.patrol.app;
 
-import android.app.*;
+import android.app.AlertDialog;
+import android.app.ListFragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.content.*;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mbrite.patrol.common.Constants;
-import com.mbrite.patrol.content.providers.AssetProvider;
-import com.mbrite.patrol.model.Asset;
-import com.mbrite.patrol.widget.AssetAdapter;
+import com.mbrite.patrol.model.Point;
+import com.mbrite.patrol.widget.PointAdapter;
 
 import org.json.JSONException;
 
-import java.util.*;
+import java.util.ArrayList;
 
-public class AssetsFragment extends ListFragment {
-    private static final String TAG = AssetsFragment.class.getSimpleName();
+public class PointsFragment extends ListFragment {
+    private static final String TAG = PointsFragment.class.getSimpleName();
 
-    private int[] assets;
-    private ArrayList<Asset> assetList = new ArrayList<Asset>();
+    private int[] points;
+    private ArrayList<Point> pointList = new ArrayList<Point>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle extras = getActivity().getIntent().getExtras();
-        assets = extras.getIntArray(Constants.ASSETS);
+        points = extras.getIntArray(Constants.POINTS);
 
         try {
-            this.assetList.addAll(AssetProvider.INSTANCE.getAssets(getActivity(), assets));
-        } catch (JSONException ex) {
-            Toast.makeText(
-                    getActivity(),
-                    String.format("JSONException: %s", ex.getLocalizedMessage()),
-                    Toast.LENGTH_LONG)
-                    .show();
+//            this.pointList.addAll(AssetProvider.INSTANCE.getAssets(getActivity(), points));
+//        } catch (JSONException ex) {
+//            Toast.makeText(
+//                    getActivity(),
+//                    String.format("JSONException: %s", ex.getLocalizedMessage()),
+//                    Toast.LENGTH_LONG)
+//                    .show();
         } catch (Exception ex) {
             Toast.makeText(
                     getActivity(),
@@ -44,26 +46,24 @@ public class AssetsFragment extends ListFragment {
                     .show();
         }
 
-        AssetAdapter adapter = new AssetAdapter(
+        PointAdapter adapter = new PointAdapter(
                 getActivity(),
-                this.assetList);
+                this.pointList);
         setListAdapter(adapter);
     }
 
     @Override
     public void onListItemClick(ListView l, View v, final int position, long id) {
         Log.d(TAG, "ROW ID: " + id);
-        final Asset asset = (Asset) getListAdapter().getItem(position);
+        final Point point = (Point) getListAdapter().getItem(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(String.format(getString(R.string.selected_asset), asset.description))
-                .setTitle(R.string.confirm_asset)
+        builder.setMessage(String.format(getString(R.string.selected_point), point.description))
+                .setTitle(R.string.confirm_point)
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getActivity(), BarcodeActivity.class);
-                        intent.putExtra(Constants.ASSETS, assets);
-                        intent.putExtra(Constants.BARCODE, asset.barcode);
-                        startActivity(intent);
+//                        Intent intent = new Intent(getActivity(), BarcodeActivity.class);
+//                        startActivity(intent);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

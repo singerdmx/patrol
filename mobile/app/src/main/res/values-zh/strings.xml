@@ -40,4 +40,6 @@
 
     <!-- Strings related to point -->
     <string name="check_point">点检</string>
+    <string name="confirm_point">确认点检</string>
+    <string name="selected_point">选定的点检： %s</string>
 </resources>
