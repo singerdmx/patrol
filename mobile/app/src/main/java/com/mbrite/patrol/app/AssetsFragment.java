@@ -19,7 +19,6 @@ import java.util.*;
 public class AssetsFragment extends ListFragment {
     private static final String TAG = AssetsFragment.class.getSimpleName();
 
-    private AssetProvider assetProvider;
     private int[] assets;
     private ArrayList<Asset> assetList = new ArrayList<Asset>();
 
@@ -28,19 +27,9 @@ public class AssetsFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         Bundle extras = getActivity().getIntent().getExtras();
         assets = extras.getIntArray(Constants.ASSETS);
-        Set<Integer> assetIndexes = new HashSet<Integer>(assets.length);
-        for (int asset : assets) {
-            assetIndexes.add(asset);
-        }
 
         try {
-            this.assetProvider = new AssetProvider(getActivity());
-            ArrayList<Asset> allAssets = assetProvider.getAssets();
-            for (Asset asset : allAssets) {
-                if (assetIndexes.contains(asset.id)) {
-                    this.assetList.add(asset);
-                }
-            }
+            this.assetList.addAll(AssetProvider.INSTANCE.getAssets(getActivity(), assets));
         } catch (JSONException ex) {
             Toast.makeText(
                     getActivity(),

@@ -241,7 +241,7 @@ public class LoginActivity extends Activity {
                     mSignInButton.setError(ex.getLocalizedMessage());
                     Toast.makeText(
                             LoginActivity.this,
-                            String.format("Error: %s", ex.getLocalizedMessage()),
+                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
                             Toast.LENGTH_LONG)
                             .show();
                 }

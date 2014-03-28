@@ -24,8 +24,12 @@ public class Constants {
     public static final String ROUTES_FILE_NAME = "routes.json";
     public static final String ASSETS = "assets";
     public static final String ASSETS_FILE_NAME = "assets.json";
+    public static final String POINTS = "points";
+    public static final String POINTS_FILE_NAME = "points.json";
 
     // Asset related constants
     public static final String SERIAL_NUM = "serialnum";
     public static final String BARCODE = "barcode";
+
+    // Point related constants
 }

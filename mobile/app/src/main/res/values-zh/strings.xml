@@ -36,5 +36,8 @@
     <string name="scan_barcode">扫描编码</string>
     <string name="barcode">编码</string>
     <string name="manual_input">手动输入</string>
+    <string name="error_incorrect_barcode">编码不相符</string>
 
+    <!-- Strings related to point -->
+    <string name="check_point">点检</string>
 </resources>

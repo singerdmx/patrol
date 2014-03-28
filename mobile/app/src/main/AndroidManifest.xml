@@ -45,17 +45,22 @@
         <activity
             android:name="com.mbrite.patrol.app.BarcodeActivity"
             android:label="@string/barcode"
-            android:theme="@android:style/Theme.Light">
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
             android:name="com.mbrite.patrol.app.ScanBarcodeActivity"
             android:label="@string/scan_barcode"
-            android:theme="@android:style/Theme.Light">
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
             android:name="com.mbrite.patrol.app.InputBarcodeActivity"
             android:label="@string/manual_input"
-            android:theme="@android:style/Theme.Light">
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+        <activity
+            android:name="com.mbrite.patrol.app.PointsActivity"
+            android:label="@string/check_point"
+            android:theme="@android:style/Theme.Light" >
         </activity>
     </application>
 

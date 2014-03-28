@@ -28,7 +28,7 @@ public class RouteProvider {
             JSONArray assets = routeJSON.getJSONArray(Constants.ASSETS);
             int[] assetIndexes = new int[assets.length()];
             for (int j = 0; j < assets.length(); j++) {
-                assetIndexes[j] = (Integer) assets.get(j);
+                assetIndexes[j] = assets.getInt(j);
             }
             routes.add(new Route(routeJSON.getInt(Constants.ID),
                     routeJSON.getString(Constants.DESCRIPTION),
