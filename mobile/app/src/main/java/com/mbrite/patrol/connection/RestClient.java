@@ -7,7 +7,6 @@ import android.os.*;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.*;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.*;
 import java.net.*;
@@ -16,33 +15,41 @@ import java.util.*;
 import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.app.*;
 
-public class RestClient {
+public enum  RestClient {
+
+    INSTANCE;
 
     private URI siteURI;
 
     {
         StrictMode.ThreadPolicy policy =
-            new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
 
-    public RestClient(Activity activity) throws URISyntaxException {
+    private URI getSiteURI(Activity activity)
+            throws URISyntaxException {
+        if (this.siteURI != null) {
+            return this.siteURI;
+        }
+
         String site = Utils.getSiteURI(activity);
         if (TextUtils.isEmpty(site)) {
             throw new IllegalStateException(activity.getString(R.string.error_site_url_missing));
         }
         this.siteURI = new URI(site);
+        return this.siteURI;
     }
 
-    public HttpResponse get(String relativeURI)
-            throws IOException {
-        return get(relativeURI, null);
+    public HttpResponse get(Activity activity, String relativeURI)
+            throws IOException, URISyntaxException {
+        return get(activity, relativeURI, null);
     }
 
-    public HttpResponse get(String relativeURI, Map<String, String> headers)
-            throws IOException {
+    public HttpResponse get(Activity activity, String relativeURI, Map<String, String> headers)
+            throws IOException, URISyntaxException {
         HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(this.siteURI.resolve(relativeURI));
+        HttpGet request = new HttpGet(getSiteURI(activity).resolve(relativeURI));
         if (headers != null) {
             for (Map.Entry<String, String> header : headers.entrySet()) {
                 request.setHeader(header.getKey(), header.getValue());
@@ -50,28 +57,5 @@ public class RestClient {
         }
         return client.execute(request);
     }
-
-    public String post(String relativeURI, String payload, String contentType)
-            throws IOException {
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost(this.siteURI.resolve(relativeURI));
-        StringEntity input = new StringEntity(payload);
-        post.setEntity(input);
-        if (contentType != null) {
-            input.setContentType(contentType);
-        }
-        HttpResponse response = client.execute(post);
-        return Utils.convertStreamToString(response.getEntity().getContent());
-    }
-
-//    private class Connection extends AsyncTask {
-//
-//        @Override
-//        protected Object doInBackground(Object... arg0) {
-//            connect();
-//            return null;
-//        }
-//
-//    }
 }
 

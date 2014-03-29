@@ -210,9 +210,8 @@ public class LoginActivity extends Activity {
             if (success) {
                 try {
                     Utils.savedUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
-                    RestClient client = new RestClient(LoginActivity.this);
-                    updateSavedFile(Constants.ROUTES, Constants.ROUTES_FILE_NAME, client);
-                    updateSavedFile(Constants.ASSETS, Constants.ASSETS_FILE_NAME, client);
+                    updateSavedFile(Constants.ROUTES, Constants.ROUTES_FILE_NAME);
+                    updateSavedFile(Constants.ASSETS, Constants.ASSETS_FILE_NAME);
                     startActivity(new Intent("com.mbrite.patrol.app.action.main"));
                 } catch (JSONException ex) {
                     mSignInButton.setError(ex.getLocalizedMessage());
@@ -257,7 +256,7 @@ public class LoginActivity extends Activity {
             showProgress(false);
         }
 
-        private void updateSavedFile (String url, String fileName, RestClient client)
+        private void updateSavedFile (String url, String fileName)
                 throws JSONException, URISyntaxException, IOException {
             Map<String, String> headers = null;
             if (FileMgr.exists(LoginActivity.this, fileName)) {
@@ -268,7 +267,7 @@ public class LoginActivity extends Activity {
                     headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
                 }
             }
-            HttpResponse response = client.get(url, headers);
+            HttpResponse response = RestClient.INSTANCE.get(LoginActivity.this, url, headers);
             int statusCode = response.getStatusLine().getStatusCode();
             switch (statusCode) {
                 case 200:
