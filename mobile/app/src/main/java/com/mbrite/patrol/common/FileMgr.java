@@ -15,6 +15,11 @@ public class FileMgr {
         return activity.getFileStreamPath(fileName).exists();
     }
 
+    public static boolean delete(Activity activity, String fileName)
+        throws IOException {
+        return activity.deleteFile(fileName);
+    }
+
     public static void write(Activity activity, String fileName, String string)
             throws IOException {
         FileOutputStream outputStream = null;

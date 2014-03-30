@@ -14,6 +14,23 @@ public class Asset {
         this.barcode = barcode;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Asset)) return false;
+
+        Asset asset = (Asset) o;
+
+        if (id != asset.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
     public Asset(int id,
                  String description,
                  String serialNum,
@@ -22,4 +39,5 @@ public class Asset {
         this(id, description, serialNum, barcode);
         this.points = points;
     }
+
 }

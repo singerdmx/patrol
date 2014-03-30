@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.*;
 
 import com.mbrite.patrol.common.Constants;
-import com.mbrite.patrol.content.providers.RouteProvider;
-import com.mbrite.patrol.model.Route;
+import com.mbrite.patrol.content.providers.*;
+import com.mbrite.patrol.model.*;
 import com.mbrite.patrol.widget.RouteAdapter;
 
 import org.json.JSONException;
@@ -58,11 +58,22 @@ public class RoutesFragment extends ListFragment {
                .setTitle(R.string.confirm_route)
                .setCancelable(false)
                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getActivity(), AssetsActivity.class);
-                        intent.putExtra(Constants.ASSETS, route.assets);
-                        startActivity(intent);
-                    }
+                   public void onClick(DialogInterface dialog, int id) {
+                       try {
+                           Record record = RecordProvider.INSTANCE.get(getActivity());
+                           record.route = route.id;
+                           RecordProvider.INSTANCE.save(getActivity(), record);
+                           Intent intent = new Intent(getActivity(), AssetsActivity.class);
+                           intent.putExtra(Constants.ASSETS, route.assets);
+                           startActivity(intent);
+                       }  catch (Exception ex) {
+                           Toast.makeText(
+                                   getActivity(),
+                                   String.format("Error: %s", ex.getLocalizedMessage()),
+                                   Toast.LENGTH_LONG)
+                                   .show();
+                       }
+                   }
                })
                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {

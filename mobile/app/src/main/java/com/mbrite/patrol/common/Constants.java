@@ -26,6 +26,8 @@ public class Constants {
     public static final String ASSETS_FILE_NAME = "assets.json";
     public static final String POINTS = "points";
     public static final String POINTS_FILE_NAME = "points.json";
+    public static final String RECORD = "record";
+    public static final String RECORD_FILE_NAME = "record.json";
 
     // Asset related constants
     public static final String SERIAL_NUM = "serialnum";

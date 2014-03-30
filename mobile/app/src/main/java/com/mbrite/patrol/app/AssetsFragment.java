@@ -9,7 +9,10 @@ import android.widget.*;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.content.providers.AssetProvider;
+import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Asset;
+import com.mbrite.patrol.model.AssetRecord;
+import com.mbrite.patrol.model.Record;
 import com.mbrite.patrol.widget.AssetAdapter;
 
 import org.json.JSONException;
@@ -60,10 +63,21 @@ public class AssetsFragment extends ListFragment {
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getActivity(), BarcodeActivity.class);
-                        intent.putExtra(Constants.ASSETS, assets);
-                        intent.putExtra(Constants.BARCODE, asset.barcode);
-                        startActivity(intent);
+                        try {
+                            Record record = RecordProvider.INSTANCE.get(getActivity());
+                            record.offer(asset.id);
+                            RecordProvider.INSTANCE.save(getActivity(), record);
+                            Intent intent = new Intent(getActivity(), BarcodeActivity.class);
+                            intent.putExtra(Constants.ASSETS, assets);
+                            intent.putExtra(Constants.BARCODE, asset.barcode);
+                            startActivity(intent);
+                        } catch (Exception ex) {
+                            Toast.makeText(
+                                    getActivity(),
+                                    String.format("Error: %s", ex.getLocalizedMessage()),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
