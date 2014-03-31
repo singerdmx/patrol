@@ -9,6 +9,8 @@
     <string name="no">No</string>
     <string name="submit">Submit</string>
     <string name="error_of">Error: %s</string>
+    <string name="content">Content</string>
+    <string name="project">Project</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">Site URL</string>

@@ -37,7 +37,10 @@ public enum PointProvider {
                     new Point(
                             pointJSON.getInt(Constants.ID),
                             pointJSON.getString(Constants.DESCRIPTION),
-                            pointJSON.getString(Constants.TPM_TYPE)));
+                            pointJSON.getString(Constants.TPM_TYPE),
+                            pointJSON.getString(Constants.STANDARD),
+                            pointJSON.getString(Constants.STATUS),
+                            pointJSON.getString(Constants.PERIOD_UNIT)));
         }
         return points;
     }

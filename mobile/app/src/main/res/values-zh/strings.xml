@@ -9,6 +9,8 @@
     <string name="no">否</string>
     <string name="submit">提交</string>
     <string name="error_of">错误： %s</string>
+    <string name="content">内容</string>
+    <string name="project">项目</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">网址</string>
