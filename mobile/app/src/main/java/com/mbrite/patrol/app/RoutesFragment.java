@@ -69,7 +69,7 @@ public class RoutesFragment extends ListFragment {
                        }  catch (Exception ex) {
                            Toast.makeText(
                                    getActivity(),
-                                   String.format("Error: %s", ex.getLocalizedMessage()),
+                                   String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
                                    Toast.LENGTH_LONG)
                                    .show();
                        }

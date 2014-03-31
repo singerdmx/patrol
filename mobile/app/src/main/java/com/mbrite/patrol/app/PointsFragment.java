@@ -3,6 +3,7 @@ package com.mbrite.patrol.app;
 import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,8 @@ public class PointsFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setDivider();
+
         Bundle extras = getActivity().getIntent().getExtras();
         points = extras.getIntArray(Constants.POINTS);
 
@@ -84,5 +87,11 @@ public class PointsFragment extends ListFragment {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void setDivider() {
+        ListView lv = getListView();
+        lv.setDivider(new ColorDrawable(this.getResources().getColor(R.color.black)));
+        lv.setDividerHeight(1);
     }
 }

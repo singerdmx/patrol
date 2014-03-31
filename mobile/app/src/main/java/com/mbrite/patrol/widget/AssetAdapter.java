@@ -33,11 +33,11 @@ public class AssetAdapter extends ArrayAdapter<Asset> {
         // Get rowView from inflater
         View rowView = inflater.inflate(R.layout.activity_list_item_asset, parent, false);
 
-        if (position % 2 == 0){
-            rowView.setBackgroundResource(R.drawable.alterselector1);
-        } else {
-            rowView.setBackgroundResource(R.drawable.alterselector2);
-        }
+//        if (position % 2 == 0){
+//            rowView.setBackgroundResource(R.drawable.alterselector1);
+//        } else {
+//            rowView.setBackgroundResource(R.drawable.alterselector2);
+//        }
 
         Asset asset = itemsArrayList.get(position);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.description);

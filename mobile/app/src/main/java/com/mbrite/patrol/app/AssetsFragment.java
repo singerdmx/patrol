@@ -6,12 +6,12 @@ import android.content.*;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import android.graphics.drawable.*;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.content.providers.AssetProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Asset;
-import com.mbrite.patrol.model.Record;
 import com.mbrite.patrol.widget.AssetAdapter;
 
 import org.json.JSONException;
@@ -27,6 +27,8 @@ public class AssetsFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setDivider();
+
         Bundle extras = getActivity().getIntent().getExtras();
         assets = extras.getIntArray(Constants.ASSETS);
 
@@ -84,5 +86,11 @@ public class AssetsFragment extends ListFragment {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void setDivider() {
+        ListView lv = getListView();
+        lv.setDivider(new ColorDrawable(this.getResources().getColor(R.color.black)));
+        lv.setDividerHeight(1);
     }
 }
