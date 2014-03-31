@@ -42,6 +42,8 @@ public class PointAdapter extends ArrayAdapter<Point> {
         Point point = itemsArrayList.get(position);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
         descriptionView.setText(point.description);
+        TextView tpmTypeView = (TextView) rowView.findViewById(R.id.tpm_type);
+        tpmTypeView.setText(point.tpmType);
 
         return rowView;
     }

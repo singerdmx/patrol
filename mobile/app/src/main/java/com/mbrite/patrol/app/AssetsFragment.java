@@ -11,7 +11,6 @@ import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.content.providers.AssetProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Asset;
-import com.mbrite.patrol.model.AssetRecord;
 import com.mbrite.patrol.model.Record;
 import com.mbrite.patrol.widget.AssetAdapter;
 
@@ -64,9 +63,7 @@ public class AssetsFragment extends ListFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
-                            Record record = RecordProvider.INSTANCE.get(getActivity());
-                            record.offer(asset.id);
-                            RecordProvider.INSTANCE.save(getActivity(), record);
+                            RecordProvider.INSTANCE.offerAsset(getActivity(), asset.id);
                             Intent intent = new Intent(getActivity(), BarcodeActivity.class);
                             intent.putExtra(Constants.ASSETS, assets);
                             intent.putExtra(Constants.BARCODE, asset.barcode);

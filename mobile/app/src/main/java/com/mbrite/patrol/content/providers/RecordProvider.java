@@ -22,6 +22,11 @@ public enum RecordProvider {
      */
     public AssetRecord currentAssetRecord;
 
+    /**
+     * Keep track of current point record being operated on
+     */
+    public PointRecord currentPointRecord;
+
     public void reset(Activity activity)
         throws IOException {
         record = null;
@@ -53,5 +58,45 @@ public enum RecordProvider {
         throws IOException {
       this.record = record;
       FileMgr.write(activity, Constants.RECORD_FILE_NAME, gson.toJson(record));
+    }
+
+    /**
+     * Add the specified asset to {@code assets} if it is not present.
+     * @return true if the asset was added, else false
+     */
+    public boolean offerAsset(Activity activity, int assetId)
+            throws IOException {
+        for (AssetRecord ar : record.assets) {
+            if (ar.id == assetId) {
+                currentAssetRecord = ar;
+                return false;
+            }
+        }
+
+        AssetRecord newAssetRecord = new AssetRecord(assetId);
+        currentAssetRecord = newAssetRecord;
+        record.assets.add(newAssetRecord);
+        save(activity, record);
+        return true;
+    }
+
+    /**
+     * Add the specified point to {@code points} if it is not present.
+     * @return true if the point was added, else false
+     */
+    public boolean offerPoint(Activity activity, int pointId)
+            throws IOException {
+        for (PointRecord pr : currentAssetRecord.points) {
+            if (pr.id == pointId) {
+                currentPointRecord = pr;
+                return false;
+            }
+        }
+
+        PointRecord newPointRecord = new PointRecord(pointId);
+        currentPointRecord = newPointRecord;
+        currentAssetRecord.points.add(newPointRecord);
+        save(activity, record);
+        return true;
     }
 }

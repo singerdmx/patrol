@@ -212,6 +212,7 @@ public class LoginActivity extends Activity {
                     Utils.savedUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
                     updateSavedFile(Constants.ROUTES, Constants.ROUTES_FILE_NAME);
                     updateSavedFile(Constants.ASSETS, Constants.ASSETS_FILE_NAME);
+                    updateSavedFile(Constants.POINTS, Constants.POINTS_FILE_NAME);
                     startActivity(new Intent("com.mbrite.patrol.app.action.main"));
                 } catch (JSONException ex) {
                     mSignInButton.setError(ex.getLocalizedMessage());

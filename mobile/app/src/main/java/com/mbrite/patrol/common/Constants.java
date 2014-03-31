@@ -34,4 +34,5 @@ public class Constants {
     public static final String BARCODE = "barcode";
 
     // Point related constants
+    public static final String TPM_TYPE = "tpm_type";
 }

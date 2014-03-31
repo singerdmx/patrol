@@ -3,7 +3,6 @@ package com.mbrite.patrol.app;
 import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +10,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.content.providers.PointProvider;
+import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Point;
+import com.mbrite.patrol.model.Record;
 import com.mbrite.patrol.widget.PointAdapter;
 
 import org.json.JSONException;
@@ -31,13 +33,13 @@ public class PointsFragment extends ListFragment {
         points = extras.getIntArray(Constants.POINTS);
 
         try {
-//            this.pointList.addAll(AssetProvider.INSTANCE.getAssets(getActivity(), points));
-//        } catch (JSONException ex) {
-//            Toast.makeText(
-//                    getActivity(),
-//                    String.format("JSONException: %s", ex.getLocalizedMessage()),
-//                    Toast.LENGTH_LONG)
-//                    .show();
+            pointList.addAll(PointProvider.INSTANCE.getPoints(getActivity(), points));
+        } catch (JSONException ex) {
+            Toast.makeText(
+                    getActivity(),
+                    String.format("JSONException: %s", ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
         } catch (Exception ex) {
             Toast.makeText(
                     getActivity(),
@@ -62,8 +64,17 @@ public class PointsFragment extends ListFragment {
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            RecordProvider.INSTANCE.offerPoint(getActivity(), point.id);
 //                        Intent intent = new Intent(getActivity(), BarcodeActivity.class);
 //                        startActivity(intent);
+                        } catch (Exception ex) {
+                            Toast.makeText(
+                                    getActivity(),
+                                    String.format("Error: %s", ex.getLocalizedMessage()),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

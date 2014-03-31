@@ -36,9 +36,28 @@ public enum PointProvider {
             points.add(
                     new Point(
                             pointJSON.getInt(Constants.ID),
-                            pointJSON.getString(Constants.DESCRIPTION)));
+                            pointJSON.getString(Constants.DESCRIPTION),
+                            pointJSON.getString(Constants.TPM_TYPE)));
         }
         return points;
+    }
+
+    public ArrayList<Point> getPoints(Activity activity, int[] pointIds)
+            throws JSONException, IOException {
+        Set<Integer> pointIndexes = new HashSet<Integer>(pointIds.length);
+        for (int pointId : pointIds) {
+            if (!pointIndexes.contains(pointId)) {
+                pointIndexes.add(pointId);
+            }
+        }
+
+        ArrayList<Point> result = new ArrayList<Point>();
+        for (Point point : getPoints(activity)) {
+            if (pointIndexes.contains(point.id)) {
+                result.add(point);
+            }
+        }
+        return result;
     }
 
 }

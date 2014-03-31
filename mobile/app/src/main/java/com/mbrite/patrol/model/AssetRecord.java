@@ -1,5 +1,7 @@
 package com.mbrite.patrol.model;
 
+import com.mbrite.patrol.content.providers.RecordProvider;
+
 import java.util.*;
 
 public class AssetRecord {
