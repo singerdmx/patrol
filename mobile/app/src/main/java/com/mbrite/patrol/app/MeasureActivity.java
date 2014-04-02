@@ -20,6 +20,7 @@ import java.util.*;
 public class MeasureActivity extends Activity {
     private static final String TAG = MeasureActivity.class.getSimpleName();
 
+    private JSONObject standardJSON;
     private List<String> choice;
 
     @Override
@@ -35,7 +36,7 @@ public class MeasureActivity extends Activity {
         statusView.setText(extras.getString(Constants.STATUS));
         TextView standardView = (TextView) findViewById(R.id.standard);
         try {
-            JSONObject standardJSON = new JSONObject(extras.getString(Constants.STANDARD));
+            standardJSON = new JSONObject(extras.getString(Constants.STANDARD));
             standardView.setText(PointProvider.INSTANCE.getStandardDescription(standardJSON));
 
             choice = PointProvider.INSTANCE.getChoice(standardJSON);
@@ -43,6 +44,10 @@ public class MeasureActivity extends Activity {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (choice == null) {
+                if (RecordProvider.INSTANCE.currentPointRecord.result != -1) {
+                    EditText valueView = (EditText) findViewById(R.id.value);
+                    valueView.setHint(RecordProvider.INSTANCE.currentPointRecord.value);
+                }
                 fragmentTransaction.hide(fragmentManager.findFragmentById(R.id.fifthLine));
             } else {
                 fragmentTransaction.hide(fragmentManager.findFragmentById(R.id.fourthLine));
@@ -53,6 +58,9 @@ public class MeasureActivity extends Activity {
                         choice);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 select.setAdapter(dataAdapter);
+                if (RecordProvider.INSTANCE.currentPointRecord.result != -1) {
+                    select.setSelection(choice.indexOf(RecordProvider.INSTANCE.currentPointRecord.value));
+                }
             }
             fragmentTransaction.commit();
         } catch (Exception ex) {
@@ -64,22 +72,43 @@ public class MeasureActivity extends Activity {
         }
 
         Button submitButton = (Button) findViewById(R.id.submit_button);
+        if (RecordProvider.INSTANCE.currentPointRecord.result != -1) {
+            submitButton.setText(R.string.update);
+        }
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String value = null;
-               if (choice == null) {
-                   // enter value
-                   EditText valueView = (EditText) findViewById(R.id.value);
-                   value = valueView.getText().toString();
-               } else {
-                   // select value
-                   Spinner select = (Spinner) findViewById(R.id.select);
-                   value = String.valueOf(select.getSelectedItem());
-               }
-
+                String value = null;
+                int result = 0;
                 try {
-                    RecordProvider.INSTANCE.setCurrentPointRecordValue(MeasureActivity.this, value);
+                    if (choice == null) {
+                        // enter value
+                        EditText valueView = (EditText) findViewById(R.id.value);
+                        value = valueView.getText().toString();
+
+                        Double inputValue = Double.parseDouble(value);
+                        Double min = PointProvider.INSTANCE.getMin(standardJSON);
+                        Double max = PointProvider.INSTANCE.getMax(standardJSON);
+                        if ((min != null && inputValue < min) ||
+                                (max != null && inputValue > max)) {
+                            result = 1;
+                        }
+                    } else {
+                        // select value
+                        Spinner select = (Spinner) findViewById(R.id.select);
+                        value = String.valueOf(select.getSelectedItem());
+                        if (!choice.get(0).equals(value)) {
+                            result = 1;
+                        }
+                    }
+
+                    RecordProvider.INSTANCE.setCurrentPointRecord(MeasureActivity.this, value, result);
+                }   catch (NumberFormatException ex) {
+                    Toast.makeText(
+                            MeasureActivity.this,
+                            String.format(getString(R.string.error_not_a_number), value),
+                            Toast.LENGTH_LONG)
+                            .show();
                 }   catch (Exception ex) {
                     Toast.makeText(
                             MeasureActivity.this,

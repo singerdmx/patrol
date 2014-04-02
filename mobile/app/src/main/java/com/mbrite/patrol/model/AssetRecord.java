@@ -13,4 +13,6 @@ public class AssetRecord {
         this.id = id;
         points = new ArrayList<PointRecord>();
     }
+
+
 }

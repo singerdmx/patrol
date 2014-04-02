@@ -15,6 +15,10 @@ public class Record {
 
     public List<AssetRecord> assets;
 
+    public long startTime;
+
+    public long endTime;
+
     public Record() {
         id = UUID.randomUUID().toString();
         route = -1;

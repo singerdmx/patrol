@@ -56,6 +56,15 @@ public class PointsFragment extends ListFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        PointAdapter adapter = new PointAdapter(
+                getActivity(),
+                this.pointList);
+        setListAdapter(adapter);
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, final int position, long id) {
         Log.d(TAG, "ROW ID: " + id);
         final Point point = (Point) getListAdapter().getItem(position);

@@ -123,7 +123,7 @@
 
         <Button android:id="@+id/submit_button" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1"
-            android:text="@string/submit" />
+            android:text="@string/save" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -67,18 +67,18 @@ public enum PointProvider {
         return standardJSON.getString(Constants.DESCRIPTION);
     }
 
-    public Integer getMin(JSONObject standardJSON)
+    public Double getMin(JSONObject standardJSON)
             throws JSONException {
         if (standardJSON.has(Constants.MIN)) {
-            return standardJSON.getInt(Constants.MIN);
+            return standardJSON.getDouble(Constants.MIN);
         }
         return null;
     }
 
-    public Integer getMax(JSONObject standardJSON)
+    public Double getMax(JSONObject standardJSON)
             throws JSONException {
         if (standardJSON.has(Constants.MAX)) {
-            return standardJSON.getInt(Constants.MAX);
+            return standardJSON.getDouble(Constants.MAX);
         }
         return null;
     }

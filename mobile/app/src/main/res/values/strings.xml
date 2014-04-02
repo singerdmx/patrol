@@ -8,6 +8,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="submit">Submit</string>
+    <string name="save">Save</string>
+    <string name="update">Update</string>
     <string name="error_of">Error: %s</string>
     <string name="content">Content</string>
     <string name="project">Project</string>
@@ -49,4 +51,5 @@
     <string name="selected_point">Selected Point: %s</string>
     <string name="enter_value">Please enter value</string>
     <string name="asset_status">Asset Status</string>
+    <string name="error_not_a_number">%s is not a number</string>
 </resources>

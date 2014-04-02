@@ -8,6 +8,8 @@
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="submit">提交</string>
+    <string name="save">保存</string>
+    <string name="update">更新</string>
     <string name="error_of">错误： %s</string>
     <string name="content">内容</string>
     <string name="project">项目</string>
@@ -50,4 +52,5 @@
     <string name="selected_point">选定的点检： %s</string>
     <string name="enter_value">请输入</string>
     <string name="asset_status">设备状态</string>
+    <string name="error_not_a_number">%s 不是数字</string>
 </resources>

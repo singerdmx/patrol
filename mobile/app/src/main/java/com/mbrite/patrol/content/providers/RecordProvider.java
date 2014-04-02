@@ -49,6 +49,7 @@ public enum RecordProvider {
             }
 
             record = new Record();
+            record.startTime =  System.currentTimeMillis()/1000;
         }
 
         return record;
@@ -105,9 +106,11 @@ public enum RecordProvider {
         return true;
     }
 
-    public Record setCurrentPointRecordValue(Activity activity, String value)
+    public Record setCurrentPointRecord(Activity activity, String value, int result)
         throws IOException {
         currentPointRecord.value = value;
+        currentPointRecord.result = result;
+        currentPointRecord.updateTime = System.currentTimeMillis()/1000;
         save(activity);
         return record;
     }
