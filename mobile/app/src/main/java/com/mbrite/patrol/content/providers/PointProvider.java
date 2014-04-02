@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
-import com.mbrite.patrol.model.Asset;
 import com.mbrite.patrol.model.Point;
 
 import org.json.JSONArray;
@@ -12,9 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public enum PointProvider {
 
@@ -33,14 +30,16 @@ public enum PointProvider {
         JSONArray pointsJSON = new JSONObject(data).getJSONArray(Constants.POINTS);
         for(int i = 0 ; i < pointsJSON.length() ; i++) {
             JSONObject pointJSON = pointsJSON.getJSONObject(i);
-            points.add(
-                    new Point(
-                            pointJSON.getInt(Constants.ID),
-                            pointJSON.getString(Constants.DESCRIPTION),
-                            pointJSON.getString(Constants.TPM_TYPE),
-                            pointJSON.getString(Constants.STANDARD),
-                            pointJSON.getString(Constants.STATUS),
-                            pointJSON.getString(Constants.PERIOD_UNIT)));
+            JSONObject standard = new JSONObject(pointJSON.getString(Constants.STANDARD));
+            Point point = new Point(
+                    pointJSON.getInt(Constants.ID),
+                    pointJSON.getString(Constants.DESCRIPTION),
+                    pointJSON.getString(Constants.TPM_TYPE),
+                    pointJSON.getString(Constants.STANDARD),
+                    pointJSON.getString(Constants.STATUS),
+                    pointJSON.getString(Constants.PERIOD_UNIT));
+
+            points.add(point);
         }
         return points;
     }
@@ -61,6 +60,40 @@ public enum PointProvider {
             }
         }
         return result;
+    }
+
+    public String getStandardDescription(JSONObject standardJSON)
+            throws JSONException {
+        return standardJSON.getString(Constants.DESCRIPTION);
+    }
+
+    public Integer getMin(JSONObject standardJSON)
+            throws JSONException {
+        if (standardJSON.has(Constants.MIN)) {
+            return standardJSON.getInt(Constants.MIN);
+        }
+        return null;
+    }
+
+    public Integer getMax(JSONObject standardJSON)
+            throws JSONException {
+        if (standardJSON.has(Constants.MAX)) {
+            return standardJSON.getInt(Constants.MAX);
+        }
+        return null;
+    }
+
+    public List<String> getChoice(JSONObject standardJSON)
+        throws JSONException {
+        if (standardJSON.has(Constants.CHOICE)) {
+            JSONArray choiceArr = standardJSON.getJSONArray(Constants.CHOICE);
+            List<String> choice = new ArrayList<String>(choiceArr.length());
+            for (int i = 0; i < choiceArr.length(); i++) {
+                choice.add(choiceArr.getString(i));
+            }
+            return choice;
+        }
+        return null;
     }
 
 }

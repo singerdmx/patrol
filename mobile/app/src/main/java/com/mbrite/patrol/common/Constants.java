@@ -14,6 +14,8 @@ public class Constants {
     public static final String SITE_URL = "site_url";
     public static final String STATUS = "status";
     public static final String STANDARD = "standard";
+    public static final String MIN = "min";
+    public static final String MAX = "max";
 
     // Network related constants
     public static final String ETAG= "Etag";
@@ -38,4 +40,5 @@ public class Constants {
     // Point related constants
     public static final String TPM_TYPE = "tpm_type";
     public static final String PERIOD_UNIT = "period_unit";
+    public static final String CHOICE = "choice";
 }

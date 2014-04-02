@@ -11,6 +11,10 @@
     <string name="error_of">错误： %s</string>
     <string name="content">内容</string>
     <string name="project">项目</string>
+    <string name="status">状态</string>
+    <string name="value">数值</string>
+    <string name="normal">正常</string>
+    <string name="abnormal">非正常</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">网址</string>
@@ -44,4 +48,6 @@
     <string name="check_point">点检</string>
     <string name="confirm_point">确认点检</string>
     <string name="selected_point">选定的点检： %s</string>
+    <string name="enter_value">请输入</string>
+    <string name="asset_status">设备状态</string>
 </resources>

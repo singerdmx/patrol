@@ -54,10 +54,15 @@ public enum RecordProvider {
         return record;
     }
 
-    public void save(Activity activity, Record record)
+    private void save(Activity activity)
         throws IOException {
-      this.record = record;
-      FileMgr.write(activity, Constants.RECORD_FILE_NAME, gson.toJson(record));
+        FileMgr.write(activity, Constants.RECORD_FILE_NAME, gson.toJson(record));
+    }
+
+    public void save(Activity activity, Record record)
+            throws IOException {
+        this.record = record;
+        save(activity);
     }
 
     /**
@@ -96,7 +101,14 @@ public enum RecordProvider {
         PointRecord newPointRecord = new PointRecord(pointId);
         currentPointRecord = newPointRecord;
         currentAssetRecord.points.add(newPointRecord);
-        save(activity, record);
+        save(activity);
         return true;
+    }
+
+    public Record setCurrentPointRecordValue(Activity activity, String value)
+        throws IOException {
+        currentPointRecord.value = value;
+        save(activity);
+        return record;
     }
 }

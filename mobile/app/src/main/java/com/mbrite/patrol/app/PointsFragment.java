@@ -1,8 +1,7 @@
 package com.mbrite.patrol.app;
 
-import android.app.AlertDialog;
 import android.app.ListFragment;
-import android.content.DialogInterface;
+import android.content.*;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +12,7 @@ import android.widget.Toast;
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.content.providers.PointProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.Point;
-import com.mbrite.patrol.model.Record;
+import com.mbrite.patrol.model.*;
 import com.mbrite.patrol.widget.PointAdapter;
 
 import org.json.JSONException;
@@ -61,32 +59,20 @@ public class PointsFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, final int position, long id) {
         Log.d(TAG, "ROW ID: " + id);
         final Point point = (Point) getListAdapter().getItem(position);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(String.format(getString(R.string.selected_point), point.description))
-                .setTitle(R.string.confirm_point)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        try {
-                            RecordProvider.INSTANCE.offerPoint(getActivity(), point.id);
-//                        Intent intent = new Intent(getActivity(), BarcodeActivity.class);
-//                        startActivity(intent);
-                        } catch (Exception ex) {
-                            Toast.makeText(
-                                    getActivity(),
-                                    String.format("Error: %s", ex.getLocalizedMessage()),
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+        try {
+            RecordProvider.INSTANCE.offerPoint(getActivity(), point.id);
+            Intent intent = new Intent(getActivity(), MeasureActivity.class);
+            intent.putExtra(Constants.TPM_TYPE, point.tpmType);
+            intent.putExtra(Constants.STATUS, point.status);
+            intent.putExtra(Constants.STANDARD, point.standard);
+            startActivity(intent);
+        } catch (Exception ex) {
+            Toast.makeText(
+                    getActivity(),
+                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     private void setDivider() {

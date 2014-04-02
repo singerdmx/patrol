@@ -11,6 +11,10 @@
     <string name="error_of">Error: %s</string>
     <string name="content">Content</string>
     <string name="project">Project</string>
+    <string name="status">Status</string>
+    <string name="value">Value</string>
+    <string name="normal">Normal</string>
+    <string name="abnormal">Abnormal</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">Site URL</string>
@@ -43,4 +47,6 @@
     <string name="check_point">Check Point</string>
     <string name="confirm_point">Confirm Point</string>
     <string name="selected_point">Selected Point: %s</string>
+    <string name="enter_value">Please enter value</string>
+    <string name="asset_status">Asset Status</string>
 </resources>
