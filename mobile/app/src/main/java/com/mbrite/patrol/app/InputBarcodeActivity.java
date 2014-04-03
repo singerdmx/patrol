@@ -42,6 +42,7 @@ public class InputBarcodeActivity extends Activity {
                     if (asset == null) {
                         throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
                     }
+                    RecordProvider.INSTANCE.offerAsset(InputBarcodeActivity.this, asset.id);
                     Intent intent = new Intent(InputBarcodeActivity.this, PointsActivity.class);
                     intent.putExtra(Constants.POINTS, asset.points);
                     startActivity(intent);

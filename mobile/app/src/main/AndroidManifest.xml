@@ -63,7 +63,8 @@
         </activity>
         <activity
             android:name="com.mbrite.patrol.app.PointsActivity"
-            android:label="@string/check_point">
+            android:label="@string/check_point"
+            android:theme="@android:style/Theme.Light">
         </activity>
         <activity
             android:name="com.mbrite.patrol.app.MeasureActivity"

@@ -103,6 +103,7 @@ public class MeasureActivity extends Activity {
                     }
 
                     RecordProvider.INSTANCE.setCurrentPointRecord(MeasureActivity.this, value, result);
+                    finish();
                 }   catch (NumberFormatException ex) {
                     Toast.makeText(
                             MeasureActivity.this,

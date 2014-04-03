@@ -65,7 +65,6 @@ public class AssetsFragment extends ListFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
-                            RecordProvider.INSTANCE.offerAsset(getActivity(), asset.id);
                             Intent intent = new Intent(getActivity(), BarcodeActivity.class);
                             intent.putExtra(Constants.ASSETS, assets);
                             intent.putExtra(Constants.BARCODE, asset.barcode);

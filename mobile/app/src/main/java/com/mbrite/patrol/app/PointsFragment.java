@@ -48,11 +48,6 @@ public class PointsFragment extends ListFragment {
                     Toast.LENGTH_LONG)
                     .show();
         }
-
-        PointAdapter adapter = new PointAdapter(
-                getActivity(),
-                this.pointList);
-        setListAdapter(adapter);
     }
 
     @Override

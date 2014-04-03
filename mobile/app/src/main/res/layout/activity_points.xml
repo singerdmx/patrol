@@ -54,4 +54,17 @@
         android:layout_below="@+id/header"
         android:layout_alignParentLeft="true" />
 
+    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
+
+        <Button android:id="@+id/asset_list" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="@string/asset_list" />
+        <Button android:id="@+id/submit" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="@string/submit" />
+
+    </LinearLayout>
+
 </RelativeLayout>

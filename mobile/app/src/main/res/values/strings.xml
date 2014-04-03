@@ -46,6 +46,7 @@
     <string name="error_incorrect_barcode">Incorrect Barcode</string>
 
     <!-- Strings related to point -->
+    <string name="asset_list">Asset List</string>
     <string name="check_point">Check Point</string>
     <string name="confirm_point">Confirm Point</string>
     <string name="selected_point">Selected Point: %s</string>
