@@ -46,6 +46,7 @@
     <string name="barcode">Barcode</string>
     <string name="manual_input">Manual Input</string>
     <string name="error_incorrect_barcode">Incorrect Barcode</string>
+    <string name="error_incomplete_assets">There are incomplete assets!</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">Asset List</string>

@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.view.View.*;
 import android.widget.*;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.PointProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.Record;
 
 import org.json.JSONObject;
 
@@ -22,6 +22,8 @@ public class MeasureActivity extends Activity {
 
     private JSONObject standardJSON;
     private List<String> choice;
+
+    private EditText valueView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,13 @@ public class MeasureActivity extends Activity {
         TextView statusView = (TextView) findViewById(R.id.status);
         statusView.setText(extras.getString(Constants.STATUS));
         TextView standardView = (TextView) findViewById(R.id.standard);
+        valueView = (EditText) findViewById(R.id.value);
+        valueView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                valueView.setHint("");
+            }
+        });
         try {
             standardJSON = new JSONObject(extras.getString(Constants.STANDARD));
             standardView.setText(PointProvider.INSTANCE.getStandardDescription(standardJSON));
@@ -45,7 +54,6 @@ public class MeasureActivity extends Activity {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (choice == null) {
                 if (RecordProvider.INSTANCE.currentPointRecord.result != -1) {
-                    EditText valueView = (EditText) findViewById(R.id.value);
                     valueView.setHint(RecordProvider.INSTANCE.currentPointRecord.value);
                 }
                 fragmentTransaction.hide(fragmentManager.findFragmentById(R.id.fifthLine));
@@ -83,7 +91,6 @@ public class MeasureActivity extends Activity {
                 try {
                     if (choice == null) {
                         // enter value
-                        EditText valueView = (EditText) findViewById(R.id.value);
                         value = valueView.getText().toString();
 
                         Double inputValue = Double.parseDouble(value);

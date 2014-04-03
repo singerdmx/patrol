@@ -43,8 +43,14 @@ public class AssetsActivity extends Activity {
             @Override
             public void onClick(View view) {
                 try {
+                    if (!RecordProvider.INSTANCE.isComplete()) {
+                        throw new IllegalStateException(getString(R.string.error_incomplete_assets));
+                    }
                     Record record = RecordProvider.INSTANCE.get(AssetsActivity.this);
                     record.endTime = System.currentTimeMillis()/1000;
+                    Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
+                    startActivity(intent);
                 } catch (Exception ex) {
                     Toast.makeText(
                             AssetsActivity.this,
@@ -52,9 +58,6 @@ public class AssetsActivity extends Activity {
                             Toast.LENGTH_LONG)
                             .show();
                 }
-                Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
-                startActivity(intent);
             }
         });
 
@@ -69,6 +72,9 @@ public class AssetsActivity extends Activity {
                         record.endTime = System.currentTimeMillis()/1000;
                     }
                     RecordProvider.INSTANCE.reset(AssetsActivity.this);
+                    Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
+                    startActivity(intent);
                 } catch (Exception ex) {
                     Toast.makeText(
                             AssetsActivity.this,
@@ -76,9 +82,6 @@ public class AssetsActivity extends Activity {
                             Toast.LENGTH_LONG)
                             .show();
                 }
-                Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
-                startActivity(intent);
             }
         });
     }

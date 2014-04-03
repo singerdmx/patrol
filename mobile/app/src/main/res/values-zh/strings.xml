@@ -47,6 +47,7 @@
     <string name="barcode">编码</string>
     <string name="manual_input">手动输入</string>
     <string name="error_incorrect_barcode">编码不相符</string>
+    <string name="error_incomplete_assets">有未完成的设备！</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">设备列表</string>

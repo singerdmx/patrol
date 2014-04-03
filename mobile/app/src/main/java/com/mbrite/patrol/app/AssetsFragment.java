@@ -52,6 +52,7 @@ public class AssetsFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        RecordProvider.INSTANCE.clearState();
         AssetAdapter adapter = new AssetAdapter(
                 getActivity(),
                 this.assetList);

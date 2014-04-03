@@ -30,12 +30,15 @@ public enum RecordProvider {
      */
     public PointRecord currentPointRecord;
 
+    /**
+     * ids of incomplete assets
+     */
     private Set<Integer> incompleteAssets = new TreeSet<Integer>();
 
     /**
-     * key is the id of asset, value is the ids of points
+     * ids of fail assets
      */
-    private Map<Integer, Set<Integer>> failPoints = new TreeMap<Integer, Set<Integer>>();
+    private Set<Integer> failPoints = new TreeSet<Integer>();
 
     public void reset(Activity activity)
         throws IOException {
@@ -139,6 +142,7 @@ public enum RecordProvider {
 
         if (assetRecord == null) {
             state.status = RecordState.Status.NOT_STARTED;
+            incompleteAssets.add(assetId);
             return state;
         }
 
@@ -150,10 +154,25 @@ public enum RecordProvider {
         for(PointRecord pr : assetRecord.points) {
             if (pr.result == -1) {
                 state.status = RecordState.Status.IN_PROGRESS;
+                incompleteAssets.add(assetId);
             } else if (pr.result == 1) {
                 state.result = RecordState.Result.FAIL;
+                failPoints.add(pr.id);
             }
         }
         return state;
+    }
+
+    /**
+     * Clear statistics of incomplete assets and failed points
+     * In method getAssetRecordState, we will recalculate
+     */
+    public void clearState() {
+        incompleteAssets = new TreeSet<Integer>();
+        failPoints = new TreeSet<Integer>();
+    }
+
+    public boolean isComplete() {
+        return incompleteAssets.isEmpty();
     }
 }
