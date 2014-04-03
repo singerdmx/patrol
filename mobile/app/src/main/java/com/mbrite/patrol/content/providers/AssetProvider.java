@@ -79,4 +79,15 @@ public enum AssetProvider {
 
         return null;
     }
+
+    public Asset getAsset(Activity activity, int assetId)
+            throws JSONException, IOException {
+        for (Asset asset : getAssets(activity)) {
+            if (asset.id == assetId) {
+                return asset;
+            }
+        }
+
+        return null;
+    }
 }

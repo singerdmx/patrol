@@ -8,9 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
+import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.*;
 
 
 public class AssetsActivity extends Activity {
@@ -34,11 +37,50 @@ public class AssetsActivity extends Activity {
                 startActivity(intent);
             }
         });
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        Button completeButton = (Button) findViewById(R.id.complete);
+        completeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Record record = RecordProvider.INSTANCE.get(AssetsActivity.this);
+                    record.endTime = System.currentTimeMillis()/1000;
+                } catch (Exception ex) {
+                    Toast.makeText(
+                            AssetsActivity.this,
+                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
+                startActivity(intent);
+            }
+        });
+
+        Button submitButton = (Button) findViewById(R.id.submit);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: make post request
+                try {
+                    Record record = RecordProvider.INSTANCE.get(AssetsActivity.this);
+                    if (record.endTime == 0) {
+                        record.endTime = System.currentTimeMillis()/1000;
+                    }
+                    RecordProvider.INSTANCE.reset(AssetsActivity.this);
+                } catch (Exception ex) {
+                    Toast.makeText(
+                            AssetsActivity.this,
+                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -11,7 +11,6 @@ import com.mbrite.patrol.app.R;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Point;
 import com.mbrite.patrol.model.PointRecord;
-import com.mbrite.patrol.model.Record;
 
 import java.util.ArrayList;
 
@@ -46,10 +45,10 @@ public class PointAdapter extends ArrayAdapter<Point> {
                 int result = p.result;
                 switch(result) {
                     case 0:
-                        rowView.setBackgroundResource(R.drawable.point_pass_row_selector);
+                        rowView.setBackgroundResource(R.drawable.pass_row_selector);
                         break;
                     case 1:
-                        rowView.setBackgroundResource(R.drawable.point_fail_row_selector);
+                        rowView.setBackgroundResource(R.drawable.fail_row_selector);
                         break;
 
                 }

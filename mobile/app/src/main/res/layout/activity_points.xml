@@ -61,9 +61,6 @@
         <Button android:id="@+id/asset_list" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1"
             android:text="@string/asset_list" />
-        <Button android:id="@+id/submit" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_weight="1"
-            android:text="@string/submit" />
 
     </LinearLayout>
 

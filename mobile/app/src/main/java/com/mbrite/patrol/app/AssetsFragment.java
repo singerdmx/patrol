@@ -47,7 +47,11 @@ public class AssetsFragment extends ListFragment {
                     Toast.LENGTH_LONG)
                     .show();
         }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         AssetAdapter adapter = new AssetAdapter(
                 getActivity(),
                 this.assetList);

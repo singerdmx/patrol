@@ -260,14 +260,14 @@ public class LoginActivity extends Activity {
         private void updateSavedFile (String url, String fileName)
                 throws JSONException, URISyntaxException, IOException {
             Map<String, String> headers = null;
-            if (FileMgr.exists(LoginActivity.this, fileName)) {
-                JSONObject savedRoutes = new JSONObject(FileMgr.read(LoginActivity.this, fileName));
-                if (savedRoutes.has(Constants.IF_MODIFIED_SINCE) && savedRoutes.has(Constants.IF_NONE_MATCH)) {
-                    headers = new HashMap<String, String>();
-                    headers.put(Constants.IF_NONE_MATCH, savedRoutes.getString(Constants.IF_NONE_MATCH));
-                    headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
-                }
-            }
+//            if (FileMgr.exists(LoginActivity.this, fileName)) {
+//                JSONObject savedRoutes = new JSONObject(FileMgr.read(LoginActivity.this, fileName));
+//                if (savedRoutes.has(Constants.IF_MODIFIED_SINCE) && savedRoutes.has(Constants.IF_NONE_MATCH)) {
+//                    headers = new HashMap<String, String>();
+//                    headers.put(Constants.IF_NONE_MATCH, savedRoutes.getString(Constants.IF_NONE_MATCH));
+//                    headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
+//                }
+//            }
             HttpResponse response = RestClient.INSTANCE.get(LoginActivity.this, url, headers);
             int statusCode = response.getStatusLine().getStatusCode();
             switch (statusCode) {

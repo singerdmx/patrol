@@ -17,6 +17,8 @@
     <string name="value">Value</string>
     <string name="normal">Normal</string>
     <string name="abnormal">Abnormal</string>
+    <string name="complete">Complete</string>
+    <string name="scan">Scan</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">Site URL</string>

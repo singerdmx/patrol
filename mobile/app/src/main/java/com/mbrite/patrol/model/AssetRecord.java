@@ -1,7 +1,5 @@
 package com.mbrite.patrol.model;
 
-import com.mbrite.patrol.content.providers.RecordProvider;
-
 import java.util.*;
 
 public class AssetRecord {
@@ -13,6 +11,5 @@ public class AssetRecord {
         this.id = id;
         points = new ArrayList<PointRecord>();
     }
-
 
 }

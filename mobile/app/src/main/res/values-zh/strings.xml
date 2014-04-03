@@ -17,6 +17,8 @@
     <string name="value">数值</string>
     <string name="normal">正常</string>
     <string name="abnormal">非正常</string>
+    <string name="complete">完成</string>
+    <string name="scan">扫描</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">网址</string>

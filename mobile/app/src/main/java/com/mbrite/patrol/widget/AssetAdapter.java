@@ -2,22 +2,23 @@ package com.mbrite.patrol.widget;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.mbrite.patrol.app.*;
-import com.mbrite.patrol.model.Asset;
+import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.*;
 
 public class AssetAdapter extends ArrayAdapter<Asset> {
 
-    private final Context context;
+    private final Activity context;
     private final ArrayList<Asset> itemsArrayList;
 
-    public AssetAdapter(Context context, ArrayList<Asset> itemsArrayList) {
+    public AssetAdapter(Activity context, ArrayList<Asset> itemsArrayList) {
 
         super(context, R.layout.activity_list_item_asset, itemsArrayList);
 
@@ -32,14 +33,44 @@ public class AssetAdapter extends ArrayAdapter<Asset> {
 
         // Get rowView from inflater
         View rowView = inflater.inflate(R.layout.activity_list_item_asset, parent, false);
-
-//        if (position % 2 == 0){
-//            rowView.setBackgroundResource(R.drawable.alterselector1);
-//        } else {
-//            rowView.setBackgroundResource(R.drawable.alterselector2);
-//        }
-
         Asset asset = itemsArrayList.get(position);
+        try {
+            RecordState state = RecordProvider.INSTANCE.getAssetRecordState(context, asset.id);
+            ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
+            int resId = 0;
+            switch (state.status) {
+                case NOT_STARTED:
+                    resId = R.drawable.progress_start;
+                    break;
+                case IN_PROGRESS:
+                    resId = R.drawable.in_progress;
+                    break;
+                case COMPLETE:
+                    resId = R.drawable.progress_complete;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid status: " + state.status.toString());
+            }
+            if (state.result != null) {
+                switch (state.result) {
+                    case PASS:
+                        rowView.setBackgroundResource(R.drawable.pass_row_selector);
+                        break;
+                    case FAIL:
+                        rowView.setBackgroundResource(R.drawable.fail_row_selector);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid result: " + state.result.toString());
+                }
+            }
+            icon.setImageResource(resId);
+        } catch (Exception ex) {
+            Toast.makeText(
+                    context,
+                    String.format("Error: %s", ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
         TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
         descriptionView.setText(asset.description);
         TextView serialNumView = (TextView) rowView.findViewById(R.id.serial_num);

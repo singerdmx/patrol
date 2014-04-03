@@ -27,13 +27,6 @@ public class Utils {
 
     public static boolean isValidUsernameAndPassword(String username, String password) {
         // TODO: attempt authentication against a network service
-        try {
-            // Simulate network access.
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            return false;
-        }
-
         if (TextUtils.isEmpty(password)) {
             return false;
         }

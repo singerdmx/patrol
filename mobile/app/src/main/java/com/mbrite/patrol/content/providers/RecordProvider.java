@@ -7,7 +7,10 @@ import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.model.*;
 
+import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.*;
 
 public enum RecordProvider {
 
@@ -26,6 +29,13 @@ public enum RecordProvider {
      * Keep track of current point record being operated on
      */
     public PointRecord currentPointRecord;
+
+    private Set<Integer> incompleteAssets = new TreeSet<Integer>();
+
+    /**
+     * key is the id of asset, value is the ids of points
+     */
+    private Map<Integer, Set<Integer>> failPoints = new TreeMap<Integer, Set<Integer>>();
 
     public void reset(Activity activity)
         throws IOException {
@@ -113,5 +123,37 @@ public enum RecordProvider {
         currentPointRecord.updateTime = System.currentTimeMillis()/1000;
         save(activity);
         return record;
+    }
+
+    public RecordState getAssetRecordState(Activity activity, int assetId)
+        throws JSONException, IOException {
+        RecordState state = new RecordState();
+        Asset asset = AssetProvider.INSTANCE.getAsset(activity, assetId);
+        AssetRecord assetRecord = null;
+        for (AssetRecord ar : record.assets) {
+            if (ar.id == assetId) {
+                assetRecord = ar;
+                break;
+            }
+        }
+
+        if (assetRecord == null) {
+            state.status = RecordState.Status.NOT_STARTED;
+            return state;
+        }
+
+        state.result = RecordState.Result.PASS;
+        state.status = RecordState.Status.COMPLETE;
+        if (assetRecord.points.size() < asset.points.length) {
+            state.status = RecordState.Status.IN_PROGRESS;
+        }
+        for(PointRecord pr : assetRecord.points) {
+            if (pr.result == -1) {
+                state.status = RecordState.Status.IN_PROGRESS;
+            } else if (pr.result == 1) {
+                state.result = RecordState.Result.FAIL;
+            }
+        }
+        return state;
     }
 }

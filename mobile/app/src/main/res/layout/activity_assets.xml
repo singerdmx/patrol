@@ -22,7 +22,13 @@
 
         <Button android:id="@+id/scan_button" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1"
-            android:text="@string/scan_barcode" />
+            android:text="@string/scan" />
+        <Button android:id="@+id/complete" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="@string/complete" />
+        <Button android:id="@+id/submit" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="@string/submit" />
 
     </LinearLayout>
 

@@ -4,13 +4,13 @@
     android:padding="3dip">
 
     <ImageView
-        android:id="@+id/barcode"
+        android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
-        android:src="@drawable/barcode" />
+        android:src="@drawable/progress_start" />
 
     <TextView
         android:id="@+id/serial_num"
@@ -18,7 +18,7 @@
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/barcode"
+        android:layout_toRightOf="@id/icon"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textSize="12sp" />
@@ -31,7 +31,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/barcode"
+        android:layout_toRightOf="@id/icon"
         android:gravity="center_vertical"
         android:textSize="16sp" />
 
