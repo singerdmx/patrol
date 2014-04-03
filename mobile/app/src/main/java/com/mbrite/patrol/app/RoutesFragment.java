@@ -1,6 +1,7 @@
 package com.mbrite.patrol.app;
 
 import android.app.*;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.content.*;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class RoutesFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setDivider();
 
         try {
             this.routeProvider = new RouteProvider(getActivity());
@@ -82,5 +84,11 @@ public class RoutesFragment extends ListFragment {
                });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void setDivider() {
+        ListView lv = getListView();
+        lv.setDivider(new ColorDrawable(this.getResources().getColor(R.color.black)));
+        lv.setDividerHeight(1);
     }
 }

@@ -19,6 +19,8 @@
     <string name="abnormal">非正常</string>
     <string name="complete">完成</string>
     <string name="scan">扫描</string>
+    <string name="uploading">上传中</string>
+    <string name="please_wait">请稍等。。。</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">网址</string>
@@ -48,6 +50,10 @@
     <string name="manual_input">手动输入</string>
     <string name="error_incorrect_barcode">编码不相符</string>
     <string name="error_incomplete_assets">有未完成的设备！</string>
+    <string name="complete_patrol">完成巡检</string>
+    <string name="upload_data">上传所有数据？</string>
+    <string name="error_upload">上传失败</string>
+    <string name="upload_success">上传成功！</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">设备列表</string>

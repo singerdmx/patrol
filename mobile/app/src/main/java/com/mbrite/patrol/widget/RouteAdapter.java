@@ -2,22 +2,26 @@ package com.mbrite.patrol.widget;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mbrite.patrol.app.*;
+import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.Record;
 import com.mbrite.patrol.model.Route;
 
 public class RouteAdapter extends ArrayAdapter<Route> {
 
-    private final Context context;
+    private final Activity context;
     private final ArrayList<Route> itemsArrayList;
 
-    public RouteAdapter(Context context, ArrayList<Route> itemsArrayList) {
+    public RouteAdapter(Activity context, ArrayList<Route> itemsArrayList) {
 
         super(context, R.layout.activity_list_item_route, itemsArrayList);
 
@@ -32,11 +36,18 @@ public class RouteAdapter extends ArrayAdapter<Route> {
 
         // Get rowView from inflater
         View rowView = inflater.inflate(R.layout.activity_list_item_route, parent, false);
-
-        if (position % 2 == 0){
-            rowView.setBackgroundResource(R.drawable.alterselector1);
-        } else {
-            rowView.setBackgroundResource(R.drawable.alterselector2);
+        Route route = itemsArrayList.get(position);
+        try {
+            Record record = RecordProvider.INSTANCE.get(context);
+            if (record.route == route.id) {
+                rowView.setBackgroundResource(R.drawable.alterselector2);
+            }
+        } catch (Exception ex) {
+            Toast.makeText(
+                    context,
+                    String.format("Error: %s", ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
         }
 
         // Get the text view from the rowView

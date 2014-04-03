@@ -19,6 +19,8 @@
     <string name="abnormal">Abnormal</string>
     <string name="complete">Complete</string>
     <string name="scan">Scan</string>
+    <string name="uploading">Uploading</string>
+    <string name="please_wait">Please wait...</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">Site URL</string>
@@ -47,6 +49,10 @@
     <string name="manual_input">Manual Input</string>
     <string name="error_incorrect_barcode">Incorrect Barcode</string>
     <string name="error_incomplete_assets">There are incomplete assets!</string>
+    <string name="complete_patrol">Complete Patrol</string>
+    <string name="upload_data">Upload all data?</string>
+    <string name="error_upload">Failed to upload</string>
+    <string name="upload_success">Upload is successful!</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">Asset List</string>
@@ -56,4 +62,5 @@
     <string name="enter_value">Please enter value</string>
     <string name="asset_status">Asset Status</string>
     <string name="error_not_a_number">%s is not a number</string>
+
 </resources>

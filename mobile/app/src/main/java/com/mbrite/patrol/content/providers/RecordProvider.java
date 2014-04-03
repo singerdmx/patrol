@@ -175,4 +175,14 @@ public enum RecordProvider {
     public boolean isComplete() {
         return incompleteAssets.isEmpty();
     }
+
+    public List<String> getRecordFiles(Activity activity) {
+        List<String> recordFiles = new ArrayList<String>();
+        for (String file : FileMgr.fileList(activity)) {
+            if (file.startsWith(Constants.RECORD_FILE_NAME)) {
+                recordFiles.add(file);
+            }
+        }
+        return recordFiles;
+    }
 }

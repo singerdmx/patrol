@@ -20,6 +20,16 @@ public class FileMgr {
         return activity.deleteFile(fileName);
     }
 
+    public static void copy(Activity activity, String sourceFileName, String targetFileName)
+        throws IOException {
+        String content = read(activity, sourceFileName);
+        write(activity, targetFileName, content);
+    }
+
+    public static String[] fileList(Activity activity) {
+        return activity.fileList();
+    }
+
     public static void write(Activity activity, String fileName, String string)
             throws IOException {
         FileOutputStream outputStream = null;
