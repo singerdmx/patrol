@@ -9,23 +9,20 @@ import android.widget.TabHost.*;
 import android.widget.*;
 
 import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
 
 
 public class BarcodeActivity extends TabActivity {
 
     private String targetBarcode = null;
-    private int[] assets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            assets = extras.getIntArray(Constants.ASSETS);
-            targetBarcode = extras.getString(Constants.BARCODE);
-        }
+        targetBarcode = extras == null ? null : extras.getString(Constants.BARCODE);
 
         TabHost tabHost = getTabHost();
         createTabSpec(tabHost, "scan_barcode", R.string.scan_barcode, R.drawable.barcode, ScanBarcodeActivity.class);
@@ -61,7 +58,6 @@ public class BarcodeActivity extends TabActivity {
         TabSpec tabSpec = tabHost.newTabSpec(specTag);
         tabSpec.setIndicator(getString(indicator), getResources().getDrawable(drawable));
         Intent intent = new Intent(this, activityClass);
-        intent.putExtra(Constants.ASSETS, assets);
         if (targetBarcode != null) {
             intent.putExtra(Constants.BARCODE, targetBarcode);
         }

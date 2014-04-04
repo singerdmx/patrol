@@ -18,6 +18,7 @@ import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.model.*;
 
 import java.util.*;
@@ -34,14 +35,12 @@ public class AssetsActivity extends Activity {
         Log.d(TAG, "started");
         setContentView(R.layout.activity_assets);
 
-        Bundle extras = getIntent().getExtras();
-        assets = extras.getIntArray(Constants.ASSETS);
+        assets = Tracker.INSTANCE.assetIds;
         Button scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AssetsActivity.this, BarcodeActivity.class);
-                intent.putExtra(Constants.ASSETS, assets);
                 startActivity(intent);
             }
         });

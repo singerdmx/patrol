@@ -22,8 +22,7 @@ public class InputBarcodeActivity extends Activity {
         setContentView(R.layout.activity_input_barcode);
 
         Bundle extras = getIntent().getExtras();
-        final int[] assets = extras.getIntArray(Constants.ASSETS);
-        final String targetBarcode = extras.getString(Constants.BARCODE);
+        final String targetBarcode = extras == null ? null : extras.getString(Constants.BARCODE);
         barcodeText = (EditText) findViewById(R.id.barcode);
         final Button submitButton = (Button) findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +37,7 @@ public class InputBarcodeActivity extends Activity {
                         }
                     }
 
-                    Asset asset = AssetProvider.INSTANCE.getAsset(InputBarcodeActivity.this, barcode, assets);
+                    Asset asset = AssetProvider.INSTANCE.getAsset(InputBarcodeActivity.this, barcode, Tracker.INSTANCE.assetIds);
                     if (asset == null) {
                         throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
                     }

@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.content.providers.*;
 import com.mbrite.patrol.model.*;
 import com.mbrite.patrol.widget.RouteAdapter;
@@ -63,8 +63,8 @@ public class RoutesFragment extends ListFragment {
                            Record record = RecordProvider.INSTANCE.get(getActivity());
                            record.route = route.id;
                            RecordProvider.INSTANCE.save(getActivity(), record);
+                           Tracker.INSTANCE.assetIds = route.assets;
                            Intent intent = new Intent(getActivity(), AssetsActivity.class);
-                           intent.putExtra(Constants.ASSETS, route.assets);
                            startActivity(intent);
                        }  catch (Exception ex) {
                            Toast.makeText(

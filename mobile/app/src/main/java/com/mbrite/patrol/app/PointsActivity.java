@@ -27,19 +27,8 @@ public class PointsActivity extends Activity {
         assetListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Record record = RecordProvider.INSTANCE.get(PointsActivity.this);
-                    Route route = RouteProvider.INSTANCE.getRoute(PointsActivity.this, record.route);
-                    Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
-                    intent.putExtra(Constants.ASSETS, route.assets);
-                    startActivity(intent);
-                } catch (Exception ex) {
-                    Toast.makeText(
-                            PointsActivity.this,
-                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
+                Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
+                startActivity(intent);
             }
         });
     }

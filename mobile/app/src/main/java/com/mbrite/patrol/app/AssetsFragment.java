@@ -9,6 +9,7 @@ import android.widget.*;
 import android.graphics.drawable.*;
 
 import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.content.providers.AssetProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Asset;
@@ -21,7 +22,6 @@ import java.util.*;
 public class AssetsFragment extends ListFragment {
     private static final String TAG = AssetsFragment.class.getSimpleName();
 
-    private int[] assets;
     private ArrayList<Asset> assetList = new ArrayList<Asset>();
 
     @Override
@@ -29,11 +29,8 @@ public class AssetsFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         setDivider();
 
-        Bundle extras = getActivity().getIntent().getExtras();
-        assets = extras.getIntArray(Constants.ASSETS);
-
         try {
-            this.assetList.addAll(AssetProvider.INSTANCE.getAssets(getActivity(), assets));
+            this.assetList.addAll(AssetProvider.INSTANCE.getAssets(getActivity(), Tracker.INSTANCE.assetIds));
         } catch (JSONException ex) {
             Toast.makeText(
                     getActivity(),
@@ -71,7 +68,6 @@ public class AssetsFragment extends ListFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
                             Intent intent = new Intent(getActivity(), BarcodeActivity.class);
-                            intent.putExtra(Constants.ASSETS, assets);
                             intent.putExtra(Constants.BARCODE, asset.barcode);
                             startActivity(intent);
                         } catch (Exception ex) {
