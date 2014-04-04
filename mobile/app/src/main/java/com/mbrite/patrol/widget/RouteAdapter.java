@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +37,15 @@ public class RouteAdapter extends ArrayAdapter<Route> {
 
         // Get rowView from inflater
         View rowView = inflater.inflate(R.layout.activity_list_item_route, parent, false);
+        ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
         Route route = itemsArrayList.get(position);
         try {
             Record record = RecordProvider.INSTANCE.get(context);
             if (record.route == route.id) {
                 rowView.setBackgroundResource(R.drawable.alterselector2);
+                icon.setImageResource(R.drawable.spanner);
+            } else {
+                icon.setImageResource(R.drawable.blank);
             }
         } catch (Exception ex) {
             Toast.makeText(

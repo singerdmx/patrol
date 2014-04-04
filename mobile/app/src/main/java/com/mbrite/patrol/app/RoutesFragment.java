@@ -42,7 +42,11 @@ public class RoutesFragment extends ListFragment {
                     Toast.LENGTH_LONG)
                     .show();
         }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         RouteAdapter adapter = new RouteAdapter(
                 getActivity(),
                 this.routes);
