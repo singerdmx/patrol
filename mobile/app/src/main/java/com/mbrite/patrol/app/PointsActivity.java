@@ -29,6 +29,7 @@ public class PointsActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

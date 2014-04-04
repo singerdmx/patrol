@@ -45,6 +45,7 @@ public class InputBarcodeActivity extends Activity {
                     Intent intent = new Intent(InputBarcodeActivity.this, PointsActivity.class);
                     intent.putExtra(Constants.POINTS, asset.points);
                     startActivity(intent);
+                    finish();
                 } catch (Exception ex) {
                     submitButton.setError(ex.getLocalizedMessage());
                     Toast.makeText(
