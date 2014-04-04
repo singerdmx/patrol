@@ -64,22 +64,12 @@ public class AssetsActivity extends Activity {
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
+                                    progressDialog = ProgressDialog.show(AssetsActivity.this,
+                                            getString(R.string.uploading),
+                                            getString(R.string.please_wait),
+                                            true);
                                     try {
-                                        List<String> recordFiles = RecordProvider.INSTANCE.getRecordFiles(AssetsActivity.this);
-                                        progressDialog = ProgressDialog.show(AssetsActivity.this,
-                                                getString(R.string.uploading),
-                                                getString(R.string.please_wait),
-                                                true);
-                                        try {
-                                            new UploadTask().execute();
-                                        } catch (Exception ex) {
-                                            Toast.makeText(
-                                                    AssetsActivity.this,
-                                                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                                                    Toast.LENGTH_LONG)
-                                                    .show();
-                                        }
-
+                                        new UploadTask().execute();
                                     } catch (Exception ex) {
                                         Toast.makeText(
                                                 AssetsActivity.this,
@@ -146,12 +136,22 @@ public class AssetsActivity extends Activity {
     }
 
     class UploadTask extends AsyncTask<Void, Void, Integer> {
+
+        private int total = 0;
+        private int fails = 0;
+        private int statusCode = 200;
+
         @Override
         protected Integer doInBackground(Void... unused) {
             try {
                 // TODO: upload
                 Thread.sleep(2000);
-                return 200;
+                List<String> recordFiles = RecordProvider.INSTANCE.getRecordFiles(AssetsActivity.this);
+                total = recordFiles.size();
+                for (String recordFile : recordFiles) {
+                    uploadFile(recordFile);
+                }
+                return statusCode;
             } catch (Exception e) {
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
@@ -177,11 +177,13 @@ public class AssetsActivity extends Activity {
 
             if (statusCode != 200) {
                 Toast.makeText(getApplicationContext(),
-                        getString(R.string.error_upload),
+                        String.format("%s\n%s",
+                            String.format(getString(R.string.error_upload), fails),
+                            String.format(getString(R.string.upload_success), total -fails)),
                         Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getApplicationContext(),
-                        getString(R.string.upload_success),
+                        String.format(getString(R.string.upload_success), total),
                         Toast.LENGTH_SHORT).show();
                 try {
                     RecordProvider.INSTANCE.reset(AssetsActivity.this);
@@ -193,6 +195,22 @@ public class AssetsActivity extends Activity {
                             Toast.LENGTH_LONG)
                             .show();
                 }
+            }
+        }
+
+        private void uploadFile(String file) {
+            Log.i(TAG, String.format("Uploading file %s", file));
+            try {
+                //TODO: upload
+                FileMgr.delete(AssetsActivity.this, file);
+            } catch (Exception ex) {
+                fails++;
+                statusCode = 400;
+                Log.e(TAG,
+                      String.format("Fail to upload file %s:\n%s\n%s",
+                              file,
+                              ex.getMessage(),
+                              ex.getStackTrace()));
             }
         }
     }

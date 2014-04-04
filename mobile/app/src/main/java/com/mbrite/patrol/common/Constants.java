@@ -11,6 +11,7 @@ public class Constants {
     public static final String USER_NAME = "username";
     public static final String PASSWORD = "password";
     public static final String PREFERENCE_FILE_KEY = "com.mbrite.patrol.preference_file_key";
+    public static final String DEFAULT_SITE_URL = "http://warm-depths-4825.herokuapp.com";
     public static final String SITE_URL = "site_url";
     public static final String STATUS = "status";
     public static final String STANDARD = "standard";

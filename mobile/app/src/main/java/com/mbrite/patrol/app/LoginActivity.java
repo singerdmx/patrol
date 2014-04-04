@@ -221,7 +221,7 @@ public class LoginActivity extends Activity {
                             String.format("JSONException: %s", ex.getLocalizedMessage()),
                             Toast.LENGTH_LONG)
                             .show();
-                } catch (URISyntaxException ex) {
+                } catch (URISyntaxException | IllegalStateException ex) {
                     mSignInButton.setError(ex.getLocalizedMessage());
                     Toast.makeText(
                             LoginActivity.this,

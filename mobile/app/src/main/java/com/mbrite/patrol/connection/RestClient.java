@@ -19,8 +19,6 @@ public enum  RestClient {
 
     INSTANCE;
 
-    private URI siteURI;
-
     {
         StrictMode.ThreadPolicy policy =
                 new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -29,16 +27,11 @@ public enum  RestClient {
 
     private URI getSiteURI(Activity activity)
             throws URISyntaxException {
-        if (this.siteURI != null) {
-            return this.siteURI;
-        }
-
-        String site = Utils.getSiteURI(activity);
+        String site = Utils.getSiteURI(activity).trim();
         if (TextUtils.isEmpty(site)) {
-            throw new IllegalStateException(activity.getString(R.string.error_site_url_missing));
+            site = Constants.DEFAULT_SITE_URL;
         }
-        this.siteURI = new URI(site);
-        return this.siteURI;
+        return new URI(site);
     }
 
     public HttpResponse get(Activity activity, String relativeURI)

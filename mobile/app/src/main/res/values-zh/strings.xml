@@ -52,8 +52,8 @@
     <string name="error_incomplete_assets">有未完成的设备！</string>
     <string name="complete_patrol">完成巡检</string>
     <string name="upload_data">上传所有数据？</string>
-    <string name="error_upload">上传失败</string>
-    <string name="upload_success">上传成功！</string>
+    <string name="error_upload">%s条纪录上传失败</string>
+    <string name="upload_success">成功上传了%s条纪录</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">返回到设备列表</string>

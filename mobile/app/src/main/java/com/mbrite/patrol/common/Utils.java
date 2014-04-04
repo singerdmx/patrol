@@ -70,7 +70,7 @@ public class Utils {
     public static String getSiteURI(Activity activity) {
         return PreferenceManager
                 .getDefaultSharedPreferences(activity)
-                .getString(Constants.SITE_URL, "");
+                .getString(Constants.SITE_URL, Constants.DEFAULT_SITE_URL);
     }
 
     public static String convertStreamToString(InputStream is) throws IOException {

@@ -3,6 +3,7 @@ package com.mbrite.patrol.app;
 import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.view.View.*;
@@ -93,6 +94,9 @@ public class MeasureActivity extends Activity {
                         // enter value
                         value = valueView.getText().toString();
 
+                        if (TextUtils.isEmpty(value)) {
+                            value = valueView.getHint().toString();
+                        }
                         Double inputValue = Double.parseDouble(value);
                         Double min = PointProvider.INSTANCE.getMin(standardJSON);
                         Double max = PointProvider.INSTANCE.getMax(standardJSON);
