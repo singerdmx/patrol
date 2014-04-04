@@ -56,7 +56,7 @@
     <string name="upload_success">上传成功！</string>
 
     <!-- Strings related to point -->
-    <string name="asset_list">设备列表</string>
+    <string name="asset_list">返回到设备列表</string>
     <string name="check_point">点检</string>
     <string name="confirm_point">确认点检</string>
     <string name="selected_point">选定的点检： %s</string>

@@ -257,18 +257,21 @@ public class LoginActivity extends Activity {
             showProgress(false);
         }
 
-        private void updateSavedFile (String url, String fileName)
+        private void updateSavedFile (String type, String fileName)
                 throws JSONException, URISyntaxException, IOException {
             Map<String, String> headers = null;
-//            if (FileMgr.exists(LoginActivity.this, fileName)) {
-//                JSONObject savedRoutes = new JSONObject(FileMgr.read(LoginActivity.this, fileName));
-//                if (savedRoutes.has(Constants.IF_MODIFIED_SINCE) && savedRoutes.has(Constants.IF_NONE_MATCH)) {
-//                    headers = new HashMap<String, String>();
-//                    headers.put(Constants.IF_NONE_MATCH, savedRoutes.getString(Constants.IF_NONE_MATCH));
-//                    headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
-//                }
-//            }
-            HttpResponse response = RestClient.INSTANCE.get(LoginActivity.this, url, headers);
+            if (FileMgr.exists(LoginActivity.this, fileName)) {
+                JSONObject savedRoutes = new JSONObject(FileMgr.read(LoginActivity.this, fileName));
+                if (savedRoutes.has(Constants.IF_MODIFIED_SINCE) && savedRoutes.has(Constants.IF_NONE_MATCH)) {
+                    headers = new HashMap<String, String>();
+                    headers.put(Constants.IF_NONE_MATCH, savedRoutes.getString(Constants.IF_NONE_MATCH));
+                    headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
+                }
+            }
+            HttpResponse response = RestClient.INSTANCE
+                                        .get(LoginActivity.this,
+                                                String.format("%s.json", type),
+                                                headers);
             int statusCode = response.getStatusLine().getStatusCode();
             switch (statusCode) {
                 case 200:
@@ -276,7 +279,7 @@ public class LoginActivity extends Activity {
                     String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
                     JSONArray responseData = new JSONArray(responseContent);
                     JSONObject data = new JSONObject();
-                    data.put(url, responseData);
+                    data.put(type, responseData);
                     Header ifNoneMatch = response.getFirstHeader(Constants.ETAG);
                     Header ifModifiedSince= response.getFirstHeader(Constants.LAST_MODIFIED);
                     if (ifNoneMatch != null && ifModifiedSince != null) {
@@ -290,7 +293,7 @@ public class LoginActivity extends Activity {
                     break;
                 default:
                     throw new HttpResponseException(statusCode,
-                            "Error occurred for GET request: " + url);
+                            "Error occurred for GET request: " + type);
             }
         }
     }

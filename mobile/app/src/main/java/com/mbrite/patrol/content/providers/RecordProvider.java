@@ -140,7 +140,7 @@ public enum RecordProvider {
             }
         }
 
-        if (assetRecord == null) {
+        if (assetRecord == null || assetRecord.points.isEmpty()) {
             state.status = RecordState.Status.NOT_STARTED;
             incompleteAssets.add(assetId);
             return state;

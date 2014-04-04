@@ -20,7 +20,6 @@ import java.util.*;
 public class RoutesFragment extends ListFragment {
     private static final String TAG = RoutesFragment.class.getSimpleName();
 
-    private RouteProvider routeProvider;
     private ArrayList<Route> routes = new ArrayList<Route>();
 
     @Override
@@ -29,8 +28,7 @@ public class RoutesFragment extends ListFragment {
         setDivider();
 
         try {
-            this.routeProvider = new RouteProvider(getActivity());
-            this.routes = routeProvider.getRoutes();
+            this.routes = RouteProvider.INSTANCE.getRoutes(getActivity());
         }catch (JSONException ex) {
             Toast.makeText(
                     getActivity(),

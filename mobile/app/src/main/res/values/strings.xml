@@ -55,7 +55,7 @@
     <string name="upload_success">Upload is successful!</string>
 
     <!-- Strings related to point -->
-    <string name="asset_list">Asset List</string>
+    <string name="asset_list">Return to Asset List</string>
     <string name="check_point">Check Point</string>
     <string name="confirm_point">Confirm Point</string>
     <string name="selected_point">Selected Point: %s</string>

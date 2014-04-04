@@ -7,9 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
+import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.content.providers.RouteProvider;
+import com.mbrite.patrol.model.*;
 
 
 public class PointsActivity extends Activity {
@@ -23,9 +27,19 @@ public class PointsActivity extends Activity {
         assetListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
-                startActivity(intent);
+                try {
+                    Record record = RecordProvider.INSTANCE.get(PointsActivity.this);
+                    Route route = RouteProvider.INSTANCE.getRoute(PointsActivity.this, record.route);
+                    Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
+                    intent.putExtra(Constants.ASSETS, route.assets);
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    Toast.makeText(
+                            PointsActivity.this,
+                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
     }

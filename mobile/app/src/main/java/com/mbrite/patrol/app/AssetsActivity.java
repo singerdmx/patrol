@@ -20,9 +20,6 @@ import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.*;
 
-import org.apache.http.HttpResponse;
-
-import java.io.File;
 import java.util.*;
 
 
@@ -61,8 +58,6 @@ public class AssetsActivity extends Activity {
                     if (record.endTime == 0) {
                         record.endTime = System.currentTimeMillis()/1000;
                     }
-                    final Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
                     AlertDialog.Builder builder = new AlertDialog.Builder(AssetsActivity.this);
                     builder.setMessage(getString(R.string.upload_data))
                             .setTitle(R.string.complete_patrol)
@@ -103,7 +98,7 @@ public class AssetsActivity extends Activity {
                                                 Constants.RECORD_FILE_NAME,
                                                 String.format("%s.%d", Constants.RECORD_FILE_NAME, System.currentTimeMillis() / 1000));
                                         RecordProvider.INSTANCE.reset(AssetsActivity.this);
-                                        startActivity(intent);
+                                        startActivity(new Intent(AssetsActivity.this, MainActivity.class));
                                     } catch (Exception ex) {
                                         Toast.makeText(
                                                 AssetsActivity.this,
@@ -191,9 +186,7 @@ public class AssetsActivity extends Activity {
                         Toast.LENGTH_SHORT).show();
                 try {
                     RecordProvider.INSTANCE.reset(AssetsActivity.this);
-                    Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); // resume instead of start activity
-                    startActivity(intent);
+                    startActivity(new Intent(AssetsActivity.this, MainActivity.class));
                 } catch (Exception ex) {
                     Toast.makeText(
                             getApplicationContext(),
