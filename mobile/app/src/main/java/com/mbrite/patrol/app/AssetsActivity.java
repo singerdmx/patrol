@@ -187,7 +187,10 @@ public class AssetsActivity extends Activity {
                         Toast.LENGTH_SHORT).show();
                 try {
                     RecordProvider.INSTANCE.reset(AssetsActivity.this);
-                    startActivity(new Intent(AssetsActivity.this, MainActivity.class));
+                    Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
                 } catch (Exception ex) {
                     Toast.makeText(
                             getApplicationContext(),
