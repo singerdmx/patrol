@@ -87,7 +87,10 @@ public class AssetsActivity extends Activity {
                                                 Constants.RECORD_FILE_NAME,
                                                 String.format("%s.%d", Constants.RECORD_FILE_NAME, System.currentTimeMillis() / 1000));
                                         RecordProvider.INSTANCE.reset(AssetsActivity.this);
-                                        startActivity(new Intent(AssetsActivity.this, MainActivity.class));
+                                        Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
                                     } catch (Exception ex) {
                                         Toast.makeText(
                                                 AssetsActivity.this,
