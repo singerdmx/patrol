@@ -12,7 +12,7 @@ import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.content.providers.*;
 import com.mbrite.patrol.model.Asset;
 
-public class InputBarcodeActivity extends Activity {
+public class InputBarcodeActivity extends ParentActivity {
 
     private EditText barcodeText;
 
@@ -30,22 +30,7 @@ public class InputBarcodeActivity extends Activity {
             public void onClick(View view) {
                 String barcode = barcodeText.getText().toString();
                 try {
-                    if (targetBarcode != null) {
-                        // verify barcode
-                        if (!targetBarcode.equals(barcode)) {
-                           throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
-                        }
-                    }
-
-                    Asset asset = AssetProvider.INSTANCE.getAsset(InputBarcodeActivity.this, barcode, Tracker.INSTANCE.assetIds);
-                    if (asset == null) {
-                        throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
-                    }
-                    RecordProvider.INSTANCE.offerAsset(InputBarcodeActivity.this, asset.id);
-                    Intent intent = new Intent(InputBarcodeActivity.this, PointsActivity.class);
-                    intent.putExtra(Constants.POINTS, asset.points);
-                    startActivity(intent);
-                    finish();
+                    checkBarcode(InputBarcodeActivity.this, barcode, targetBarcode);
                 } catch (Exception ex) {
                     submitButton.setError(ex.getLocalizedMessage());
                     Toast.makeText(

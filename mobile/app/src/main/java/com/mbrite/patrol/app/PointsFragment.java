@@ -19,7 +19,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class PointsFragment extends ListFragment {
+public class PointsFragment extends ParentFragment {
     private static final String TAG = PointsFragment.class.getSimpleName();
 
     private int[] points;
@@ -77,11 +77,5 @@ public class PointsFragment extends ListFragment {
                     Toast.LENGTH_LONG)
                     .show();
         }
-    }
-
-    private void setDivider() {
-        ListView lv = getListView();
-        lv.setDivider(new ColorDrawable(this.getResources().getColor(R.color.black)));
-        lv.setDividerHeight(1);
     }
 }

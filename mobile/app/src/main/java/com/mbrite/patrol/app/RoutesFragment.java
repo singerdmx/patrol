@@ -17,7 +17,7 @@ import org.json.JSONException;
 
 import java.util.*;
 
-public class RoutesFragment extends ListFragment {
+public class RoutesFragment extends ParentFragment {
     private static final String TAG = RoutesFragment.class.getSimpleName();
 
     private ArrayList<Route> routes = new ArrayList<Route>();
@@ -106,11 +106,5 @@ public class RoutesFragment extends ListFragment {
                });
         AlertDialog alert = builder.create();
         alert.show();
-    }
-
-    private void setDivider() {
-        ListView lv = getListView();
-        lv.setDivider(new ColorDrawable(this.getResources().getColor(R.color.black)));
-        lv.setDividerHeight(1);
     }
 }

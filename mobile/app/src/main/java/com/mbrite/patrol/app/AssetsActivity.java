@@ -182,7 +182,7 @@ public class AssetsActivity extends Activity {
                 Toast.makeText(getApplicationContext(),
                         String.format("%s\n%s",
                             String.format(getString(R.string.error_upload), fails),
-                            String.format(getString(R.string.upload_success), total -fails)),
+                            String.format(getString(R.string.upload_success), total - fails)),
                         Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getApplicationContext(),

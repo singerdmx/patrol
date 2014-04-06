@@ -8,7 +8,7 @@ import android.view.*;
 
 import com.google.zxing.integration.android.*;
 
-public class ScanBarcodeActivity extends Activity {
+public class ScanBarcodeActivity extends ParentActivity {
 
     TextView tvStatus;
     TextView tvResult;
