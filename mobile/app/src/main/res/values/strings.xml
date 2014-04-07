@@ -21,6 +21,8 @@
     <string name="scan">Scan</string>
     <string name="uploading">Uploading</string>
     <string name="please_wait">Please wait...</string>
+    <string name="notification">Notification</string>
+    <string name="synchronize_data">Synchronize Data</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">Site URL</string>

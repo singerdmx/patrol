@@ -21,6 +21,8 @@
     <string name="scan">扫描</string>
     <string name="uploading">上传中</string>
     <string name="please_wait">请稍等。。。</string>
+    <string name="notification">通知</string>
+    <string name="synchronize_data">同步数据</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">网址</string>
