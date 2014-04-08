@@ -25,13 +25,19 @@ public enum  RestClient {
         StrictMode.setThreadPolicy(policy);
     }
 
+    private String site;
+
     private URI getSiteURI(Activity activity)
             throws URISyntaxException {
-        String site = Utils.getSiteURI(activity).trim();
+        site = Utils.getSiteURI(activity).trim();
         if (TextUtils.isEmpty(site)) {
             site = Constants.DEFAULT_SITE_URL;
         }
         return new URI(site);
+    }
+
+    public String getSite() {
+        return site;
     }
 
     public HttpResponse get(Activity activity, String relativeURI)

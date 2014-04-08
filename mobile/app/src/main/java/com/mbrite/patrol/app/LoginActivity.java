@@ -226,7 +226,7 @@ public class LoginActivity extends Activity {
                     Toast.makeText(
                             LoginActivity.this,
                             String.format(getString(R.string.error_site_url_invalid),
-                                    Utils.getSiteURI(LoginActivity.this)),
+                                          RestClient.INSTANCE.getSite()),
                             Toast.LENGTH_LONG)
                             .show();
                 } catch (IOException ex) {
@@ -234,7 +234,7 @@ public class LoginActivity extends Activity {
                     Toast.makeText(
                             LoginActivity.this,
                             String.format(getString(R.string.error_network_connection_failure),
-                                    Utils.getSiteURI(LoginActivity.this)),
+                                          RestClient.INSTANCE.getSite()),
                             Toast.LENGTH_LONG)
                             .show();
                 } catch (Exception ex) {

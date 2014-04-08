@@ -20,39 +20,31 @@
         android:layout_height="wrap_content" android:orientation="horizontal"
         android:layout_alignParentBottom="true">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/notification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
             android:orientation="vertical"
-            android:background="@drawable/screen_background">
-            <ImageView android:id="@+id/notification" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="1"
-                android:text="@string/notification"
-                android:layout_gravity="center"
-                android:src="@drawable/comment"/>
-            <TextView android:id="@+id/notification_text" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="1"
-                android:text="@string/notification"
-                android:layout_gravity="center"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-        <LinearLayout
+            android:clickable="true"
+            android:text="@string/notification"
+            android:drawableTop="@drawable/comment"
+            android:background="@drawable/screen_background"
+            android:textColor="@color/white"
+            android:gravity="center">
+        </TextView>
+        <TextView
+            android:id="@+id/refresh"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
             android:orientation="vertical"
-            android:background="@drawable/screen_background">
-            <ImageView android:id="@+id/refresh" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="1"
-                android:text="@string/notification"
-                android:layout_gravity="center"
-                android:src="@drawable/refresh"/>
-            <TextView android:id="@+id/refresh_text" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="1"
-                android:text="@string/synchronize_data"
-                android:layout_gravity="center"
-                android:textColor="@color/white"/>
-        </LinearLayout>
+            android:clickable="true"
+            android:text="@string/synchronize_data"
+            android:drawableTop="@drawable/refresh"
+            android:background="@drawable/screen_background"
+            android:textColor="@color/white"
+            android:gravity="center">
+        </TextView>
     </LinearLayout>
 </RelativeLayout>

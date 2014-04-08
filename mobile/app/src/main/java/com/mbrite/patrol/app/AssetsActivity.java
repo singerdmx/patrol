@@ -48,6 +48,10 @@ public class AssetsActivity extends Activity {
             }
         });
 
+        setupCompleteButton();
+    }
+
+    private void setupCompleteButton() {
         Button completeButton = (Button) findViewById(R.id.complete);
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override

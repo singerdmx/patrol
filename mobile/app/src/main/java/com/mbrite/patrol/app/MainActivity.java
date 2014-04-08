@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.*;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.mbrite.patrol.common.*;
 
 public class MainActivity extends Activity {
@@ -15,6 +18,22 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "started");
         setContentView(R.layout.activity_main);
+        setupNotification();
+    }
+
+    private void setupNotification() {
+        TextView notification = (TextView) findViewById(R.id.notification);
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Show notification
+                Toast.makeText(
+                        MainActivity.this,
+                        "Show notification",
+                        Toast.LENGTH_LONG)
+                        .show();
+            };
+        });
     }
 
     // Called to lazily initialize the action bar
