@@ -8,12 +8,12 @@ import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.entity.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
 import com.mbrite.patrol.common.*;
-import com.mbrite.patrol.app.*;
 
 public enum  RestClient {
 
@@ -49,6 +49,16 @@ public enum  RestClient {
             }
         }
         return client.execute(request);
+    }
+
+    public HttpResponse post(Activity activity, String relativeURI, String payload, String contentType)
+            throws IOException, URISyntaxException {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpPost postRequest = new HttpPost(getSiteURI(activity).resolve(relativeURI));
+        StringEntity input = new StringEntity(payload);
+        input.setContentType(contentType);
+        postRequest.setEntity(input);
+        return httpClient.execute(postRequest);
     }
 }
 

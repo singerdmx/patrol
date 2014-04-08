@@ -1,7 +1,5 @@
 package com.mbrite.patrol.model;
 
-import com.mbrite.patrol.content.providers.RecordProvider;
-
 import java.util.*;
 
 /**
@@ -9,19 +7,22 @@ import java.util.*;
  */
 public class Record {
 
-    public String id;
+    final public String session;
 
-    public int route;
+    final public String user;
+
+    public int check_route_id;
 
     public List<AssetRecord> assets;
 
-    public long startTime;
+    public long start_time;
 
-    public long endTime;
+    public long end_time;
 
-    public Record() {
-        id = UUID.randomUUID().toString();
-        route = -1;
+    public Record(String username) {
+        session = UUID.randomUUID().toString();
+        this.user = username;
+        check_route_id = -1;
         assets = new ArrayList<AssetRecord>();
     }
 }

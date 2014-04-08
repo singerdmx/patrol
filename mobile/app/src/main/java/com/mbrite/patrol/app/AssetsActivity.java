@@ -17,9 +17,12 @@ import android.widget.Toast;
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
+import com.mbrite.patrol.connection.RestClient;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.model.*;
+
+import org.apache.http.HttpResponse;
 
 import java.util.*;
 
@@ -54,8 +57,9 @@ public class AssetsActivity extends Activity {
                         throw new IllegalStateException(getString(R.string.error_incomplete_assets));
                     }
                     Record record = RecordProvider.INSTANCE.get(AssetsActivity.this);
-                    if (record.endTime == 0) {
-                        record.endTime = System.currentTimeMillis()/1000;
+                    if (record.end_time == 0) {
+                        record.end_time = System.currentTimeMillis()/1000;
+                        RecordProvider.INSTANCE.save(AssetsActivity.this, record);
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(AssetsActivity.this);
                     builder.setMessage(getString(R.string.upload_data))
@@ -142,13 +146,11 @@ public class AssetsActivity extends Activity {
 
         private int total = 0;
         private int fails = 0;
-        private int statusCode = 200;
+        private int statusCode = Constants.STATUS_CODE_CREATED;
 
         @Override
         protected Integer doInBackground(Void... unused) {
             try {
-                // TODO: upload
-                Thread.sleep(2000);
                 List<String> recordFiles = RecordProvider.INSTANCE.getRecordFiles(AssetsActivity.this);
                 total = recordFiles.size();
                 for (String recordFile : recordFiles) {
@@ -178,11 +180,12 @@ public class AssetsActivity extends Activity {
                 progressDialog.dismiss();
             }
 
-            if (statusCode != 200) {
+            if (statusCode != Constants.STATUS_CODE_CREATED) {
                 Toast.makeText(getApplicationContext(),
-                        String.format("%s\n%s",
-                            String.format(getString(R.string.error_upload), fails),
-                            String.format(getString(R.string.upload_success), total - fails)),
+                        String.format("%s\n" +
+                                        "%s",
+                                String.format(getString(R.string.error_upload), fails),
+                                String.format(getString(R.string.upload_success), total - fails)),
                         Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getApplicationContext(),
@@ -207,11 +210,23 @@ public class AssetsActivity extends Activity {
         private void uploadFile(String file) {
             Log.i(TAG, String.format("Uploading file %s", file));
             try {
-                //TODO: upload
-                FileMgr.delete(AssetsActivity.this, file);
+                String record = FileMgr.read(AssetsActivity.this, file);
+                HttpResponse response = RestClient.INSTANCE.post(AssetsActivity.this, Constants.RESULTS, record, Constants.CONTENT_TYPE_JSON);
+                int responseStatusCode = response.getStatusLine().getStatusCode();
+                if (responseStatusCode != 201) {
+                    statusCode = responseStatusCode;
+                    fails++;
+                    Log.e(TAG, String.format("Fail to upload file %s:\n" +
+                            "Status Code: %d\n" +
+                            "%s", file, responseStatusCode, response.getEntity().getContent()));
+                } else {
+                    FileMgr.delete(AssetsActivity.this, file);
+                }
             } catch (Exception ex) {
                 fails++;
-                statusCode = 400;
+                if (statusCode == Constants.STATUS_CODE_CREATED) {
+                    statusCode = -1;
+                }
                 Log.e(TAG,
                       String.format("Fail to upload file %s:\n%s\n%s",
                               file,

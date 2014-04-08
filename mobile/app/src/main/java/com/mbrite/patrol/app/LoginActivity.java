@@ -274,7 +274,7 @@ public class LoginActivity extends Activity {
                                                 headers);
             int statusCode = response.getStatusLine().getStatusCode();
             switch (statusCode) {
-                case 200:
+                case Constants.STATUS_CODE_OK:
                     // update file
                     String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
                     JSONArray responseData = new JSONArray(responseContent);
@@ -288,7 +288,7 @@ public class LoginActivity extends Activity {
                     }
                     FileMgr.write(LoginActivity.this, fileName, data.toString());
                     break;
-                case 304:
+                case Constants.STATUS_CODE_NOT_MODIFIED:
                     // Not Modified
                     break;
                 default:

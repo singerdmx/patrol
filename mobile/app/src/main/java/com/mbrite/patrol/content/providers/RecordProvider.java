@@ -5,6 +5,7 @@ import android.app.*;
 import com.google.gson.*;
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.*;
 
 import org.json.JSONException;
@@ -48,21 +49,38 @@ public enum RecordProvider {
         }
     }
 
+    /**
+     * Deserialize Record object from file
+     * @param activity
+     * @param fileName The name of the file that contains json content of record
+     * @return Record object
+     */
+    public Record getRecord(Activity activity, String fileName)
+        throws IOException {
+        String recordContent = FileMgr.read(activity, fileName);
+        return gson.fromJson(recordContent, Record.class);
+    }
+
+    /**
+     * Get current record object
+     * @param activity
+     * @return Record object
+     * @throws IOException
+     */
     public Record get(Activity activity)
         throws IOException {
         if (record == null) {
             if (FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
-                String recordContent = FileMgr.read(activity, Constants.RECORD_FILE_NAME);
                 try {
-                    record = gson.fromJson(recordContent, Record.class);
+                    record = getRecord(activity, Constants.RECORD_FILE_NAME);
                     return record;
                 } catch (JsonSyntaxException ex) {
                     reset(activity);
                 }
             }
 
-            record = new Record();
-            record.startTime =  System.currentTimeMillis()/1000;
+            record = new Record(Utils.getSavedUsernameAndPassword(activity)[0]);
+            record.start_time =  System.currentTimeMillis()/1000;
         }
 
         return record;
@@ -123,7 +141,7 @@ public enum RecordProvider {
         throws IOException {
         currentPointRecord.value = value;
         currentPointRecord.result = result;
-        currentPointRecord.updateTime = System.currentTimeMillis()/1000;
+        currentPointRecord.check_time = System.currentTimeMillis()/1000;
         save(activity);
         return record;
     }

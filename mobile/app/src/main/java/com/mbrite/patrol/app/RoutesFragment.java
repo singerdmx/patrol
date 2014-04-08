@@ -1,7 +1,6 @@
 package com.mbrite.patrol.app;
 
 import android.app.*;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.content.*;
 import android.util.Log;
@@ -64,7 +63,7 @@ public class RoutesFragment extends ParentFragment {
 
         try {
             Record record = RecordProvider.INSTANCE.get(getActivity());
-            switchRoute = record.route != -1 && record.route != route.id;
+            switchRoute = record.check_route_id != -1 && record.check_route_id != route.id;
             if (switchRoute) {
                 message = String.format(getString(R.string.confirm_new_route), route.description);
             }
@@ -85,7 +84,7 @@ public class RoutesFragment extends ParentFragment {
                                RecordProvider.INSTANCE.reset(getActivity());
                            }
                            Record record = RecordProvider.INSTANCE.get(getActivity());
-                           record.route = route.id;
+                           record.check_route_id = route.id;
                            RecordProvider.INSTANCE.save(getActivity(), record);
                            Tracker.INSTANCE.assetIds = route.assets;
                            Intent intent = new Intent(getActivity(), AssetsActivity.class);

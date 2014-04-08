@@ -23,6 +23,11 @@ public class Constants {
     public static final String LAST_MODIFIED = "Last-Modified";
     public static final String IF_NONE_MATCH= "If-None-Match";
     public static final String IF_MODIFIED_SINCE = "If-Modified-Since";
+    public static final String CONTENT_TYPE_JSON = "application/json";
+
+    public static final int STATUS_CODE_OK = 200;
+    public static final int STATUS_CODE_CREATED = 201;
+    public static final int STATUS_CODE_NOT_MODIFIED = 304;
 
     // File name related constants
     public static final String ROUTES = "routes";
@@ -31,7 +36,7 @@ public class Constants {
     public static final String ASSETS_FILE_NAME = "assets.json";
     public static final String POINTS = "points";
     public static final String POINTS_FILE_NAME = "points.json";
-    public static final String RECORD = "record";
+    public static final String RESULTS = "results.json";
     public static final String RECORD_FILE_NAME = "record.json";
 
     // Asset related constants
