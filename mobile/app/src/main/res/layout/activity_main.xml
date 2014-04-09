@@ -28,7 +28,7 @@
             android:orientation="vertical"
             android:clickable="true"
             android:text="@string/notification"
-            android:drawableTop="@drawable/comment"
+            android:drawableTop="@drawable/mail"
             android:background="@drawable/screen_background"
             android:textColor="@color/white"
             android:gravity="center">

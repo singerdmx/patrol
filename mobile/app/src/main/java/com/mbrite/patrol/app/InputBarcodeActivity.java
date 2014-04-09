@@ -12,7 +12,7 @@ import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.content.providers.*;
 import com.mbrite.patrol.model.Asset;
 
-public class InputBarcodeActivity extends ParentActivity {
+public class InputBarcodeActivity extends BarcodeParentActivity {
 
     private EditText barcodeText;
 

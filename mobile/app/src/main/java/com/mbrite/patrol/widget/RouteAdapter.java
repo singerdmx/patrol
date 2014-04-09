@@ -41,7 +41,7 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         Route route = itemsArrayList.get(position);
         try {
             Record record = RecordProvider.INSTANCE.get(context);
-            if (record.check_route_id == route.id) {
+            if (record != null && record.getRouteId() == route.id) {
                 rowView.setBackgroundResource(R.drawable.alterselector2);
                 icon.setImageResource(R.drawable.spanner);
             } else {

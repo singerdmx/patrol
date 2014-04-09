@@ -7,8 +7,12 @@ import android.app.*;
 import android.content.*;
 import android.widget.Toast;
 
+import com.mbrite.patrol.app.MainActivity;
 import com.mbrite.patrol.app.R;
+import com.mbrite.patrol.app.UploadTask;
 import com.mbrite.patrol.connection.RestClient;
+import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.Record;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -170,4 +174,26 @@ public class Utils {
         }
         return null;
     }
+
+    public static void updateRecordFiles(Activity activity)
+            throws JSONException, URISyntaxException, IOException {
+        boolean updated = Utils.updateSavedFile(activity, Constants.ROUTES, Constants.ROUTES_FILE_NAME) ||
+                Utils.updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME) ||
+                Utils.updateSavedFile(activity, Constants.POINTS, Constants.POINTS_FILE_NAME);
+
+        if (updated) {
+            Toast.makeText(
+                    activity,
+                    R.string.update_complete,
+                    Toast.LENGTH_LONG)
+                    .show();
+        } else {
+            Toast.makeText(
+                    activity,
+                    R.string.no_update,
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
 }

@@ -63,7 +63,9 @@ public class RoutesFragment extends ParentFragment {
 
         try {
             Record record = RecordProvider.INSTANCE.get(getActivity());
-            switchRoute = record.check_route_id != -1 && record.check_route_id != route.id;
+            if (record != null) {
+                switchRoute = record.getRouteId() != route.id;
+            }
             if (switchRoute) {
                 message = String.format(getString(R.string.confirm_new_route), route.description);
             }
@@ -84,8 +86,9 @@ public class RoutesFragment extends ParentFragment {
                                RecordProvider.INSTANCE.reset(getActivity());
                            }
                            Record record = RecordProvider.INSTANCE.get(getActivity());
-                           record.check_route_id = route.id;
-                           RecordProvider.INSTANCE.save(getActivity(), record);
+                           if (record == null) {
+                               RecordProvider.INSTANCE.create(getActivity(), route.id);
+                           }
                            Tracker.INSTANCE.assetIds = route.assets;
                            Intent intent = new Intent(getActivity(), AssetsActivity.class);
                            startActivity(intent);

@@ -54,7 +54,7 @@
     <string name="barcode">编码</string>
     <string name="manual_input">手动输入</string>
     <string name="error_incorrect_barcode">编码不相符</string>
-    <string name="error_incomplete_assets">有未完成的设备！</string>
+    <string name="error_incomplete_assets">有未完成的数据，不可上传！</string>
     <string name="complete_patrol">完成巡检</string>
     <string name="upload_data">上传所有数据？</string>
     <string name="error_upload">%s条纪录上传失败</string>

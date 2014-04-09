@@ -9,8 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mbrite.patrol.common.*;
+import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.Record;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -68,32 +70,7 @@ public class MainActivity extends Activity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    boolean updated = Utils.updateSavedFile(MainActivity.this, Constants.ROUTES, Constants.ROUTES_FILE_NAME) ||
-                            Utils.updateSavedFile(MainActivity.this, Constants.ASSETS, Constants.ASSETS_FILE_NAME) ||
-                            Utils.updateSavedFile(MainActivity.this, Constants.POINTS, Constants.POINTS_FILE_NAME);
-
-                    if (updated) {
-                        Toast.makeText(
-                                MainActivity.this,
-                                R.string.update_complete,
-                                Toast.LENGTH_LONG)
-                                .show();
-                    } else {
-                        Toast.makeText(
-                                MainActivity.this,
-                                R.string.no_update,
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                } catch (Exception ex) {
-                    refresh.setError(ex.getLocalizedMessage());
-                    Toast.makeText(
-                            MainActivity.this,
-                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
+                uploadRecords(MainActivity.this, true);
             };
         });
     }

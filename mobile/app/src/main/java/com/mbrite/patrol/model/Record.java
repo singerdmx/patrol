@@ -11,7 +11,7 @@ public class Record {
 
     final public String user;
 
-    public int check_route_id;
+    private int check_route_id;
 
     public List<AssetRecord> assets;
 
@@ -19,10 +19,14 @@ public class Record {
 
     public long end_time;
 
-    public Record(String username) {
+    public Record(String username, int routeId) {
         session = UUID.randomUUID().toString();
         this.user = username;
-        check_route_id = -1;
+        check_route_id = routeId;
         assets = new ArrayList<AssetRecord>();
+    }
+
+    public int getRouteId() {
+        return check_route_id;
     }
 }

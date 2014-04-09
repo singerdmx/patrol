@@ -69,20 +69,23 @@ public enum RecordProvider {
      */
     public Record get(Activity activity)
         throws IOException {
-        if (record == null) {
-            if (FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
-                try {
-                    record = getRecord(activity, Constants.RECORD_FILE_NAME);
-                    return record;
-                } catch (JsonSyntaxException ex) {
-                    reset(activity);
-                }
+        if (record == null && FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
+            try {
+                record = getRecord(activity, Constants.RECORD_FILE_NAME);
+                return record;
+            } catch (JsonSyntaxException ex) {
+                reset(activity);
             }
-
-            record = new Record(Utils.getSavedUsernameAndPassword(activity)[0]);
-            record.start_time =  System.currentTimeMillis()/1000;
         }
 
+        return record;
+    }
+
+    public Record create(Activity activity, int routeId)
+        throws IOException {
+        record = new Record(Utils.getSavedUsernameAndPassword(activity)[0], routeId);
+        record.start_time =  System.currentTimeMillis()/1000;
+        save(activity);
         return record;
     }
 
