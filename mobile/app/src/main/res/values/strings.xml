@@ -42,6 +42,8 @@
     <string name="confirm_route">Confirm Route</string>
     <string name="selected_route">Selected Route: %s</string>
     <string name="confirm_new_route">Change to new route: %s\nCurrent saved data will be gone!</string>
+    <string name="no_update">No Update</string>
+    <string name="update_complete">Update is complete</string>
 
     <!-- Strings related to asset -->
     <string name="asset">Asset</string>

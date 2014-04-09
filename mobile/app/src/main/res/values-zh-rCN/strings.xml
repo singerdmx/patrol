@@ -43,6 +43,8 @@
     <string name="confirm_route">确认路线</string>
     <string name="selected_route">选定的路线：%s</string>
     <string name="confirm_new_route">换为新路线: %s\n正在进行的路线的数据将会丢失！</string>
+    <string name="no_update">没有更新</string>
+    <string name="update_complete">更新已完成</string>
 
     <!-- Strings related to asset -->
     <string name="asset">设备</string>

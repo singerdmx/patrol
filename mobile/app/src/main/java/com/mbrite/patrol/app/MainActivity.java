@@ -19,21 +19,7 @@ public class MainActivity extends Activity {
         Log.d(TAG, "started");
         setContentView(R.layout.activity_main);
         setupNotification();
-    }
-
-    private void setupNotification() {
-        TextView notification = (TextView) findViewById(R.id.notification);
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Show notification
-                Toast.makeText(
-                        MainActivity.this,
-                        "Show notification",
-                        Toast.LENGTH_LONG)
-                        .show();
-            };
-        });
+        setupSynchronizeDate();
     }
 
     // Called to lazily initialize the action bar
@@ -58,5 +44,57 @@ public class MainActivity extends Activity {
             default:
                 return false;
         }
+    }
+
+    private void setupNotification() {
+        final TextView notification = (TextView) findViewById(R.id.notification);
+        notification.setTextColor(Utils.getColorStateList(this, R.drawable.textview_alter_selector));
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Show notification
+                Toast.makeText(
+                        MainActivity.this,
+                        "Show notification",
+                        Toast.LENGTH_LONG)
+                        .show();
+            };
+        });
+    }
+
+    private void setupSynchronizeDate() {
+        final TextView refresh = (TextView) findViewById(R.id.refresh);
+        refresh.setTextColor(Utils.getColorStateList(this, R.drawable.textview_alter_selector));
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    boolean updated = Utils.updateSavedFile(MainActivity.this, Constants.ROUTES, Constants.ROUTES_FILE_NAME) ||
+                            Utils.updateSavedFile(MainActivity.this, Constants.ASSETS, Constants.ASSETS_FILE_NAME) ||
+                            Utils.updateSavedFile(MainActivity.this, Constants.POINTS, Constants.POINTS_FILE_NAME);
+
+                    if (updated) {
+                        Toast.makeText(
+                                MainActivity.this,
+                                R.string.update_complete,
+                                Toast.LENGTH_LONG)
+                                .show();
+                    } else {
+                        Toast.makeText(
+                                MainActivity.this,
+                                R.string.no_update,
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                } catch (Exception ex) {
+                    refresh.setError(ex.getLocalizedMessage());
+                    Toast.makeText(
+                            MainActivity.this,
+                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+            };
+        });
     }
 }

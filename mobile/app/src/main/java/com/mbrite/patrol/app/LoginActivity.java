@@ -210,9 +210,9 @@ public class LoginActivity extends Activity {
             if (success) {
                 try {
                     Utils.savedUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
-                    updateSavedFile(Constants.ROUTES, Constants.ROUTES_FILE_NAME);
-                    updateSavedFile(Constants.ASSETS, Constants.ASSETS_FILE_NAME);
-                    updateSavedFile(Constants.POINTS, Constants.POINTS_FILE_NAME);
+                    Utils.updateSavedFile(LoginActivity.this, Constants.ROUTES, Constants.ROUTES_FILE_NAME);
+                    Utils.updateSavedFile(LoginActivity.this, Constants.ASSETS, Constants.ASSETS_FILE_NAME);
+                    Utils.updateSavedFile(LoginActivity.this, Constants.POINTS, Constants.POINTS_FILE_NAME);
                     startActivity(new Intent("com.mbrite.patrol.app.action.main"));
                 } catch (JSONException ex) {
                     mSignInButton.setError(ex.getLocalizedMessage());
@@ -255,46 +255,6 @@ public class LoginActivity extends Activity {
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
-        }
-
-        private void updateSavedFile (String type, String fileName)
-                throws JSONException, URISyntaxException, IOException {
-            Map<String, String> headers = null;
-            if (FileMgr.exists(LoginActivity.this, fileName)) {
-                JSONObject savedRoutes = new JSONObject(FileMgr.read(LoginActivity.this, fileName));
-                if (savedRoutes.has(Constants.IF_MODIFIED_SINCE) && savedRoutes.has(Constants.IF_NONE_MATCH)) {
-                    headers = new HashMap<String, String>();
-                    headers.put(Constants.IF_NONE_MATCH, savedRoutes.getString(Constants.IF_NONE_MATCH));
-                    headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
-                }
-            }
-            HttpResponse response = RestClient.INSTANCE
-                                        .get(LoginActivity.this,
-                                                String.format("%s.json", type),
-                                                headers);
-            int statusCode = response.getStatusLine().getStatusCode();
-            switch (statusCode) {
-                case Constants.STATUS_CODE_OK:
-                    // update file
-                    String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
-                    JSONArray responseData = new JSONArray(responseContent);
-                    JSONObject data = new JSONObject();
-                    data.put(type, responseData);
-                    Header ifNoneMatch = response.getFirstHeader(Constants.ETAG);
-                    Header ifModifiedSince= response.getFirstHeader(Constants.LAST_MODIFIED);
-                    if (ifNoneMatch != null && ifModifiedSince != null) {
-                        data.put(Constants.IF_NONE_MATCH, ifNoneMatch.getValue());
-                        data.put(Constants.IF_MODIFIED_SINCE, ifModifiedSince.getValue());
-                    }
-                    FileMgr.write(LoginActivity.this, fileName, data.toString());
-                    break;
-                case Constants.STATUS_CODE_NOT_MODIFIED:
-                    // Not Modified
-                    break;
-                default:
-                    throw new HttpResponseException(statusCode,
-                            "Error occurred for GET request: " + type);
-            }
         }
     }
 }
