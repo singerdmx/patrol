@@ -194,6 +194,16 @@ public class Utils {
                     Toast.LENGTH_LONG)
                     .show();
         }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+
+        }
+        Intent intent = new Intent(activity, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
+        activity.finish();
     }
 
 }

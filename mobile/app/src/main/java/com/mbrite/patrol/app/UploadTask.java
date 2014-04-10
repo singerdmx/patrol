@@ -86,11 +86,12 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                 RecordProvider.INSTANCE.reset(activity);
                 if (updateRecordFiles) {
                     Utils.updateRecordFiles(activity);
+                } else {
+                    Intent intent = new Intent(activity, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    activity.startActivity(intent);
+                    activity.finish();
                 }
-                Intent intent = new Intent(activity, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                activity.startActivity(intent);
-                activity.finish();
             } catch (Exception ex) {
                 Toast.makeText(
                         activity.getApplicationContext(),
