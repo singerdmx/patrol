@@ -23,6 +23,8 @@
     <string name="please_wait">请稍等。。。</string>
     <string name="notification">通知</string>
     <string name="synchronize_data">同步数据</string>
+    <string name="start_patrol">开始巡检</string>
+    <string name="comma">，</string>
 
     <!-- Strings related to settings -->
     <string name="site_url">网址</string>

@@ -1,6 +1,7 @@
 package com.mbrite.patrol.app;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.*;
 import android.content.Intent;
@@ -10,7 +11,10 @@ import android.widget.Toast;
 
 import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.Record;
+import com.mbrite.patrol.model.*;
+
+import org.apache.commons.lang3.*;
+import java.util.*;
 
 public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -22,6 +26,7 @@ public class MainActivity extends ParentActivity {
         setContentView(R.layout.activity_main);
         setupNotification();
         setupSynchronizeDate();
+        setupStartPatrol();
     }
 
     // Called to lazily initialize the action bar
@@ -71,6 +76,55 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 uploadRecords(MainActivity.this, true);
+            };
+        });
+    }
+
+    private void setupStartPatrol() {
+        final TextView start = (TextView) findViewById(R.id.start);
+        start.setTextColor(Utils.getColorStateList(this, R.drawable.textview_alter_selector));
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                RoutesFragment fragment = (RoutesFragment) getFragmentManager().findFragmentById(R.id.routes);
+                final ArrayList<Route> selectedRoutes = new ArrayList<Route>();
+                List<String> selectedRoutesString = new ArrayList<String>();
+                for (Route route : fragment.getRoutes()) {
+                    if (route.isSelected()) {
+                        selectedRoutes.add(route);
+                        selectedRoutesString.add(route.description);
+                    }
+                }
+
+                String message = String.format(getString(R.string.selected_route),
+                        StringUtils.join(selectedRoutesString, getString(R.string.comma)));
+
+                builder.setMessage(message)
+                        .setTitle(R.string.confirm_route)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                try {
+                                    // TODO: update record
+                                    Intent intent = new Intent(MainActivity.this, AssetsActivity.class);
+                                    startActivity(intent);
+                                }  catch (Exception ex) {
+                                    Toast.makeText(
+                                            MainActivity.this,
+                                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             };
         });
     }

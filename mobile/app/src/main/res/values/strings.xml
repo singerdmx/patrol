@@ -23,6 +23,8 @@
     <string name="please_wait">Please wait...</string>
     <string name="notification">Notification</string>
     <string name="synchronize_data">Synchronize Data</string>
+    <string name="start_patrol">Start Patrol</string>
+    <string name="comma">, </string>
 
     <!-- Strings related to settings -->
     <string name="site_url">Site URL</string>

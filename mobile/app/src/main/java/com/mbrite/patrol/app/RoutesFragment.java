@@ -21,8 +21,6 @@ public class RoutesFragment extends ParentFragment {
 
     private ArrayList<Route> routes = new ArrayList<Route>();
 
-    private boolean switchRoute;
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -54,59 +52,7 @@ public class RoutesFragment extends ParentFragment {
         setListAdapter(adapter);
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, final int position, long id) {
-        Log.d(TAG, "ROW ID: " + id);
-        final Route route = (Route) getListAdapter().getItem(position);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        String message = String.format(getString(R.string.selected_route), route.description);
-
-        try {
-            Record record = RecordProvider.INSTANCE.get(getActivity());
-            if (record != null) {
-                switchRoute = record.getRouteId() != route.id;
-            }
-            if (switchRoute) {
-                message = String.format(getString(R.string.confirm_new_route), route.description);
-            }
-        } catch (Exception ex) {
-            Toast.makeText(
-                    getActivity(),
-                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
-        builder.setMessage(message)
-               .setTitle(R.string.confirm_route)
-               .setCancelable(false)
-               .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                       try {
-                           if (switchRoute) {
-                               RecordProvider.INSTANCE.reset(getActivity());
-                           }
-                           Record record = RecordProvider.INSTANCE.get(getActivity());
-                           if (record == null) {
-                               RecordProvider.INSTANCE.create(getActivity(), route.id);
-                           }
-                           Tracker.INSTANCE.assetIds = route.assets;
-                           Intent intent = new Intent(getActivity(), AssetsActivity.class);
-                           startActivity(intent);
-                       }  catch (Exception ex) {
-                           Toast.makeText(
-                                   getActivity(),
-                                   String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                                   Toast.LENGTH_LONG)
-                                   .show();
-                       }
-                   }
-               })
-               .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                       dialog.cancel();
-                   }
-               });
-        AlertDialog alert = builder.create();
-        alert.show();
+    public ArrayList<Route> getRoutes() {
+        return routes;
     }
 }

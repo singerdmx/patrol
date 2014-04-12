@@ -7,14 +7,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.mbrite.patrol.app.*;
-import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.Record;
 import com.mbrite.patrol.model.Route;
 
 public class RouteAdapter extends ArrayAdapter<Route> {
@@ -30,37 +25,49 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         this.itemsArrayList = itemsArrayList;
     }
 
+    static class ViewHolder {
+        protected TextView text;
+        protected CheckBox checkbox;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        // Get rowView from inflater
-        View rowView = inflater.inflate(R.layout.activity_list_item_route, parent, false);
-        ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
+        View rowView = null;
         Route route = itemsArrayList.get(position);
-        try {
-            Record record = RecordProvider.INSTANCE.get(context);
-            if (record != null && record.getRouteId() == route.id) {
-                rowView.setBackgroundResource(R.drawable.alterselector2);
-                icon.setImageResource(R.drawable.spanner);
-            } else {
-                icon.setImageResource(R.drawable.blank);
-            }
-        } catch (Exception ex) {
-            Toast.makeText(
-                    context,
-                    String.format("Error: %s", ex.getLocalizedMessage()),
-                    Toast.LENGTH_LONG)
-                    .show();
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            // Get rowView from inflater
+            rowView = inflater.inflate(R.layout.activity_list_item_route, parent, false);
+            final View view = rowView;
+            final ViewHolder viewHolder = new ViewHolder();
+            viewHolder.text = (TextView) rowView.findViewById(R.id.label);
+            viewHolder.checkbox = (CheckBox) rowView.findViewById(R.id.check);
+            viewHolder.checkbox
+                    .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView,
+                                                     boolean isChecked) {
+                            Route element = (Route) viewHolder.checkbox
+                                    .getTag();
+                            element.setSelected(buttonView.isChecked());
+                            if (buttonView.isChecked()) {
+                                view.setBackgroundResource(R.drawable.alterselector2);
+                            } else {
+                                view.setBackgroundResource(R.drawable.alterselector1);
+                            }
+                        }
+                    });
+            rowView.setTag(viewHolder);
+            viewHolder.checkbox.setTag(route);
+        } else {
+            rowView = convertView;
+            ((ViewHolder) rowView.getTag()).checkbox.setTag(route);
         }
-
-        // Get the text view from the rowView
-        TextView labelView = (TextView) rowView.findViewById(R.id.label);
-
-        // Set the text for textView
-        labelView.setText(itemsArrayList.get(position).description);
-
+        ViewHolder holder = (ViewHolder) rowView.getTag();
+        holder.text.setText(route.description);
+        holder.checkbox.setChecked(itemsArrayList.get(position).isSelected());
         return rowView;
     }
 }
