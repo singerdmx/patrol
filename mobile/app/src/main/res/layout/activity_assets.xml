@@ -14,7 +14,8 @@
         android:name="com.mbrite.patrol.app.AssetsFragment"
         android:id="@+id/assets"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/footer"/>
 
     <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:orientation="horizontal"

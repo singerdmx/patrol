@@ -1,16 +1,10 @@
 package com.mbrite.patrol.app;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.mbrite.patrol.common.*;
-import com.mbrite.patrol.content.providers.*;
-import com.mbrite.patrol.model.Asset;
 
 public class InputBarcodeActivity extends BarcodeParentActivity {
 
@@ -21,8 +15,6 @@ public class InputBarcodeActivity extends BarcodeParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_barcode);
 
-        Bundle extras = getIntent().getExtras();
-        final String targetBarcode = extras == null ? null : extras.getString(Constants.BARCODE);
         barcodeText = (EditText) findViewById(R.id.barcode);
         final Button submitButton = (Button) findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -30,7 +22,7 @@ public class InputBarcodeActivity extends BarcodeParentActivity {
             public void onClick(View view) {
                 String barcode = barcodeText.getText().toString();
                 try {
-                    checkBarcode(InputBarcodeActivity.this, barcode, targetBarcode);
+                    checkBarcode(InputBarcodeActivity.this, barcode);
                 } catch (Exception ex) {
                     submitButton.setError(ex.getLocalizedMessage());
                     Toast.makeText(

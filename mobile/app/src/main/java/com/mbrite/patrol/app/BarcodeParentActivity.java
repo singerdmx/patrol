@@ -2,6 +2,7 @@ package com.mbrite.patrol.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Tracker;
@@ -21,8 +22,10 @@ public class BarcodeParentActivity extends Activity {
     /**
      * Shared by InputBarcodeActivity and ScanBarcodeActivity
      */
-    protected void checkBarcode(Activity activity, String barcode, String targetBarcode)
+    protected void checkBarcode(Activity activity, String barcode)
         throws IOException, JSONException {
+        Bundle extras = getIntent().getExtras();
+        String targetBarcode = extras == null ? null : extras.getString(Constants.BARCODE);
         if (targetBarcode != null) {
             // verify barcode
             if (!targetBarcode.equals(barcode)) {
