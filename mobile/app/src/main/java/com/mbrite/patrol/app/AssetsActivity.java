@@ -96,7 +96,7 @@ public class AssetsActivity extends ParentActivity {
                 new AlertDialog.Builder(AssetsActivity.this)
                         .setTitle(getString(R.string.manual_input_barcode))
                         .setView(input)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String value = input.getText().toString();
                                 Toast.makeText(
@@ -105,7 +105,7 @@ public class AssetsActivity extends ParentActivity {
                                         Toast.LENGTH_LONG)
                                         .show();
                             }
-                        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 // Do nothing.
                             }
