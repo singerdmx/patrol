@@ -6,6 +6,7 @@ public class Asset {
     public final String serialNum;
     public final String barcode;
     public int[] points;
+    public int routeId = -1;
 
     public Asset(int id, String description, String serialNum, String barcode) {
         this.id = id;

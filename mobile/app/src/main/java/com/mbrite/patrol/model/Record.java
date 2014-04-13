@@ -11,22 +11,15 @@ public class Record {
 
     final public String user;
 
-    private int check_route_id;
-
-    public List<AssetRecord> assets;
+    public List<RouteRecord> routes;
 
     public long start_time;
 
     public long end_time;
 
-    public Record(String username, int routeId) {
+    public Record(String username) {
         session = UUID.randomUUID().toString();
         this.user = username;
-        check_route_id = routeId;
-        assets = new ArrayList<AssetRecord>();
-    }
-
-    public int getRouteId() {
-        return check_route_id;
+        routes = new ArrayList<RouteRecord>();
     }
 }

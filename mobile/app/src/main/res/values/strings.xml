@@ -46,6 +46,7 @@
     <string name="confirm_new_route">Change to new route: %s\nCurrent saved data will be gone!</string>
     <string name="no_update">No Update</string>
     <string name="update_complete">Update is complete</string>
+    <string name="no_route">No route is selected!</string>
 
     <!-- Strings related to asset -->
     <string name="asset">Asset</string>
@@ -60,6 +61,7 @@
     <string name="upload_data">Upload all data?</string>
     <string name="error_upload">Failed to upload %s records</string>
     <string name="upload_success">Successfully uploaded %s records</string>
+    <string name="manual_input_barcode">Please manually enter barcode</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">Return to Asset List</string>

@@ -97,6 +97,15 @@ public class MainActivity extends ParentActivity {
                     }
                 }
 
+                if (selectedRoutes.isEmpty()) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            getString(R.string.no_route),
+                            Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
+
                 String message = String.format(getString(R.string.selected_route),
                         StringUtils.join(selectedRoutesString, getString(R.string.comma)));
 
@@ -106,10 +115,19 @@ public class MainActivity extends ParentActivity {
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 try {
-                                    // TODO: update record
+                                    Record record = RecordProvider.INSTANCE.get(MainActivity.this);
+                                    if (record == null) {
+                                        RecordProvider.INSTANCE.create(MainActivity.this);
+                                    }
+                                    RecordProvider.INSTANCE.setRoutes(selectedRoutes, MainActivity.this);
+                                    Tracker.INSTANCE.routeGroups = new ArrayList<RouteGroup>(selectedRoutes.size());
+                                    for (Route route : selectedRoutes) {
+                                        Tracker.INSTANCE.routeGroups.add(new RouteGroup(route, MainActivity.this));
+                                    }
                                     Intent intent = new Intent(MainActivity.this, AssetsActivity.class);
                                     startActivity(intent);
-                                }  catch (Exception ex) {
+                                    finish();
+                                } catch (Exception ex) {
                                     Toast.makeText(
                                             MainActivity.this,
                                             String.format(getString(R.string.error_of), ex.getLocalizedMessage()),

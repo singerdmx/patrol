@@ -22,6 +22,11 @@ public enum RecordProvider {
     private Gson gson = new Gson();
 
     /**
+     * Keep track of current route record being operated on
+     */
+    public RouteRecord currentRouteRecord;
+
+    /**
      * Keep track of current asset record being operated on
      */
     public AssetRecord currentAssetRecord;
@@ -81,9 +86,9 @@ public enum RecordProvider {
         return record;
     }
 
-    public Record create(Activity activity, int routeId)
+    public Record create(Activity activity)
         throws IOException {
-        record = new Record(Utils.getSavedUsernameAndPassword(activity)[0], routeId);
+        record = new Record(Utils.getSavedUsernameAndPassword(activity)[0]);
         record.start_time =  System.currentTimeMillis()/1000;
         save(activity);
         return record;
@@ -100,13 +105,32 @@ public enum RecordProvider {
         save(activity);
     }
 
+    public void setRoutes(List<Route> routes, Activity activity)
+        throws IOException {
+        record.routes = new ArrayList<RouteRecord>();
+        for (Route route : routes) {
+            record.routes.add(new RouteRecord(route.id, route.description));
+        }
+        save(activity);
+    }
+
+    public void setCurrentRouteRecord(int routeId) {
+        for (RouteRecord routeRecord : record.routes) {
+            if (routeRecord.id == routeId) {
+                currentRouteRecord = routeRecord;
+            }
+        }
+
+        throw new IllegalArgumentException(String.format("Invalid route ID: %s", routeId));
+    }
+
     /**
      * Add the specified asset to {@code assets} if it is not present.
      * @return true if the asset was added, else false
      */
     public boolean offerAsset(Activity activity, int assetId)
             throws IOException {
-        for (AssetRecord ar : record.assets) {
+        for (AssetRecord ar : currentRouteRecord.assets) {
             if (ar.id == assetId) {
                 currentAssetRecord = ar;
                 return false;
@@ -115,7 +139,7 @@ public enum RecordProvider {
 
         AssetRecord newAssetRecord = new AssetRecord(assetId);
         currentAssetRecord = newAssetRecord;
-        record.assets.add(newAssetRecord);
+        currentRouteRecord.assets.add(newAssetRecord);
         save(activity, record);
         return true;
     }
@@ -154,7 +178,7 @@ public enum RecordProvider {
         RecordState state = new RecordState();
         Asset asset = AssetProvider.INSTANCE.getAsset(activity, assetId);
         AssetRecord assetRecord = null;
-        for (AssetRecord ar : record.assets) {
+        for (AssetRecord ar : currentRouteRecord.assets) {
             if (ar.id == assetId) {
                 assetRecord = ar;
                 break;
