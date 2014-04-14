@@ -5,14 +5,12 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.app.*;
 import android.content.*;
-import android.widget.Toast;
+import android.widget.*;
+import android.net.*;
 
 import com.mbrite.patrol.app.MainActivity;
 import com.mbrite.patrol.app.R;
-import com.mbrite.patrol.app.UploadTask;
 import com.mbrite.patrol.connection.RestClient;
-import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.Record;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -41,6 +39,11 @@ public class Utils {
         config.locale = locale;
         context.getResources().updateConfiguration(config,
                                                    context.getResources().getDisplayMetrics());
+    }
+
+    public static boolean isNetworkConnected(Activity activity) {
+        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 
     public static boolean isValidUsernameAndPassword(String username, String password) {

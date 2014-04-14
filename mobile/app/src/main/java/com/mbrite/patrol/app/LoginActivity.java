@@ -19,16 +19,10 @@ import android.widget.*;
 import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.connection.RestClient;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpResponseException;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.apache.http.*;
 
 import java.net.URISyntaxException;
 import java.io.*;
-import java.util.*;
 
 /**
  * A login screen that offers login via username/password.
@@ -113,6 +107,15 @@ public class LoginActivity extends Activity {
      */
     private void attemptLogin() {
         if (mAuthTask != null) {
+            return;
+        }
+
+        if (!Utils.isNetworkConnected(this)) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.error_no_network),
+                    Toast.LENGTH_LONG)
+                    .show();
             return;
         }
 
