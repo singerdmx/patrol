@@ -65,6 +65,7 @@
     <string name="error_upload">%s条纪录上传失败</string>
     <string name="upload_success">成功上传了%s条纪录</string>
     <string name="manual_input_barcode">请手动输入编码</string>
+    <string name="not_scanned">扫描没有完成</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">返回到设备列表</string>

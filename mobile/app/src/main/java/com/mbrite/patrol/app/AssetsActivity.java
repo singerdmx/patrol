@@ -13,6 +13,7 @@ import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Asset;
+import com.mbrite.patrol.model.AssetGroup;
 import com.mbrite.patrol.widget.AssetAdapter;
 
 import org.json.JSONException;
@@ -74,8 +75,21 @@ public class AssetsActivity extends ParentActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK) {
-            Log.i(TAG, scanResult.getFormatName());
-            Log.i(TAG, scanResult.toString());
+            try {
+                checkBarcode(scanResult.getContents());
+            } catch (Exception ex) {
+                Toast.makeText(
+                        this,
+                        String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+        } else {
+            Toast.makeText(
+                    this,
+                    getString(R.string.not_scanned),
+                    Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -85,6 +99,7 @@ public class AssetsActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 Tracker.INSTANCE.targetBarcode = null;
+                Tracker.INSTANCE.setAssetIds(null); // reset available assetIds to be all assets from all routes
                 IntentIntegrator integrator = new IntentIntegrator(AssetsActivity.this);
                 integrator.initiateScan();
             }
@@ -97,6 +112,7 @@ public class AssetsActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 Tracker.INSTANCE.targetBarcode = null;
+                Tracker.INSTANCE.setAssetIds(null); // reset available assetIds to be all assets from all routes
                 final EditText input = new EditText(AssetsActivity.this);
                 new AlertDialog.Builder(AssetsActivity.this)
                         .setTitle(getString(R.string.manual_input_barcode))
@@ -104,11 +120,15 @@ public class AssetsActivity extends ParentActivity {
                         .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String value = input.getText().toString();
-                                Toast.makeText(
-                                        AssetsActivity.this,
-                                        value,
-                                        Toast.LENGTH_LONG)
-                                        .show();
+                                try {
+                                    checkBarcode(value);
+                                } catch (Exception ex) {
+                                    Toast.makeText(
+                                            AssetsActivity.this,
+                                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }
                             }
                         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -139,10 +159,11 @@ public class AssetsActivity extends ParentActivity {
             }
         }
 
-        Asset asset = Tracker.INSTANCE.getAsset(barcode);
+        AssetGroup asset = Tracker.INSTANCE.getAsset(barcode);
         if (asset == null) {
             throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
         }
+        RecordProvider.INSTANCE.setCurrentRouteRecord(asset.routeId);
         RecordProvider.INSTANCE.offerAsset(this, asset.id);
 //        Intent intent = new Intent(this, PointsActivity.class);
 //        intent.putExtra(Constants.POINTS, asset.points);

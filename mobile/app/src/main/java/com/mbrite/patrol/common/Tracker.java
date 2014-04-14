@@ -41,10 +41,11 @@ public enum  Tracker {
         }
     }
 
-    public void setAssetIds(int routeId) {
+    public void setAssetIds(Integer routeId) {
         Set<Integer> result = new TreeSet<>();
         for (RouteGroup routeGroup : routeGroups) {
-            if (routeGroup.id == routeId) {
+            if (routeId == null || routeGroup.id == routeId) {
+                // If routeId is null, set available assetIds to be all assets from all routes
                 result.addAll(routeGroup.assets);
             }
         }

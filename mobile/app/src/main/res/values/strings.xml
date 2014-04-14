@@ -64,6 +64,7 @@
     <string name="error_upload">Failed to upload %s records</string>
     <string name="upload_success">Successfully uploaded %s records</string>
     <string name="manual_input_barcode">Please manually enter barcode</string>
+    <string name="not_scanned">Not scanned</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">Return to Asset List</string>

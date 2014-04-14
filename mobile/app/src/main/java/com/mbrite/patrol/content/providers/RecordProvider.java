@@ -116,6 +116,7 @@ public enum RecordProvider {
         for (RouteRecord routeRecord : record.routes) {
             if (routeRecord.id == routeId) {
                 currentRouteRecord = routeRecord;
+                return;
             }
         }
 

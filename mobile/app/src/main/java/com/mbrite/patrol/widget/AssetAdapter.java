@@ -52,11 +52,18 @@ public class AssetAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RecordProvider.INSTANCE.setCurrentRouteRecord(asset.routeId);
-                Tracker.INSTANCE.setAssetIds(asset.routeId);
-                Tracker.INSTANCE.targetBarcode = asset.barcode;
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.initiateScan();
+                try {
+                    Tracker.INSTANCE.setAssetIds(asset.routeId);
+                    Tracker.INSTANCE.targetBarcode = asset.barcode;
+                    IntentIntegrator integrator = new IntentIntegrator(activity);
+                    integrator.initiateScan();
+                } catch (Exception ex) {
+                    Toast.makeText(
+                            activity,
+                            String.format(activity.getString(R.string.error_of), ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
         return convertView;
