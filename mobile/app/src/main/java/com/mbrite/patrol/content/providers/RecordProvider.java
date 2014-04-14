@@ -84,9 +84,9 @@ public enum RecordProvider {
         return record;
     }
 
-    public Record create(Activity activity)
+    public Record create(Activity activity, String userName)
         throws IOException {
-        record = new Record(Utils.getSavedUsernameAndPassword(activity)[0]);
+        record = new Record(userName);
         record.start_time =  System.currentTimeMillis()/1000;
         save(activity);
         return record;

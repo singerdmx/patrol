@@ -11,6 +11,8 @@ public class Record {
 
     final public String user;
 
+    private String submitter;
+
     public List<RouteRecord> routes;
 
     public long start_time;
@@ -22,4 +24,8 @@ public class Record {
         this.user = username;
         routes = new ArrayList<RouteRecord>();
     }
+    public void setSubmitter(String submitter) {
+        this.submitter = submitter;
+    }
+
 }

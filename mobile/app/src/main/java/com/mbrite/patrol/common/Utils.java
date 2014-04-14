@@ -55,7 +55,7 @@ public class Utils {
         return true;
     }
 
-    public static void savedUsernameAndPassword(Activity activity, String username, String password) {
+    public static void saveUsernameAndPassword(Activity activity, String username, String password) {
         SharedPreferences sharedPref = activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor

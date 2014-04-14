@@ -18,6 +18,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.connection.RestClient;
+import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.Record;
 
 import org.json.JSONException;
 
@@ -212,10 +214,14 @@ public class LoginActivity extends Activity {
 
             if (success) {
                 try {
-                    Utils.savedUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
-                    Utils.updateSavedFile(LoginActivity.this, Constants.ROUTES, Constants.ROUTES_FILE_NAME);
-                    Utils.updateSavedFile(LoginActivity.this, Constants.ASSETS, Constants.ASSETS_FILE_NAME);
-                    Utils.updateSavedFile(LoginActivity.this, Constants.POINTS, Constants.POINTS_FILE_NAME);
+                    Utils.saveUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
+                    Record record = RecordProvider.INSTANCE.get(LoginActivity.this);
+                    if (record == null) {
+                        // If there is open record in progress, DO NOT update
+                        Utils.updateSavedFile(LoginActivity.this, Constants.ROUTES, Constants.ROUTES_FILE_NAME);
+                        Utils.updateSavedFile(LoginActivity.this, Constants.ASSETS, Constants.ASSETS_FILE_NAME);
+                        Utils.updateSavedFile(LoginActivity.this, Constants.POINTS, Constants.POINTS_FILE_NAME);
+                    }
                     startActivity(new Intent("com.mbrite.patrol.app.action.main"));
                 } catch (JSONException ex) {
                     mSignInButton.setError(ex.getLocalizedMessage());

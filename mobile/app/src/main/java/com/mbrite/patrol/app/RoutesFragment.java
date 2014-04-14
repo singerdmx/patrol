@@ -27,7 +27,7 @@ public class RoutesFragment extends ParentFragment {
         setDivider();
 
         try {
-            this.routes = RouteProvider.INSTANCE.getRoutes(getActivity());
+            routes = RouteProvider.INSTANCE.getRoutes(getActivity());
         }catch (JSONException ex) {
             Toast.makeText(
                     getActivity(),
@@ -37,7 +37,7 @@ public class RoutesFragment extends ParentFragment {
         } catch (Exception ex) {
             Toast.makeText(
                     getActivity(),
-                    String.format("Error: %s", ex.getLocalizedMessage()),
+                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
                     Toast.LENGTH_LONG)
                     .show();
         }
@@ -46,10 +46,37 @@ public class RoutesFragment extends ParentFragment {
     @Override
     public void onResume() {
         super.onResume();
-        RouteAdapter adapter = new RouteAdapter(
-                getActivity(),
-                this.routes);
-        setListAdapter(adapter);
+        try {
+            Record record = RecordProvider.INSTANCE.get(getActivity());
+            if (record != null) {
+                Set<Integer> selectedRouteIndexes = new TreeSet<>();
+                for (RouteRecord routeRecord : record.routes) {
+                    selectedRouteIndexes.add(routeRecord.id);
+                }
+
+                ArrayList<Route> selectedRoutes  = new ArrayList<>();
+                for (Route route : routes) {
+                    if (selectedRouteIndexes.contains(route.id)) {
+                        selectedRoutes.add(route);
+                    }
+                }
+                Tracker.INSTANCE.createRouteGroups(selectedRoutes, getActivity());
+                Intent intent = new Intent(getActivity(), AssetsActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            } else {
+                RouteAdapter adapter = new RouteAdapter(
+                        getActivity(),
+                        routes);
+                setListAdapter(adapter);
+            }
+        } catch (Exception ex) {
+            Toast.makeText(
+                    getActivity(),
+                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     public ArrayList<Route> getRoutes() {

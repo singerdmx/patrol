@@ -117,7 +117,7 @@ public class MainActivity extends ParentActivity {
                                 try {
                                     Record record = RecordProvider.INSTANCE.get(MainActivity.this);
                                     if (record == null) {
-                                        RecordProvider.INSTANCE.create(MainActivity.this);
+                                        RecordProvider.INSTANCE.create(MainActivity.this, Utils.getSavedUsernameAndPassword(MainActivity.this)[0]);
                                     }
                                     RecordProvider.INSTANCE.setRoutes(selectedRoutes, MainActivity.this);
                                     Tracker.INSTANCE.createRouteGroups(selectedRoutes, MainActivity.this);

@@ -3,8 +3,6 @@ package com.mbrite.patrol.widget;
 import java.util.*;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.*;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mbrite.patrol.app.*;
 import com.mbrite.patrol.common.Tracker;
-import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.*;
 
 public class AssetAdapter extends BaseExpandableListAdapter {
