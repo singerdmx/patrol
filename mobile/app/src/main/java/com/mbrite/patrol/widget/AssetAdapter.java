@@ -3,6 +3,8 @@ package com.mbrite.patrol.widget;
 import java.util.*;
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +104,8 @@ public class AssetAdapter extends BaseExpandableListAdapter {
         checkedTextView.setChecked(isExpanded);
         // TODO: calculate percent
         float percent = (float) 0.4;
-        checkedTextView.setBackground(new ColorBarDrawable(percent));
+        ColorBarDrawable drawable = new ColorBarDrawable(percent);
+        checkedTextView.setBackground(drawable);
         return convertView;
     }
 

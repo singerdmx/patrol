@@ -9,10 +9,8 @@ import android.widget.*;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.common.Tracker;
-import com.mbrite.patrol.content.providers.AssetProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Asset;
 import com.mbrite.patrol.widget.AssetAdapter;

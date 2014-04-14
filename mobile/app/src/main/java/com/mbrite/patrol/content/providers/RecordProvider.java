@@ -76,7 +76,7 @@ public enum RecordProvider {
             try {
                 record = getRecord(activity, Constants.RECORD_FILE_NAME);
                 return record;
-            } catch (JsonSyntaxException ex) {
+            } catch (Exception ex) {
                 reset(activity);
             }
         }
