@@ -1,9 +1,11 @@
 package com.mbrite.patrol.model;
 
+import java.util.*;
+
 public class Route {
     public final int id;
     public final String description;
-    public int[] assets;
+    public List<Integer> assets;
     private boolean selected;
 
     public Route(int id, String description) {
@@ -11,7 +13,7 @@ public class Route {
         this.description = description;
     }
 
-    public Route(int id, String description, int[] assets) {
+    public Route(int id, String description, List<Integer> assets) {
         this(id, description);
         this.assets = assets;
     }

@@ -46,48 +46,19 @@ public enum AssetProvider {
         return assets;
     }
 
-    public ArrayList<Asset> getAssets(Activity activity, int[] assetIds)
+    public ArrayList<Asset> filterAssets(Collection<Integer> assetIds, ArrayList<Asset> allAssets)
             throws JSONException, IOException {
-        Set<Integer> assetIndexes = new HashSet<Integer>(assetIds.length);
+        Set<Integer> assetIndexes = new HashSet<Integer>(assetIds.size());
         for (int assetId : assetIds) {
-            if (!assetIndexes.contains(assetId)) {
                 assetIndexes.add(assetId);
-            }
         }
 
         ArrayList<Asset> result = new ArrayList<Asset>();
-        for (Asset asset : getAssets(activity)) {
+        for (Asset asset : allAssets) {
             if (assetIndexes.contains(asset.id)) {
                 result.add(asset);
             }
         }
         return result;
-    }
-
-    public Asset getAsset(Activity activity, String barcode, int[] assetIds)
-            throws JSONException, IOException {
-        for (Asset asset : getAssets(activity)) {
-            if (asset.barcode.equals(barcode)) {
-                for (int assetId : assetIds) {
-                    if (assetId == asset.id) {
-                        return asset;
-                    }
-                }
-                return null;
-            }
-        }
-
-        return null;
-    }
-
-    public Asset getAsset(Activity activity, int assetId)
-            throws JSONException, IOException {
-        for (Asset asset : getAssets(activity)) {
-            if (asset.id == assetId) {
-                return asset;
-            }
-        }
-
-        return null;
     }
 }

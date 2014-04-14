@@ -46,12 +46,12 @@ public enum RouteProvider {
         return null;
     }
 
-    private int[] getAssetIndexes(JSONObject routeJSON)
+    private List<Integer> getAssetIndexes(JSONObject routeJSON)
         throws JSONException {
         JSONArray assets = routeJSON.getJSONArray(Constants.ASSETS);
-        int[] assetIndexes = new int[assets.length()];
+        List<Integer> assetIndexes = new ArrayList<>(assets.length());
         for (int j = 0; j < assets.length(); j++) {
-            assetIndexes[j] = assets.getInt(j);
+            assetIndexes.add(assets.getInt(j));
         }
 
         return assetIndexes;

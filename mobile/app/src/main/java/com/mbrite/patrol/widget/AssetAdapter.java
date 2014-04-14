@@ -39,7 +39,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final Asset asset = (Asset) getChild(groupPosition, childPosition);
+        final AssetGroup asset = (AssetGroup) getChild(groupPosition, childPosition);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.activity_list_item_asset, null);
         }
@@ -51,6 +51,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 RecordProvider.INSTANCE.setCurrentRouteRecord(asset.routeId);
+                Tracker.INSTANCE.setAssetIds(asset.routeId);
                 Tracker.INSTANCE.targetBarcode = asset.barcode;
                 IntentIntegrator integrator = new IntentIntegrator(activity);
                 integrator.initiateScan();
@@ -96,8 +97,12 @@ public class AssetAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.route_group, null);
         }
         RouteGroup group = (RouteGroup) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(group.description);
-        ((CheckedTextView) convertView).setChecked(isExpanded);
+        CheckedTextView checkedTextView = (CheckedTextView) convertView;
+        checkedTextView.setText(group.description);
+        checkedTextView.setChecked(isExpanded);
+        // TODO: calculate percent
+        float percent = (float) 0.4;
+        checkedTextView.setBackground(new ColorBarDrawable(percent));
         return convertView;
     }
 

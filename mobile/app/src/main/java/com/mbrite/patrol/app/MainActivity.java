@@ -120,10 +120,7 @@ public class MainActivity extends ParentActivity {
                                         RecordProvider.INSTANCE.create(MainActivity.this);
                                     }
                                     RecordProvider.INSTANCE.setRoutes(selectedRoutes, MainActivity.this);
-                                    Tracker.INSTANCE.routeGroups = new ArrayList<RouteGroup>(selectedRoutes.size());
-                                    for (Route route : selectedRoutes) {
-                                        Tracker.INSTANCE.routeGroups.add(new RouteGroup(route, MainActivity.this));
-                                    }
+                                    Tracker.INSTANCE.createRouteGroups(selectedRoutes, MainActivity.this);
                                     Intent intent = new Intent(MainActivity.this, AssetsActivity.class);
                                     startActivity(intent);
                                     finish();

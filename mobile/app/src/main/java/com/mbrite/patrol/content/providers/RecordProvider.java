@@ -3,9 +3,7 @@ package com.mbrite.patrol.content.providers;
 import android.app.*;
 
 import com.google.gson.*;
-import com.mbrite.patrol.common.Constants;
-import com.mbrite.patrol.common.FileMgr;
-import com.mbrite.patrol.common.Utils;
+import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.model.*;
 
 import org.json.JSONException;
@@ -107,9 +105,9 @@ public enum RecordProvider {
 
     public void setRoutes(List<Route> routes, Activity activity)
         throws IOException {
-        record.routes = new ArrayList<RouteRecord>();
+        record.routes = new ArrayList<RouteRecord>(routes.size());
         for (Route route : routes) {
-            record.routes.add(new RouteRecord(route.id, route.description));
+            record.routes.add(new RouteRecord(route.id));
         }
         save(activity);
     }
@@ -176,7 +174,7 @@ public enum RecordProvider {
     public RecordState getAssetRecordState(Activity activity, int assetId)
         throws JSONException, IOException {
         RecordState state = new RecordState();
-        Asset asset = AssetProvider.INSTANCE.getAsset(activity, assetId);
+        Asset asset = Tracker.INSTANCE.getAsset(assetId);
         AssetRecord assetRecord = null;
         for (AssetRecord ar : currentRouteRecord.assets) {
             if (ar.id == assetId) {

@@ -9,10 +9,17 @@ import android.widget.*;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.common.Tracker;
+import com.mbrite.patrol.content.providers.AssetProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.Asset;
 import com.mbrite.patrol.widget.AssetAdapter;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 public class AssetsActivity extends ParentActivity {
     private static final String TAG = AssetsActivity.class.getSimpleName();
@@ -122,6 +129,27 @@ public class AssetsActivity extends ParentActivity {
                 uploadRecords(AssetsActivity.this, false);
             }
         });
+    }
+
+    private void checkBarcode(String barcode)
+            throws IOException, JSONException {
+        String targetBarcode = Tracker.INSTANCE.targetBarcode;
+        if (targetBarcode != null) {
+            // verify barcode
+            if (!targetBarcode.equals(barcode)) {
+                throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
+            }
+        }
+
+        Asset asset = Tracker.INSTANCE.getAsset(barcode);
+        if (asset == null) {
+            throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
+        }
+        RecordProvider.INSTANCE.offerAsset(this, asset.id);
+//        Intent intent = new Intent(this, PointsActivity.class);
+//        intent.putExtra(Constants.POINTS, asset.points);
+//        startActivity(intent);
+//        finish();
     }
 
 }

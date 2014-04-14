@@ -8,11 +8,8 @@ public class RouteRecord {
 
     public List<AssetRecord> assets;
 
-    public String description;
-
-    public RouteRecord(int id, String description) {
+    public RouteRecord(int id) {
         this.id = id;
-        this.description = description;
         assets = new ArrayList<AssetRecord>();
     }
 }
