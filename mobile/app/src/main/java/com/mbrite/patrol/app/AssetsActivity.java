@@ -12,7 +12,6 @@ import com.google.zxing.integration.android.IntentResult;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.Asset;
 import com.mbrite.patrol.model.AssetGroup;
 import com.mbrite.patrol.widget.AssetAdapter;
 
@@ -61,8 +60,7 @@ public class AssetsActivity extends ParentActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.logout:
-                Utils.clearUsernameAndPassword(this);
-                startActivity(new Intent(this, LoginActivity.class));
+                Utils.logout(this);
                 return true;
             case R.id.settings:
                 startActivity(new Intent(this, SettingsActivity.class));

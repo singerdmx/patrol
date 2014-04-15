@@ -27,7 +27,10 @@
     <string name="start_patrol">开始巡检</string>
     <string name="comma">，</string>
 
+    <string name="confirm_logout">登出会造成正在进行巡检的数据丢失！是否登出？</string>
+
     <!-- Strings related to settings -->
+    <string name="server">服务器</string>
     <string name="site_url">网址</string>
     <string name="error_site_url_missing">网址为空!请在设置菜单中填入网址。</string>
     <string name="error_site_url_invalid">无效网址 %s! 请在设置菜单中修改网址。</string>
@@ -37,10 +40,11 @@
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="sign_in">登入</string>
-    <string name="error_no_network">无法连接到网络</string>
+    <string name="use_offline_mode"> 使用离线模式？</string>
 
     <string name="error_incorrect_password">密码错误</string>
     <string name="error_field_required">请填写此项</string>
+    <string name="error_no_network">无法连接到网络。</string>
 
     <!-- Strings related to route -->
     <string name="route">路线</string>

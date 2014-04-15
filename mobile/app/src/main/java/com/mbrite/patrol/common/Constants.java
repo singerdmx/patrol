@@ -10,6 +10,7 @@ public class Constants {
     public static final String DESCRIPTION = "description";
     public static final String USER_NAME = "username";
     public static final String PASSWORD = "password";
+    public static final String MAIN_ACTIVITY = "com.mbrite.patrol.app.action.main";
     public static final String PREFERENCE_FILE_KEY = "com.mbrite.patrol.preference_file_key";
     public static final String DEFAULT_SITE_URL = "http://warm-depths-4825.herokuapp.com";
     public static final String SITE_URL = "site_url";
@@ -17,6 +18,7 @@ public class Constants {
     public static final String STANDARD = "standard";
     public static final String MIN = "min";
     public static final String MAX = "max";
+    public static final String OFFLINE = "OFFLINE";
 
     // Network related constants
     public static final String ETAG= "Etag";

@@ -15,7 +15,7 @@ import java.util.*;
 
 import com.mbrite.patrol.common.*;
 
-public enum  RestClient {
+public enum RestClient {
 
     INSTANCE;
 

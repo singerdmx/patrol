@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -75,12 +77,22 @@ public class LoginActivity extends Activity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        String[] savedUsernameAndPassword = Utils.getSavedUsernameAndPassword(this);
-        if (savedUsernameAndPassword != null) {
-            mUsernameView.setText(savedUsernameAndPassword[0]);
-            mPasswordView.setText(savedUsernameAndPassword[1]);
-            mSignInButton.performClick();
+        try {
+            Record record = RecordProvider.INSTANCE.get(this);
+            if (record != null) {
+                // If there is open record in progress, skip login
+                startActivity(new Intent(Constants.MAIN_ACTIVITY));
+                finish();
+            }
+        } catch (Exception ex) {
+            Toast.makeText(
+                    LoginActivity.this,
+                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
         }
+
+        signInWithSavedUsernameAndPassword();
     }
 
     // Called to lazily initialize the action bar
@@ -103,6 +115,15 @@ public class LoginActivity extends Activity {
         }
     }
 
+    private void signInWithSavedUsernameAndPassword() {
+        String[] savedUsernameAndPassword = Utils.getSavedUsernameAndPassword(this);
+        if (savedUsernameAndPassword != null) {
+            mUsernameView.setText(savedUsernameAndPassword[0]);
+            mPasswordView.setText(savedUsernameAndPassword[1]);
+            mSignInButton.performClick();
+        }
+    }
+
     /**
      * Attempts to sign in the account specified by the login form.
      * If there are form errors , the errors are presented and no actual login attempt is made.
@@ -113,11 +134,7 @@ public class LoginActivity extends Activity {
         }
 
         if (!Utils.isNetworkConnected(this)) {
-            Toast.makeText(
-                    this,
-                    getString(R.string.error_no_network),
-                    Toast.LENGTH_LONG)
-                    .show();
+            attemptOffline(getString(R.string.error_no_network));
             return;
         }
 
@@ -188,6 +205,31 @@ public class LoginActivity extends Activity {
         }
     }
 
+    private void attemptOffline(String message) {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.use_offline_mode))
+                .setMessage(message + getString(R.string.use_offline_mode))
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            Utils.saveUsernameAndPassword(LoginActivity.this, Constants.OFFLINE, "");
+                            startActivity(new Intent(Constants.MAIN_ACTIVITY));
+                            finish();
+                        } catch (Exception ex) {
+                            Toast.makeText(
+                                    LoginActivity.this,
+                                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Do nothing.
+                    }
+                }).show();
+    }
+
     /**
      * Represents an asynchronous login task used to authenticate
      * the user.
@@ -204,6 +246,7 @@ public class LoginActivity extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            // TODO: attempt offline if server is down
             return Utils.isValidUsernameAndPassword(mUsername, mPassword);
         }
 
@@ -215,14 +258,11 @@ public class LoginActivity extends Activity {
             if (success) {
                 try {
                     Utils.saveUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
-                    Record record = RecordProvider.INSTANCE.get(LoginActivity.this);
-                    if (record == null) {
-                        // If there is open record in progress, DO NOT update
-                        Utils.updateSavedFile(LoginActivity.this, Constants.ROUTES, Constants.ROUTES_FILE_NAME);
-                        Utils.updateSavedFile(LoginActivity.this, Constants.ASSETS, Constants.ASSETS_FILE_NAME);
-                        Utils.updateSavedFile(LoginActivity.this, Constants.POINTS, Constants.POINTS_FILE_NAME);
-                    }
-                    startActivity(new Intent("com.mbrite.patrol.app.action.main"));
+                    Utils.updateSavedFile(LoginActivity.this, Constants.ROUTES, Constants.ROUTES_FILE_NAME);
+                    Utils.updateSavedFile(LoginActivity.this, Constants.ASSETS, Constants.ASSETS_FILE_NAME);
+                    Utils.updateSavedFile(LoginActivity.this, Constants.POINTS, Constants.POINTS_FILE_NAME);
+                    startActivity(new Intent(Constants.MAIN_ACTIVITY));
+                    finish();
                 } catch (JSONException ex) {
                     mSignInButton.setError(ex.getLocalizedMessage());
                     Toast.makeText(

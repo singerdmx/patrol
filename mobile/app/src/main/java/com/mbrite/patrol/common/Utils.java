@@ -8,9 +8,11 @@ import android.content.*;
 import android.widget.*;
 import android.net.*;
 
+import com.mbrite.patrol.app.LoginActivity;
 import com.mbrite.patrol.app.MainActivity;
 import com.mbrite.patrol.app.R;
 import com.mbrite.patrol.connection.RestClient;
+import com.mbrite.patrol.content.providers.RecordProvider;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -71,6 +73,32 @@ public class Utils {
           .remove(Constants.USER_NAME)
           .remove(Constants.PASSWORD);
         editor.commit();
+    }
+
+    public static void logout(final Activity activity) {
+        new AlertDialog.Builder(activity)
+                .setTitle(activity.getString(R.string.logout))
+                .setMessage(activity.getString(R.string.confirm_logout))
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            RecordProvider.INSTANCE.reset(activity);
+                            Utils.clearUsernameAndPassword(activity);
+                            activity.startActivity(new Intent(activity, LoginActivity.class));
+                            activity.finish();
+                        } catch (Exception ex) {
+                            Toast.makeText(
+                                    activity,
+                                    String.format(activity.getString(R.string.error_of), ex.getLocalizedMessage()),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Do nothing.
+            }
+        }).show();
     }
 
     /**
