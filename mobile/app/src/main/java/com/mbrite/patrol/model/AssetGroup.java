@@ -1,18 +1,27 @@
 package com.mbrite.patrol.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class AssetGroup extends Asset {
 
-    public int routeId = -1;
+    private int routeId;
 
     public List<PointGroup> pointList;
 
-    public AssetGroup(Asset asset, RouteGroup routeGroup) {
+    public AssetGroup(Asset asset, ArrayList<Point> allPoints, RouteGroup routeGroup) {
         super(asset.id, asset.description, asset.serialNum, asset.barcode, asset.points);
         routeId = routeGroup.id;
-        // TODO: filter points based on route
         pointList = new ArrayList<PointGroup>();
+
+        Set<Integer> pointIndexes = new TreeSet<>(asset.points);
+        for (Point point : allPoints) {
+            if (pointIndexes.contains(point.id) && point.routes.indexOf(routeGroup.id) != -1) {
+                pointList.add(new PointGroup(point, this));
+            }
+        }
+    }
+
+    public int getRouteId() {
+        return routeId;
     }
 }

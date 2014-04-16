@@ -6,6 +6,7 @@ import com.mbrite.patrol.content.providers.*;
 import com.mbrite.patrol.model.*;
 
 import org.json.JSONException;
+import org.apache.commons.lang3.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,67 +19,82 @@ public enum  Tracker {
     INSTANCE;
 
     /**
-     * Keep track of current route groups to be shown on AssetsActivity
+     * Keep track of current route groups to be shown on MainActivity
      */
     public List<RouteGroup> routeGroups;
 
     /**
-     * Keep track of current asset ids available
+     * Keep track of current asset being clicked
      */
-    public Set<Integer> assetIds;
+    public AssetGroup targetAsset;
 
-    public String targetBarcode;
+    /**
+     * Keep track of current point ids to be shown on PointsActivity
+     */
+    public Set<Integer> pointGroups;
+
+    // key is asset id, value is list of AssetGroup having the id
+    private Map<Integer, List<AssetGroup>> assetDuplicates = new HashMap<>();
+
+    // key is barcode, value is asset id
+    private Map<String, Integer> assetBarcodeMap = new HashMap<>();
+
+    // key is point id, value is list of PointGroup having the id
+    private Map<Integer, List<PointGroup>> pointDuplicates = new HashMap<>();
+
+    // key is barcode, value is point id
+    private Map<String, Integer> pointBarcodeMap = new HashMap<>();
+
+    public Map<Integer, List<AssetGroup>> getAssetDuplicates() {
+        return assetDuplicates;
+    }
+
+    public Map<Integer, List<PointGroup>> getPointDuplicates() {
+        return pointDuplicates;
+    }
+
+    public Map<String, Integer> getAssetBarcodeMap() {
+        return assetBarcodeMap;
+    }
+
+    public Map<String, Integer> getPointBarcodeMap() {
+        return pointBarcodeMap;
+    }
 
     public void createRouteGroups(ArrayList<Route> selectedRoutes, Activity activity)
         throws JSONException, IOException {
         routeGroups = new ArrayList<RouteGroup>(selectedRoutes.size());
-        assetIds = new TreeSet<Integer>();
         ArrayList<Asset> allAssets = AssetProvider.INSTANCE.getAssets(activity);
-        ArrayList<Point> allPoint = PointProvider.INSTANCE.getPoints(activity);
+        ArrayList<Point> allPoints = PointProvider.INSTANCE.getPoints(activity);
         for (Route route : selectedRoutes) {
-            routeGroups.add(new RouteGroup(route, allAssets));
-            assetIds.addAll(route.assets);
-        }
-    }
-
-    public void setAssetIds(Integer routeId) {
-        Set<Integer> result = new TreeSet<>();
-        for (RouteGroup routeGroup : routeGroups) {
-            if (routeId == null || routeGroup.id == routeId) {
-                // If routeId is null, set available assetIds to be all assets from all routes
-                result.addAll(routeGroup.assets);
-            }
+            routeGroups.add(new RouteGroup(route, allAssets, allPoints));
         }
 
-        assetIds = result;
+        processDuplicatesAndBarcode();
     }
 
-    public AssetGroup getAsset(String barcode) {
+    private void processDuplicatesAndBarcode() {
         for (RouteGroup routeGroup : routeGroups) {
-            for (AssetGroup assetGroup : routeGroup.assetList) {
-                if (assetGroup.barcode.equals(barcode)) {
-                    for (int assetId : assetIds) {
-                        if (assetId == assetGroup.id) {
-                            return assetGroup;
-                        }
+            for (final AssetGroup assetGroup : routeGroup.assetList) {
+                if (!assetDuplicates.containsKey(assetGroup.id)) {
+                    assetDuplicates.put(assetGroup.id, new ArrayList<AssetGroup>());
+                }
+                assetDuplicates.get(assetGroup.id).add(assetGroup);
+
+                if (StringUtils.isNotBlank(assetGroup.barcode)) {
+                    assetBarcodeMap.put(assetGroup.barcode, assetGroup.id);
+                }
+                for (final PointGroup pointGroup : assetGroup.pointList) {
+                    if (!pointDuplicates.containsKey(pointGroup.id)) {
+                        pointDuplicates.put(pointGroup.id, new ArrayList<PointGroup>());
                     }
-                    return null;
+                    pointDuplicates.get(pointGroup.id).add(pointGroup);
+
+                    if (StringUtils.isNoneBlank(pointGroup.barcode)) {
+                        pointBarcodeMap.put(pointGroup.barcode, pointGroup.id);
+                    }
                 }
             }
         }
-
-        return null;
-    }
-
-    public AssetGroup getAsset(int assetId) {
-        for (RouteGroup routeGroup : routeGroups) {
-            for (AssetGroup assetGroup : routeGroup.assetList) {
-                if (assetId == assetGroup.id) {
-                    return assetGroup;
-                }
-            }
-        }
-
-        return null;
     }
 }

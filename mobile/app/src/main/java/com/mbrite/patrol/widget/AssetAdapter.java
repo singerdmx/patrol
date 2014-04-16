@@ -50,8 +50,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 try {
-                    Tracker.INSTANCE.setAssetIds(asset.routeId);
-                    Tracker.INSTANCE.targetBarcode = asset.barcode;
+                    Tracker.INSTANCE.targetAsset = asset;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.initiateScan();
                 } catch (Exception ex) {

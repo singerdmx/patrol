@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.Asset;
 
 import org.json.JSONArray;
@@ -27,21 +28,16 @@ public enum AssetProvider {
 
         assets = new ArrayList<Asset>();
         String data = FileMgr.read(activity, Constants.ASSETS_FILE_NAME);
-        JSONArray assetsJSON = new JSONObject(data).getJSONArray(Constants.ASSETS);
-        for(int i = 0 ; i < assetsJSON.length() ; i++) {
-            JSONObject assetJSON = assetsJSON.getJSONObject(i);
-            JSONArray points = assetJSON.getJSONArray(Constants.POINTS);
-            int[] pointIndexes = new int[points.length()];
-            for (int j = 0; j < pointIndexes.length; j++) {
-                pointIndexes[j] = points.getInt(j);
-            }
+        List<JSONObject> assetsJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.ASSETS));
+        for(JSONObject assetJSON : assetsJSON) {
+            List<Integer> points = Utils.convertJSONArrayToList(assetJSON.getJSONArray(Constants.POINTS));
             assets.add(
                     new Asset(
                             assetJSON.getInt(Constants.ID),
                             assetJSON.getString(Constants.DESCRIPTION),
                             assetJSON.getString(Constants.SERIAL_NUM),
                             assetJSON.getString(Constants.BARCODE),
-                            pointIndexes));
+                            points));
         }
         return assets;
     }

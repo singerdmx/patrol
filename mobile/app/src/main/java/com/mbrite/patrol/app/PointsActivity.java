@@ -1,18 +1,13 @@
 package com.mbrite.patrol.app;
 
-import android.app.Activity;
+import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
-import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
-import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.content.providers.RouteProvider;
 import com.mbrite.patrol.model.*;
 
 
@@ -23,13 +18,41 @@ public class PointsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_points);
 
-        Button assetListButton = (Button) findViewById(R.id.asset_list);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        for (int pointId : Tracker.INSTANCE.pointGroups) {
+            PointGroup point = Tracker.INSTANCE.getPointDuplicates().get(pointId).get(0);
+            if (fragmentManager.findFragmentByTag(Integer.toString(pointId)) == null) {
+                PointsFragment fragment;
+                int type = point.id % 2;
+                switch (type) {
+                    case 0:
+                        fragment = new MeasureSelectValueFragment();
+                        break;
+                    case 1:
+                        fragment = new MeasureEnterValueFragment();
+                        break;
+                    default:
+                        throw new IllegalArgumentException(String.format("Invalid point type: %d", type));
+                }
+                fragmentTransaction.add(R.id.fragment_container, fragment, Integer.toString(pointId));
+            }
+        }
+
+        fragmentTransaction.commit();
+        setupCancelButton();
+    }
+
+    private void setupCancelButton() {
+        Button assetListButton = (Button) findViewById(R.id.cancel);
         assetListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO: pop up warning
                 Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
                 startActivity(intent);
-                finish();
+                PointsActivity.this.finish();
             }
         });
     }
@@ -37,7 +60,6 @@ public class PointsActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.points, menu);
         return true;
@@ -57,6 +79,20 @@ public class PointsActivity extends Activity {
                 return true;
             default:
                 return false;
+        }
+    }
+
+     public static class EnterMeasureValueFragment extends PointsFragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.fragment_meaure_enter_value, container, false);
+        }
+    }
+
+    public static class SelectMeasureValueFragment extends PointsFragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.fragment_meaure_select_value, container, false);
         }
     }
 

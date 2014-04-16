@@ -9,15 +9,15 @@ import android.widget.*;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.mbrite.patrol.common.Utils;
-import com.mbrite.patrol.common.Tracker;
-import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.AssetGroup;
+import com.mbrite.patrol.common.*;
+import com.mbrite.patrol.model.*;
 import com.mbrite.patrol.widget.AssetAdapter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.*;
 
 public class AssetsActivity extends ParentActivity {
     private static final String TAG = AssetsActivity.class.getSimpleName();
@@ -35,7 +35,6 @@ public class AssetsActivity extends ParentActivity {
     @Override
     public void onResume() {
         super.onResume();
-        RecordProvider.INSTANCE.clearState();
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.assets);
         AssetAdapter adapter = new AssetAdapter(
                 this,
@@ -96,8 +95,7 @@ public class AssetsActivity extends ParentActivity {
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tracker.INSTANCE.targetBarcode = null;
-                Tracker.INSTANCE.setAssetIds(null); // reset available assetIds to be all assets from all routes
+                Tracker.INSTANCE.targetAsset = null;
                 IntentIntegrator integrator = new IntentIntegrator(AssetsActivity.this);
                 integrator.initiateScan();
             }
@@ -109,8 +107,7 @@ public class AssetsActivity extends ParentActivity {
         inputButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tracker.INSTANCE.targetBarcode = null;
-                Tracker.INSTANCE.setAssetIds(null); // reset available assetIds to be all assets from all routes
+                Tracker.INSTANCE.targetAsset = null;
                 final EditText input = new EditText(AssetsActivity.this);
                 new AlertDialog.Builder(AssetsActivity.this)
                         .setTitle(getString(R.string.manual_input_barcode))
@@ -149,24 +146,53 @@ public class AssetsActivity extends ParentActivity {
 
     private void checkBarcode(String barcode)
             throws IOException, JSONException {
-        String targetBarcode = Tracker.INSTANCE.targetBarcode;
-        if (targetBarcode != null) {
-            // verify barcode
-            if (!targetBarcode.equals(barcode)) {
-                throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
+        AssetGroup targetAsset = Tracker.INSTANCE.targetAsset;
+        Integer assetId = null, pointId = null;
+        if (targetAsset != null) {
+               // one asset is clicked
+               if(StringUtils.isNoneBlank(targetAsset.barcode) &&
+                       barcode.equals(targetAsset.barcode)) {
+                   // verify barcode
+                   assetId = targetAsset.id;
+               } else {
+                   // look for barcode in targetAsset's points
+                   for (PointGroup p : targetAsset.pointList) {
+                       if (barcode.equals(p.barcode)) {
+                           pointId = p.id;
+                           break;
+                       }
+                   }
+               }
+        } else {
+            // Either scan or manual input button is pressed
+            // Try Point first
+            pointId = Tracker.INSTANCE.getPointBarcodeMap().get(barcode);
+
+            if (pointId == null) {
+                assetId = Tracker.INSTANCE.getAssetBarcodeMap().get(barcode);
             }
         }
 
-        AssetGroup asset = Tracker.INSTANCE.getAsset(barcode);
-        if (asset == null) {
+        if (assetId == null && pointId == null) {
             throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
         }
-        RecordProvider.INSTANCE.setCurrentRouteRecord(asset.routeId);
-        RecordProvider.INSTANCE.offerAsset(this, asset.id);
-//        Intent intent = new Intent(this, PointsActivity.class);
-//        intent.putExtra(Constants.POINTS, asset.points);
-//        startActivity(intent);
-//        finish();
+
+        Tracker.INSTANCE.pointGroups = new TreeSet<>();
+        if (pointId != null) {
+            Tracker.INSTANCE.pointGroups.add(pointId);
+        } else {
+            // assetId != null
+            // Get all points of asset under all selected routes
+            for (AssetGroup a : Tracker.INSTANCE.getAssetDuplicates().get(assetId)) {
+                for (PointGroup p : a.pointList) {
+                    Tracker.INSTANCE.pointGroups.add(p.id);
+                }
+            }
+        }
+
+        Intent intent = new Intent(this, PointsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

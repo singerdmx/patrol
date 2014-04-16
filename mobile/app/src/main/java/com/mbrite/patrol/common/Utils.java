@@ -14,6 +14,7 @@ import com.mbrite.patrol.app.R;
 import com.mbrite.patrol.connection.RestClient;
 import com.mbrite.patrol.content.providers.RecordProvider;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpResponseException;
@@ -26,9 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Utility class
@@ -146,12 +145,29 @@ public class Utils {
      * @param activity
      * @param type
      * @param fileName
+     * @param param
+     * @return true if any file is updated, otherwise false
+     * @throws JSONException
+     * @throws URISyntaxException
+     * @throws IOException
+     */
+    public static boolean updateDataFiles(Activity activity)
+            throws JSONException, URISyntaxException, IOException {
+        return updateSavedFile(activity, Constants.ROUTES, Constants.ROUTES_FILE_NAME, "?group_by_asset=true") ||
+                Utils.updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME, null) ||
+                Utils.updateSavedFile(activity, Constants.POINTS, Constants.POINTS_FILE_NAME, null);
+    }
+
+    /**
+     * @param activity
+     * @param type
+     * @param fileName
      * @return true if file is updated, otherwise false
      * @throws JSONException
      * @throws URISyntaxException
      * @throws IOException
      */
-    public static boolean updateSavedFile (Activity activity, String type, String fileName)
+    private static boolean updateSavedFile (Activity activity, String type, String fileName, String param)
             throws JSONException, URISyntaxException, IOException {
         Map<String, String> headers = null;
         if (FileMgr.exists(activity, fileName)) {
@@ -162,9 +178,13 @@ public class Utils {
                 headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
             }
         }
+        String url = String.format("%s.json", type);
+        if (StringUtils.isNoneBlank(param)) {
+            url += param;
+        }
         HttpResponse response = RestClient.INSTANCE
                 .get(activity,
-                        String.format("%s.json", type),
+                        url,
                         headers);
         int statusCode = response.getStatusLine().getStatusCode();
         switch (statusCode) {
@@ -208,9 +228,7 @@ public class Utils {
 
     public static void updateRecordFiles(Activity activity)
             throws JSONException, URISyntaxException, IOException {
-        boolean updated = Utils.updateSavedFile(activity, Constants.ROUTES, Constants.ROUTES_FILE_NAME) ||
-                Utils.updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME) ||
-                Utils.updateSavedFile(activity, Constants.POINTS, Constants.POINTS_FILE_NAME);
+        boolean updated = Utils.updateDataFiles(activity);
 
         if (updated) {
             Toast.makeText(
@@ -235,6 +253,28 @@ public class Utils {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(intent);
         activity.finish();
+    }
+
+    public static <T> ArrayList<T> convertJSONArrayToList(JSONArray array)
+        throws JSONException {
+       ArrayList<T> result = new ArrayList<>(array.length());
+       for (int i = 0; i < array.length(); i++) {
+           result.add((T) array.get(i));
+       }
+
+       return result;
+    }
+
+    public static String getString(JSONObject jsonObject, String key)
+        throws JSONException {
+        if (jsonObject.has(key)) {
+            String value = jsonObject.getString(key);
+            if (!"null".equals(value)) {
+                return value;
+            }
+        }
+
+        return null;
     }
 
 }

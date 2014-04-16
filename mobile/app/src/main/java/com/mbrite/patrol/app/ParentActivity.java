@@ -22,7 +22,8 @@ public class ParentActivity extends Activity {
 
     public void uploadRecords(final Activity activity, final boolean updateRecordFiles) {
         try {
-            if (!RecordProvider.INSTANCE.isComplete()) {
+            if (false) {
+                // TODO: check incomplete
                 throw new IllegalStateException(getString(R.string.error_incomplete_assets));
             }
             Record record = RecordProvider.INSTANCE.get(activity);

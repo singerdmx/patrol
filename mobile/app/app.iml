@@ -70,8 +70,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="guava-16.0.1" level="project" />
     <orderEntry type="library" exported="" name="android-integration-3.0.0" level="project" />
-    <orderEntry type="library" exported="" name="commons-lang3-3.0.1" level="project" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="java-json" level="project" />
@@ -80,6 +80,7 @@
     <orderEntry type="library" exported="" name="robotium-solo-5.1" level="project" />
     <orderEntry type="library" exported="" name="junit" level="project" />
     <orderEntry type="library" exported="" name="play-services-4.0.30" level="project" />
+    <orderEntry type="library" exported="" name="commons-lang3-3.3.2" level="project" />
   </component>
 </module>
 

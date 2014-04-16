@@ -9,17 +9,16 @@ import android.widget.TextView;
 
 import com.mbrite.patrol.app.R;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.Point;
-import com.mbrite.patrol.model.PointRecord;
+import com.mbrite.patrol.model.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
-public class PointAdapter extends ArrayAdapter<Point> {
+public class PointAdapter extends ArrayAdapter<PointGroup> {
 
     private final Context context;
-    private final ArrayList<Point> itemsArrayList;
+    private final List<PointGroup> itemsArrayList;
 
-    public PointAdapter(Context context, ArrayList<Point> itemsArrayList) {
+    public PointAdapter(Context context, List<PointGroup> itemsArrayList) {
 
         super(context, R.layout.activity_list_item_asset, itemsArrayList);
 
@@ -34,27 +33,27 @@ public class PointAdapter extends ArrayAdapter<Point> {
 
         // Get rowView from inflater
         View rowView = inflater.inflate(R.layout.activity_list_item_point, parent, false);
-        Point point = itemsArrayList.get(position);
+        PointGroup point = itemsArrayList.get(position);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
         descriptionView.setText(point.description);
         TextView tpmTypeView = (TextView) rowView.findViewById(R.id.tpm_type);
         tpmTypeView.setText(point.tpmType);
 
-        for (PointRecord p : RecordProvider.INSTANCE.currentAssetRecord.points) {
-            if (p.id == point.id) {
-                int result = p.result;
-                switch(result) {
-                    case 0:
-                        rowView.setBackgroundResource(R.drawable.pass_row_selector);
-                        break;
-                    case 1:
-                        rowView.setBackgroundResource(R.drawable.fail_row_selector);
-                        break;
-
-                }
-                break;
-            }
-        }
+//        for (PointRecord p : RecordProvider.INSTANCE.currentAssetRecord.points) {
+//            if (p.id == point.id) {
+//                int result = p.result;
+//                switch(result) {
+//                    case 0:
+//                        rowView.setBackgroundResource(R.drawable.pass_row_selector);
+//                        break;
+//                    case 1:
+//                        rowView.setBackgroundResource(R.drawable.fail_row_selector);
+//                        break;
+//
+//                }
+//                break;
+//            }
+//        }
 
         return rowView;
     }

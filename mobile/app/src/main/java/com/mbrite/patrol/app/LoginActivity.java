@@ -258,9 +258,7 @@ public class LoginActivity extends Activity {
             if (success) {
                 try {
                     Utils.saveUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
-                    Utils.updateSavedFile(LoginActivity.this, Constants.ROUTES, Constants.ROUTES_FILE_NAME);
-                    Utils.updateSavedFile(LoginActivity.this, Constants.ASSETS, Constants.ASSETS_FILE_NAME);
-                    Utils.updateSavedFile(LoginActivity.this, Constants.POINTS, Constants.POINTS_FILE_NAME);
+                    Utils.updateDataFiles(LoginActivity.this);
                     startActivity(new Intent(Constants.MAIN_ACTIVITY));
                     finish();
                 } catch (JSONException ex) {

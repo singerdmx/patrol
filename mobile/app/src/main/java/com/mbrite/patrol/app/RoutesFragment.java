@@ -19,7 +19,7 @@ import java.util.*;
 public class RoutesFragment extends ParentFragment {
     private static final String TAG = RoutesFragment.class.getSimpleName();
 
-    private ArrayList<Route> routes = new ArrayList<Route>();
+    private ArrayList<Route> routes;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,17 +49,13 @@ public class RoutesFragment extends ParentFragment {
         try {
             Record record = RecordProvider.INSTANCE.get(getActivity());
             if (record != null) {
-                Set<Integer> selectedRouteIndexes = new TreeSet<>();
-                for (RouteRecord routeRecord : record.routes) {
-                    selectedRouteIndexes.add(routeRecord.id);
-                }
-
-                ArrayList<Route> selectedRoutes  = new ArrayList<>();
+                ArrayList<Route> selectedRoutes = new ArrayList<>();
                 for (Route route : routes) {
-                    if (selectedRouteIndexes.contains(route.id)) {
+                    if (record.routes.indexOf(route.id) != -1) {
                         selectedRoutes.add(route);
                     }
                 }
+
                 Tracker.INSTANCE.createRouteGroups(selectedRoutes, getActivity());
                 Intent intent = new Intent(getActivity(), AssetsActivity.class);
                 startActivity(intent);

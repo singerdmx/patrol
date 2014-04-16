@@ -13,7 +13,9 @@ public class Record {
 
     private String submitter;
 
-    public List<RouteRecord> routes;
+    public List<Integer> routes;
+
+    public List<PointRecord> points;
 
     public long start_time;
 
@@ -22,7 +24,7 @@ public class Record {
     public Record(String username) {
         session = UUID.randomUUID().toString();
         this.user = username;
-        routes = new ArrayList<RouteRecord>();
+        points = new ArrayList<PointRecord>();
     }
     public void setSubmitter(String submitter) {
         this.submitter = submitter;

@@ -1,11 +1,13 @@
 package com.mbrite.patrol.model;
 
+import java.util.*;
+
 public class Asset {
     public final int id;
     public final String description;
     public final String serialNum;
     public final String barcode;
-    public int[] points;
+    public List<Integer> points;
 
     public Asset(int id, String description, String serialNum, String barcode) {
         this.id = id;
@@ -35,7 +37,7 @@ public class Asset {
                  String description,
                  String serialNum,
                  String barcode,
-                 int[] points) {
+                 List<Integer> points) {
         this(id, description, serialNum, barcode);
         this.points = points;
     }
