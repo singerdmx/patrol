@@ -7,6 +7,9 @@ import java.util.*;
  */
 public class Constants {
 
+    public static final String APP_VERSION = "v0";
+    public static final String APP_VERSION_FILE = "APP_VERSION";
+
     public static final String DEFAULT_LOCALE = "zh";
 
     public static final String ID = "id";

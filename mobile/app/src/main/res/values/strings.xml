@@ -47,6 +47,8 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
     <string name="use_offline_mode"> Use Offline Mode?</string>
+    <string name="app_version_upgrade">App Version Upgrade</string>
+    <string name="app_version_upgrade_message">Record of previous version is detected and saved</string>
 
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>

@@ -78,6 +78,7 @@ public class LoginActivity extends Activity {
         mProgressView = findViewById(R.id.login_progress);
 
         try {
+            checkAppVersion();
             Record record = RecordProvider.INSTANCE.get(this);
             if (record != null) {
                 // If there is open record in progress, skip login
@@ -113,6 +114,22 @@ public class LoginActivity extends Activity {
                 return true;
             default:
                 return false;
+        }
+    }
+
+    private void checkAppVersion()
+            throws IOException {
+        if (!FileMgr.exists(this, Constants.APP_VERSION_FILE) ||
+                !FileMgr.read(this, Constants.APP_VERSION_FILE).equals(Constants.APP_VERSION)) {
+            if (FileMgr.exists(this, Constants.RECORD_FILE_NAME)) {
+                RecordProvider.INSTANCE.completeCurrentRecord(this);
+                Toast.makeText(
+                        this,
+                        R.string.app_version_upgrade_message,
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+            FileMgr.write(this, Constants.APP_VERSION_FILE, Constants.APP_VERSION);
         }
     }
 
@@ -208,7 +225,7 @@ public class LoginActivity extends Activity {
 
     private void attemptOffline(String message) {
         new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                .setTitle(getString(R.string.use_offline_mode))
+                .setTitle(R.string.use_offline_mode)
                 .setMessage(message + getString(R.string.use_offline_mode))
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
