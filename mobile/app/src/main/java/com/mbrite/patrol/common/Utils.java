@@ -9,7 +9,6 @@ import android.widget.*;
 import android.net.*;
 
 import com.mbrite.patrol.app.LoginActivity;
-import com.mbrite.patrol.app.MainActivity;
 import com.mbrite.patrol.app.R;
 import com.mbrite.patrol.connection.RestClient;
 import com.mbrite.patrol.content.providers.RecordProvider;
@@ -77,29 +76,39 @@ public class Utils {
     }
 
     public static void logout(final Activity activity) {
-        new AlertDialog.Builder(activity, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                .setTitle(activity.getString(R.string.logout))
-                .setMessage(activity.getString(R.string.confirm_logout))
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        try {
-                            RecordProvider.INSTANCE.reset(activity);
-                            Utils.clearUsernameAndPassword(activity);
-                            activity.startActivity(new Intent(activity, LoginActivity.class));
-                            activity.finish();
-                        } catch (Exception ex) {
-                            Toast.makeText(
-                                    activity,
-                                    String.format(activity.getString(R.string.error_of), ex.getLocalizedMessage()),
-                                    Toast.LENGTH_LONG)
-                                    .show();
+        try {
+            if (Tracker.INSTANCE.isRecordComplete()) {
+                logoutUser(activity);
+                return;
+            }
+
+            new AlertDialog.Builder(activity, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                    .setTitle(R.string.confirm_logout)
+                    .setMessage(R.string.logout_warning)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            try {
+                                logoutUser(activity);
+                            } catch (Exception ex) {
+                                Toast.makeText(
+                                        activity,
+                                        String.format(activity.getString(R.string.error_of), ex.getLocalizedMessage()),
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                            }
                         }
-                    }
-                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Do nothing.
-                    }
-                }).setIcon(R.drawable.question).show();
+                    }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // Do nothing.
+                }
+            }).setIcon(R.drawable.warning).show();
+        } catch (Exception ex) {
+            Toast.makeText(
+                    activity,
+                    String.format(activity.getString(R.string.error_of), ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     /**
@@ -281,4 +290,11 @@ public class Utils {
         return Math.abs(a - b) < EPSILON;
     }
 
+    private static void logoutUser(Activity activity)
+            throws IOException {
+        RecordProvider.INSTANCE.completeCurrentRecord(activity);
+        Utils.clearUsernameAndPassword(activity);
+        activity.startActivity(new Intent(activity, LoginActivity.class));
+        activity.finish();
+    }
 }

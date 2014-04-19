@@ -52,6 +52,9 @@
     <string name="error_field_required">请填写此项</string>
     <string name="error_no_network">无法连接到网络。</string>
 
+    <!-- Strings related to logout -->
+    <string name="logout_warning">当前巡检未全部完成，登出将保存未完成的数据并无法更改</string>
+
     <!-- Strings related to route -->
     <string name="route">路线</string>
     <string name="confirm_route">确认路线</string>

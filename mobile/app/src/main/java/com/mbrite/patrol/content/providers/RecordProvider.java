@@ -71,12 +71,6 @@ public enum RecordProvider {
         FileMgr.write(activity, Constants.RECORD_FILE_NAME, gson.toJson(record));
     }
 
-    public void save(Activity activity, Record record)
-            throws IOException {
-        this.record = record;
-        save(activity);
-    }
-
     public void setRoutes(List<Route> routes, Activity activity)
         throws IOException {
         record.routes = new ArrayList<Integer>(routes.size());
@@ -94,6 +88,20 @@ public enum RecordProvider {
             }
         }
         return recordFiles;
+    }
+
+    public void completeCurrentRecord(Activity activity)
+        throws IOException {
+        if (record != null && record.end_time == 0) {
+            record.end_time = System.currentTimeMillis() / 1000;
+            save(activity);
+        }
+        if (FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
+            FileMgr.copy(activity,
+                    Constants.RECORD_FILE_NAME,
+                    String.format("%s.%d", Constants.RECORD_FILE_NAME, System.currentTimeMillis() / 1000));
+        }
+        reset(activity);
     }
 
     /**

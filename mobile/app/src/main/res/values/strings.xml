@@ -52,6 +52,9 @@
     <string name="error_field_required">This field is required</string>
     <string name="error_no_network">No network available.</string>
 
+    <!-- Strings related to logout -->
+    <string name="logout_warning">Logout will save current data and you will be unable to change it</string>
+
     <!-- Strings related to route -->
     <string name="route">Route</string>
     <string name="confirm_route">Confirm Route</string>

@@ -168,7 +168,19 @@ public class AssetsActivity extends Activity {
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        saveRecord();
+                        try {
+                            RecordProvider.INSTANCE.completeCurrentRecord(AssetsActivity.this);
+                            Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        } catch (Exception ex) {
+                            Toast.makeText(
+                                    AssetsActivity.this,
+                                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -176,30 +188,6 @@ public class AssetsActivity extends Activity {
                         // do nothing
                     }
                 }).setIcon(R.drawable.question).show();
-    }
-
-    private void saveRecord() {
-        try {
-            Record record = RecordProvider.INSTANCE.get(AssetsActivity.this);
-            if (record != null && record.end_time == 0) {
-                record.end_time = System.currentTimeMillis() / 1000;
-                RecordProvider.INSTANCE.save(AssetsActivity.this, record);
-            }
-            FileMgr.copy(AssetsActivity.this,
-                    Constants.RECORD_FILE_NAME,
-                    String.format("%s.%d", Constants.RECORD_FILE_NAME, System.currentTimeMillis() / 1000));
-            RecordProvider.INSTANCE.reset(AssetsActivity.this);
-            Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        } catch (Exception ex) {
-            Toast.makeText(
-                    AssetsActivity.this,
-                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
     }
 
     private void checkBarcode(String barcode)
