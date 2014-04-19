@@ -228,7 +228,7 @@ public class LoginActivity extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         // Do nothing.
                     }
-                }).setIcon(android.R.drawable.ic_menu_help).show();
+                }).setIcon(R.drawable.question).show();
     }
 
     /**

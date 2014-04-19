@@ -5,5 +5,9 @@
         android:color="@color/Gold" android:drawable="@color/Gold"/>
     <item android:state_selected="true"
         android:color="@color/Gold" android:drawable="@color/Gold"/>
-    <item android:color="@color/white"/>
+    <item android:state_active="true"
+        android:color="@color/Gold" android:drawable="@color/Gold"/>
+    <item android:state_hovered="true"
+        android:color="@color/Gold" android:drawable="@color/Gold"/>
+    <item android:color="@color/White"/>
 </selector>

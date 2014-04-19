@@ -20,7 +20,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.*;
 
-public class AssetsActivity extends ParentActivity {
+public class AssetsActivity extends Activity {
     private static final String TAG = AssetsActivity.class.getSimpleName();
 
     @Override
@@ -140,9 +140,66 @@ public class AssetsActivity extends ParentActivity {
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadRecords(AssetsActivity.this, false);
+                completeRecord();
             }
         });
+        if (Tracker.INSTANCE.isRecordComplete()) {
+            completeButton.performClick();
+        }
+    }
+
+    private void completeRecord() {
+        if (!Tracker.INSTANCE.isRecordComplete()) {
+            new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                    .setMessage(R.string.error_incomplete_assets)
+                    .setTitle(R.string.error)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // do nothing
+                        }
+                    }).setIcon(R.drawable.error).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                .setMessage(R.string.whether_save_record)
+                .setTitle(R.string.complete_patrol)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        saveRecord();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // do nothing
+                    }
+                }).setIcon(R.drawable.question).show();
+    }
+
+    private void saveRecord() {
+        try {
+            Record record = RecordProvider.INSTANCE.get(AssetsActivity.this);
+            if (record != null && record.end_time == 0) {
+                record.end_time = System.currentTimeMillis() / 1000;
+                RecordProvider.INSTANCE.save(AssetsActivity.this, record);
+            }
+            FileMgr.copy(AssetsActivity.this,
+                    Constants.RECORD_FILE_NAME,
+                    String.format("%s.%d", Constants.RECORD_FILE_NAME, System.currentTimeMillis() / 1000));
+            RecordProvider.INSTANCE.reset(AssetsActivity.this);
+            Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        } catch (Exception ex) {
+            Toast.makeText(
+                    AssetsActivity.this,
+                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     private void checkBarcode(String barcode)

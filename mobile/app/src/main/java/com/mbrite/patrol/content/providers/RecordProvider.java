@@ -19,10 +19,11 @@ public enum RecordProvider {
 
     public void reset(Activity activity)
         throws IOException {
-        record = null;
         if (FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
             FileMgr.delete(activity, Constants.RECORD_FILE_NAME);
         }
+        record = null;
+        Tracker.INSTANCE.reset();
     }
 
     /**

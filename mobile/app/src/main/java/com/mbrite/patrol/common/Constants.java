@@ -51,8 +51,6 @@ public class Constants {
     public static final String BARCODE = "barcode";
 
     // Point related constants
-    public static final String TPM_TYPE = "tpm_type";
-    public static final String PERIOD_UNIT = "period_unit";
     public static final String CATEGORY = "category";
     public static final String CHOICE = "choice";
     public static final Set<Integer> CATEGORY_SCAN_ONLY;

@@ -170,7 +170,7 @@ public class PointsActivity extends Activity {
                         public void onClick(DialogInterface dialog, int id) {
                             // Do nothing
                         }
-                    }).setIcon(android.R.drawable.stat_sys_warning).show();
+                    }).setIcon(R.drawable.warning).show();
         } else {
             promptNotice();
         }

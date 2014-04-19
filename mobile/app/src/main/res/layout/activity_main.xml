@@ -30,7 +30,7 @@
             android:clickable="true"
             android:text="@string/notification"
             android:drawableTop="@drawable/mail"
-            android:background="@drawable/screen_background"
+            android:background="@drawable/background_cyan"
             android:textColor="@color/white"
             android:gravity="center">
         </TextView>
@@ -43,7 +43,7 @@
             android:clickable="true"
             android:text="@string/synchronize_data"
             android:drawableTop="@drawable/refresh"
-            android:background="@drawable/screen_background"
+            android:background="@drawable/background_cyan"
             android:textColor="@color/white"
             android:gravity="center">
         </TextView>
@@ -56,7 +56,7 @@
             android:clickable="true"
             android:text="@string/start_patrol"
             android:drawableTop="@drawable/circleright"
-            android:background="@drawable/screen_background"
+            android:background="@drawable/background_cyan"
             android:textColor="@color/white"
             android:gravity="center">
         </TextView>

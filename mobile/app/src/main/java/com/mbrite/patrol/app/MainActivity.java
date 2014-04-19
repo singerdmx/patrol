@@ -1,6 +1,8 @@
 package com.mbrite.patrol.app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.*;
@@ -16,7 +18,7 @@ import com.mbrite.patrol.model.*;
 import org.apache.commons.lang3.*;
 import java.util.*;
 
-public class MainActivity extends ParentActivity {
+public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -74,9 +76,52 @@ public class MainActivity extends ParentActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadRecords(MainActivity.this, true);
+                refresh.setBackground(getResources().getDrawable(R.drawable.background_darkblue));
+                if (!Tracker.INSTANCE.isRecordComplete()) {
+                    new AlertDialog.Builder(MainActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                            .setMessage(R.string.error_incomplete_assets)
+                            .setTitle(R.string.error)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // do nothing
+                                }
+                            }).setIcon(R.drawable.error).show();
+                    return;
+                }
+
+                if (!Utils.isNetworkConnected(MainActivity.this)) {
+                    new AlertDialog.Builder(MainActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                            .setMessage(R.string.error_no_network)
+                            .setTitle(R.string.error)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // do nothing
+                                }
+                            }).setIcon(R.drawable.error).show();
+                    return;
+                }
+
+                uploadRecords();
             };
         });
+    }
+
+    private void uploadRecords() {
+        ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this,
+                getString(R.string.uploading),
+                getString(R.string.please_wait),
+                true);
+        try {
+            new UploadTask(MainActivity.this, progressDialog).execute();
+        } catch (Exception ex) {
+            Toast.makeText(
+                    MainActivity.this,
+                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     private void setupStartPatrol() {
@@ -111,7 +156,7 @@ public class MainActivity extends ParentActivity {
                 builder.setMessage(message)
                         .setTitle(R.string.confirm_route)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 try {
                                     Record record = RecordProvider.INSTANCE.get(MainActivity.this);
@@ -132,13 +177,13 @@ public class MainActivity extends ParentActivity {
                                 }
                             }
                         })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });
                 AlertDialog alert = builder.create();
-                alert.setIcon(android.R.drawable.ic_menu_help);
+                alert.setIcon(R.drawable.question);
                 alert.show();
             };
         });

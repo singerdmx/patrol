@@ -60,6 +60,7 @@
     <string name="no_update">没有更新</string>
     <string name="update_complete">更新已完成</string>
     <string name="no_route">没有路线选中！</string>
+    <string name="start_synchronizing">开始同步</string>
 
     <!-- Strings related to asset -->
     <string name="asset">设备</string>
@@ -69,13 +70,14 @@
     <string name="barcode">编码</string>
     <string name="manual_input">手动输入</string>
     <string name="error_incorrect_barcode">编码不相符</string>
-    <string name="error_incomplete_assets">有未完成的数据，不可上传！</string>
+    <string name="error_incomplete_assets">有未完成的数据，无法保存！</string>
     <string name="complete_patrol">完成巡检</string>
     <string name="upload_data">上传所有数据？</string>
     <string name="error_upload">%s条纪录上传失败</string>
     <string name="upload_success">成功上传了%s条纪录</string>
     <string name="manual_input_barcode">请手动输入编码</string>
     <string name="not_scanned">扫描没有完成</string>
+    <string name="whether_save_record">所有巡检项目已完成，是否保存？（保存后数据不可再更改）</string>
 
     <!-- Strings related to point -->
     <string name="asset_list">返回到设备列表</string>

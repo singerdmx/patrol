@@ -99,7 +99,7 @@ public class Utils {
                     public void onClick(DialogInterface dialog, int id) {
                         // Do nothing.
                     }
-                }).setIcon(android.R.drawable.ic_menu_help).show();
+                }).setIcon(R.drawable.question).show();
     }
 
     /**
@@ -245,16 +245,6 @@ public class Utils {
                     Toast.LENGTH_LONG)
                     .show();
         }
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-
-        }
-        Intent intent = new Intent(activity, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(intent);
-        activity.finish();
     }
 
     public static <T> ArrayList<T> convertJSONArrayToList(JSONArray array)

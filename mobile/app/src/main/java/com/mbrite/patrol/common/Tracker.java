@@ -73,6 +73,29 @@ public enum  Tracker {
         processDuplicatesAndBarcode();
     }
 
+    public void reset() {
+        routeGroups = null;
+        targetAsset = null;
+        pointGroups = null;
+        assetDuplicates = new HashMap<>();
+        assetBarcodeMap = new HashMap<>();
+        pointDuplicates = new HashMap<>();
+        pointBarcodeMap = new HashMap<>();
+    }
+
+    public boolean isRecordComplete() {
+        if (routeGroups == null) {
+            return true;
+        }
+        for (RouteGroup r : routeGroups) {
+            if (!Utils.areEqualDouble(r.getCompleteness(), 1)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private void processDuplicatesAndBarcode() {
         for (RouteGroup routeGroup : routeGroups) {
             for (final AssetGroup assetGroup : routeGroup.assetList) {
