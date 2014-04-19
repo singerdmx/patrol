@@ -1,6 +1,6 @@
 package com.mbrite.patrol.model;
 
-import java.util.*;
+import com.mbrite.patrol.content.providers.RecordProvider;
 
 public class PointGroup extends Point {
 
@@ -8,20 +8,17 @@ public class PointGroup extends Point {
 
     private int assetId;
 
-    public Set<PointGroup> duplicates;
-
     public PointGroup(Point point, AssetGroup assetGroup) {
         super(point.id,
+                point.name,
                 point.description,
-                point.tpmType,
-                point.standard,
-                point.status,
-                point.periodUnit,
+                point.state,
                 point.routes,
-                point.barcode);
+                point.barcode,
+                point.category,
+                point.choice);
         routeId = assetGroup.getRouteId();
         assetId = assetGroup.id;
-        duplicates = new TreeSet<PointGroup>();
     }
 
     public int getRouteId() {
@@ -30,5 +27,19 @@ public class PointGroup extends Point {
 
     public int getAssetId() {
         return assetId;
+    }
+
+    public int getStatus() {
+        PointRecord pr = RecordProvider.INSTANCE.getPointRecord(id);
+        if (pr == null) {
+            return RecordStatus.NOT_STARTED;
+        }
+
+        return pr.status;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", name, description);
     }
 }

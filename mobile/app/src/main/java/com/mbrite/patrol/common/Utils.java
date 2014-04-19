@@ -33,6 +33,8 @@ import java.util.*;
  * Utility class
  */
 public class Utils {
+    private final static double EPSILON = 0.00001;
+
     public static void setDefaultLocale(android.content.Context context) {
         Locale locale = new Locale(Constants.DEFAULT_LOCALE);
         Locale.setDefault(locale);
@@ -75,7 +77,7 @@ public class Utils {
     }
 
     public static void logout(final Activity activity) {
-        new AlertDialog.Builder(activity)
+        new AlertDialog.Builder(activity, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
                 .setTitle(activity.getString(R.string.logout))
                 .setMessage(activity.getString(R.string.confirm_logout))
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -94,10 +96,10 @@ public class Utils {
                         }
                     }
                 }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // Do nothing.
-            }
-        }).show();
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Do nothing.
+                    }
+                }).setIcon(android.R.drawable.ic_menu_help).show();
     }
 
     /**
@@ -275,6 +277,18 @@ public class Utils {
         }
 
         return null;
+    }
+
+    public static Double getDouble(String s) {
+        if (StringUtils.isNoneBlank(s)) {
+            return Double.parseDouble(s);
+        }
+
+        return null;
+    }
+
+    public static boolean areEqualDouble(double a, double b) {
+        return Math.abs(a - b) < EPSILON;
     }
 
 }

@@ -7,8 +7,7 @@ import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.Point;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -24,48 +23,20 @@ public enum PointProvider {
         List<JSONObject> pointsJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.POINTS));
         for(JSONObject pointJSON : pointsJSON) {
             List<Integer> routes = Utils.convertJSONArrayToList(pointJSON.getJSONArray(Constants.ROUTES));
+            List<String> choice = Utils.convertJSONArrayToList(new JSONArray(pointJSON.getString(Constants.CHOICE)));
             Point point = new Point(
                     pointJSON.getInt(Constants.ID),
+                    pointJSON.getString(Constants.NAME),
                     pointJSON.getString(Constants.DESCRIPTION),
-                    pointJSON.getString(Constants.TPM_TYPE),
-                    pointJSON.getString(Constants.STANDARD),
-                    pointJSON.getString(Constants.STATUS),
-                    pointJSON.getString(Constants.PERIOD_UNIT),
+                    pointJSON.getString(Constants.STATE),
                     routes,
-                    Utils.getString(pointJSON, Constants.BARCODE));
+                    Utils.getString(pointJSON, Constants.BARCODE),
+                    pointJSON.getInt(Constants.CATEGORY),
+                    choice);
 
             points.add(point);
         }
         return points;
     }
-
-//    public String getStandardDescription(JSONObject standardJSON)
-//            throws JSONException {
-//        return standardJSON.getString(Constants.DESCRIPTION);
-//    }
-//
-//    public Double getMin(JSONObject standardJSON)
-//            throws JSONException {
-//        if (standardJSON.has(Constants.MIN)) {
-//            return standardJSON.getDouble(Constants.MIN);
-//        }
-//        return null;
-//    }
-//
-//    public Double getMax(JSONObject standardJSON)
-//            throws JSONException {
-//        if (standardJSON.has(Constants.MAX)) {
-//            return standardJSON.getDouble(Constants.MAX);
-//        }
-//        return null;
-//    }
-//
-//    public List<String> getChoice(JSONObject standardJSON)
-//        throws JSONException {
-//        if (standardJSON.has(Constants.CHOICE)) {
-//            return Utils.convertJSONArrayToList(standardJSON.getJSONArray(Constants.CHOICE));
-//        }
-//        return null;
-//    }
 
 }

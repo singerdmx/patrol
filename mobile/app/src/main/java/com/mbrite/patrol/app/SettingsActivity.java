@@ -39,34 +39,34 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     /**
-     * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
+     * A preference result change listener that updates the preference's summary
+     * to reflect its new result.
      */
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
-            // set the summary to the value's simple string representation.
+            // set the summary to the result's simple string representation.
             preference.setSummary(stringValue);
             return true;
         }
     };
 
     /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
+     * Binds a preference's summary to its result. More specifically, when the
+     * preference's result is changed, its summary (line of text below the
+     * preference title) is updated to reflect the result. The summary is also
      * immediately updated upon calling this method. The exact display format is
      * dependent on the type of preference.
      *
      * @see #sBindPreferenceSummaryToValueListener
      */
     private static void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
+        // Set the listener to watch for result changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
         // Trigger the listener immediately with the preference's
-        // current value.
+        // current result.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(
                 preference,
                 PreferenceManager

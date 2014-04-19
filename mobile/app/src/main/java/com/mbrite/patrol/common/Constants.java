@@ -1,9 +1,12 @@
 package com.mbrite.patrol.common;
 
+import java.util.*;
+
 /**
  * Shared Constants
  */
 public class Constants {
+
     public static final String DEFAULT_LOCALE = "zh";
 
     public static final String ID = "id";
@@ -15,6 +18,8 @@ public class Constants {
     public static final String DEFAULT_SITE_URL = "http://warm-depths-4825.herokuapp.com";
     public static final String SITE_URL = "site_url";
     public static final String STATUS = "status";
+    public static final String NAME = "name";
+    public static final String STATE = "state";
     public static final String STANDARD = "standard";
     public static final String MIN = "min";
     public static final String MAX = "max";
@@ -48,5 +53,14 @@ public class Constants {
     // Point related constants
     public static final String TPM_TYPE = "tpm_type";
     public static final String PERIOD_UNIT = "period_unit";
+    public static final String CATEGORY = "category";
     public static final String CHOICE = "choice";
+    public static final Set<Integer> CATEGORY_SCAN_ONLY;
+
+    static {
+        CATEGORY_SCAN_ONLY = new TreeSet<>();
+        CATEGORY_SCAN_ONLY.add(10);
+        CATEGORY_SCAN_ONLY.add(20);
+    }
+
 }

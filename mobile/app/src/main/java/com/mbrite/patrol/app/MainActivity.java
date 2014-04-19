@@ -85,7 +85,7 @@ public class MainActivity extends ParentActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize);
                 RoutesFragment fragment = (RoutesFragment) getFragmentManager().findFragmentById(R.id.routes);
                 final ArrayList<Route> selectedRoutes = new ArrayList<Route>();
                 List<String> selectedRoutesString = new ArrayList<String>();
@@ -138,6 +138,7 @@ public class MainActivity extends ParentActivity {
                             }
                         });
                 AlertDialog alert = builder.create();
+                alert.setIcon(android.R.drawable.ic_menu_help);
                 alert.show();
             };
         });

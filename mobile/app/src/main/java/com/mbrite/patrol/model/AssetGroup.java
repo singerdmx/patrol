@@ -24,4 +24,43 @@ public class AssetGroup extends Asset {
     public int getRouteId() {
         return routeId;
     }
+
+    public int getStatus() {
+        int notStarted = 0, fail  = 0, warn = 0;
+        for (PointGroup p : pointList) {
+            switch (p.getStatus()) {
+                case RecordStatus.NOT_STARTED:
+                    notStarted++;
+                    break;
+                case RecordStatus.FAIL:
+                    fail++;
+                    break;
+                case RecordStatus.WARN:
+                    warn++;
+                    break;
+            }
+        }
+
+        if (notStarted == pointList.size()) {
+            return RecordStatus.NOT_STARTED;
+        }
+        if (fail > 0) {
+            return RecordStatus.FAIL;
+        }
+        if (warn > 0) {
+            return RecordStatus.WARN;
+        }
+        return RecordStatus.PASS;
+    }
+
+    public double getCompleteness() {
+        int started = 0;
+        for (PointGroup p : pointList) {
+            if (p.getStatus() != RecordStatus.NOT_STARTED) {
+                started++;
+            }
+        }
+
+        return started / pointList.size();
+    }
 }

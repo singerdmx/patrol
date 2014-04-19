@@ -10,6 +10,7 @@ import android.widget.*;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.mbrite.patrol.common.*;
+import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.*;
 import com.mbrite.patrol.widget.AssetAdapter;
 
@@ -109,7 +110,7 @@ public class AssetsActivity extends ParentActivity {
             public void onClick(View view) {
                 Tracker.INSTANCE.targetAsset = null;
                 final EditText input = new EditText(AssetsActivity.this);
-                new AlertDialog.Builder(AssetsActivity.this)
+                new AlertDialog.Builder(AssetsActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
                         .setTitle(getString(R.string.manual_input_barcode))
                         .setView(input)
                         .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
@@ -129,7 +130,7 @@ public class AssetsActivity extends ParentActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 // Do nothing.
                             }
-                        }).show();
+                        }).setIcon(android.R.drawable.ic_menu_edit).show();
             }
         });
     }
@@ -190,9 +191,54 @@ public class AssetsActivity extends ParentActivity {
             }
         }
 
+        if (scanOnly(pointId, assetId, targetAsset)) {
+            onResume();
+            return;
+        }
+
         Intent intent = new Intent(this, PointsActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private boolean scanOnly(Integer pointId, Integer assetId, AssetGroup targetAsset)
+        throws IOException {
+        PointGroup point = null;
+        if (pointId != null) {
+            point = Tracker.INSTANCE.getPointDuplicates().get(pointId).get(0);
+        } else {
+            List<PointGroup> points = new ArrayList<>();
+            if (targetAsset != null) {
+                points = targetAsset.pointList;
+            } else {
+                for (AssetGroup a : Tracker.INSTANCE.getAssetDuplicates().get(assetId)) {
+                    for (PointGroup pt : a.pointList) {
+                        boolean exists = false;
+                        for (PointGroup p : points) {
+                            if (p.id == pt.id) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (!exists) {
+                            points.add(pt);
+                        }
+                    }
+                }
+            }
+
+            if (points.size() == 1) {
+                point = points.get(0);
+            }
+        }
+
+        if (point != null && Constants.CATEGORY_SCAN_ONLY.contains(point.category)) {
+            // If there is only one point and that is scan only
+            RecordProvider.INSTANCE.addOrUpdatePointRecord(point, "", 0, "", this);
+            return true;
+        }
+
+        return false;
     }
 
 }

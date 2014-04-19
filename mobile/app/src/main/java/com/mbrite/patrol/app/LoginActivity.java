@@ -83,6 +83,7 @@ public class LoginActivity extends Activity {
                 // If there is open record in progress, skip login
                 startActivity(new Intent(Constants.MAIN_ACTIVITY));
                 finish();
+                return;
             }
         } catch (Exception ex) {
             Toast.makeText(
@@ -206,7 +207,7 @@ public class LoginActivity extends Activity {
     }
 
     private void attemptOffline(String message) {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
                 .setTitle(getString(R.string.use_offline_mode))
                 .setMessage(message + getString(R.string.use_offline_mode))
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -227,7 +228,7 @@ public class LoginActivity extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         // Do nothing.
                     }
-                }).show();
+                }).setIcon(android.R.drawable.ic_menu_help).show();
     }
 
     /**

@@ -13,21 +13,36 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:background="@color/light_green"
+        android:background="@color/FloralWhite"
         android:gravity="center_horizontal">
 
         <TextView
-            android:id="@+id/standard"
-            style="@style/TextAppearance.AppCompat.Base.SearchResult.Title"
-            android:layout_width="wrap_content"
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_weight=".50"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
+            android:textAlignment="center"
             android:text="温度"
-            android:textAlignment="center" />
+            style="@style/TextAppearance.AppCompat.Base.SearchResult.Title" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_weight=".50"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textAlignment="center"
+            android:text="温度"
+            style="@style/TextAppearance.AppCompat.Base.SearchResult.Title" />
 
     </LinearLayout>
 
@@ -37,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/title"
-        android:background="@color/light_green">
+        android:background="@color/FloralWhite">
 
         <TextView
             android:layout_width="0dp"
@@ -52,7 +67,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/state"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -66,9 +81,10 @@
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_green"
+        android:background="@color/FloralWhite"
         android:orientation="horizontal"
         android:layout_below="@+id/secondLine">
 
@@ -90,6 +106,43 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".50" />
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/memo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/FloralWhite"
+        android:orientation="horizontal"
+        android:layout_below="@+id/content">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight=".50"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:text="@string/memo"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/memo_value"
+            android:layout_width="0dp"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight=".50"
+            android:autoText="false"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:singleLine="true" />
 
     </LinearLayout>
 </RelativeLayout>

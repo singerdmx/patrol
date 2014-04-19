@@ -9,8 +9,11 @@ import android.widget.Toast;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
+import com.mbrite.patrol.common.Tracker;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Record;
+import com.mbrite.patrol.model.RouteGroup;
 
 
 /**
@@ -22,16 +25,17 @@ public class ParentActivity extends Activity {
 
     public void uploadRecords(final Activity activity, final boolean updateRecordFiles) {
         try {
-            if (false) {
-                // TODO: check incomplete
-                throw new IllegalStateException(getString(R.string.error_incomplete_assets));
+            for (RouteGroup r : Tracker.INSTANCE.routeGroups) {
+                if (!Utils.areEqualDouble(r.getCompleteness(), 1)) {
+                    throw new IllegalStateException(getString(R.string.error_incomplete_assets));
+                }
             }
             Record record = RecordProvider.INSTANCE.get(activity);
             if (record != null && record.end_time == 0) {
                 record.end_time = System.currentTimeMillis()/1000;
                 RecordProvider.INSTANCE.save(activity, record);
             }
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.Theme_Base_AppCompat_Dialog_FixedSize);
             builder.setMessage(activity.getString(R.string.upload_data))
                     .setTitle(R.string.complete_patrol)
                     .setCancelable(false)
@@ -75,6 +79,7 @@ public class ParentActivity extends Activity {
                         }
                     });
             AlertDialog alert = builder.create();
+            alert.setIcon(android.R.drawable.ic_menu_help);
             alert.show();
         } catch (Exception ex) {
             Toast.makeText(

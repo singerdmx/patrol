@@ -8,10 +8,16 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
+    <string name="_return">Return</string>
     <string name="submit">Submit</string>
     <string name="save">Save</string>
     <string name="update">Update</string>
     <string name="error_of">Error: %s</string>
+    <string name="error">Error</string>
+    <string name="warning">Warning</string>
+    <string name="confirm">Confirm</string>
+    <string name="_continue">Continue</string>
+    <string name="_notice">Notice</string>
     <string name="content">Content</string>
     <string name="project">Project</string>
     <string name="status">Status</string>
@@ -78,6 +84,9 @@
     <string name="selected_point">Selected Point: %s</string>
     <string name="enter_value">Please enter value</string>
     <string name="asset_status">Asset Status</string>
-    <string name="error_not_a_number">%s is not a number</string>
-
+    <string name="error_not_a_number">"%s" is not a number</string>
+    <string name="memo">Memo</string>
+    <string name="error_no_data">No data</string>
+    <string name="result_in_warning_status">Result in WARNING status</string>
+    <string name="result_in_fail_status">Result in FAIL status</string>
 </resources>

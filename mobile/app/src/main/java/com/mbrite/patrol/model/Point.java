@@ -4,29 +4,29 @@ import java.util.*;
 
 public class Point {
     public final int id;
+    public final String name;
     public final String description;
-    public final String tpmType;
-    public final String status;
-    public final String periodUnit;
-    public final String standard;
+    public final String state;
     public final List<Integer> routes;
     public final String barcode;
+    public final int category;
+    public final List<String> choice;
 
     public Point(int id,
+                 String name,
                  String description,
-                 String tpmType,
-                 String standard,
-                 String status,
-                 String periodUnit,
+                 String state,
                  List<Integer> routes,
-                 String barcode) {
+                 String barcode,
+                 int category,
+                 List<String> choice) {
         this.id = id;
         this.description = description;
-        this.tpmType = tpmType;
-        this.standard = standard;
-        this.status = status;
-        this.periodUnit = periodUnit;
+        this.name = name;
+        this.state = state;
         this.routes = routes;
         this.barcode = barcode;
+        this.category = category;
+        this.choice = choice;
     }
 }

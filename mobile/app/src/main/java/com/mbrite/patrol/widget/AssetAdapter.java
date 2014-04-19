@@ -11,6 +11,7 @@ import android.widget.*;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mbrite.patrol.app.*;
 import com.mbrite.patrol.common.Tracker;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.*;
 
 public class AssetAdapter extends BaseExpandableListAdapter {
@@ -46,6 +47,35 @@ public class AssetAdapter extends BaseExpandableListAdapter {
         descriptionView.setText(asset.description);
         TextView serialNumView = (TextView) convertView.findViewById(R.id.serial_num);
         serialNumView.setText(asset.serialNum);
+        ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
+        int resId;
+        double completeness = asset.getCompleteness();
+        if (Utils.areEqualDouble(completeness, 0)) {
+            resId = R.drawable.progress_start;
+        } else if (Utils.areEqualDouble(completeness, 1)) {
+            resId = R.drawable.progress_complete;
+        }  else {
+            resId = R.drawable.in_progress;
+        }
+        icon.setImageResource(resId);
+        int backgroundResId = 0;
+        switch (asset.getStatus()) {
+            case RecordStatus.PASS:
+                backgroundResId = R.drawable.pass_row_selector;
+                break;
+            case RecordStatus.FAIL:
+                backgroundResId = R.drawable.fail_row_selector;
+                break;
+            case RecordStatus.WARN:
+                backgroundResId = R.drawable.warning_row_selector;
+                break;
+            case RecordStatus.NOT_STARTED:
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid status: " + asset.getStatus());
+        }
+        convertView.setBackgroundResource(backgroundResId);
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,9 +135,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
         CheckedTextView checkedTextView = (CheckedTextView) convertView;
         checkedTextView.setText(group.description);
         checkedTextView.setChecked(isExpanded);
-        // TODO: calculate percent
-        float percent = (float) 0.4;
-        ColorBarDrawable drawable = new ColorBarDrawable(percent);
+        ColorBarDrawable drawable = new ColorBarDrawable((float) group.getCompleteness());
         checkedTextView.setBackground(drawable);
         return convertView;
     }
@@ -121,57 +149,4 @@ public class AssetAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
-
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        LayoutInflater inflater = (LayoutInflater) context
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//        // Get rowView from inflater
-//        View rowView = inflater.inflate(R.layout.activity_list_item_asset, parent, false);
-//        Asset asset = itemsArrayList.get(position);
-//        try {
-//            RecordState state = RecordProvider.INSTANCE.getAssetRecordState(context, asset.id);
-//            ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
-//            int resId = 0;
-//            switch (state.status) {
-//                case NOT_STARTED:
-//                    resId = R.drawable.progress_start;
-//                    break;
-//                case IN_PROGRESS:
-//                    resId = R.drawable.in_progress;
-//                    break;
-//                case COMPLETE:
-//                    resId = R.drawable.progress_complete;
-//                    break;
-//                default:
-//                    throw new IllegalArgumentException("Invalid status: " + state.status.toString());
-//            }
-//            if (state.result != null) {
-//                switch (state.result) {
-//                    case PASS:
-//                        rowView.setBackgroundResource(R.drawable.pass_row_selector);
-//                        break;
-//                    case FAIL:
-//                        rowView.setBackgroundResource(R.drawable.fail_row_selector);
-//                        break;
-//                    default:
-//                        throw new IllegalArgumentException("Invalid result: " + state.result.toString());
-//                }
-//            }
-//            icon.setImageResource(resId);
-//        } catch (Exception ex) {
-//            Toast.makeText(
-//                    context,
-//                    String.format("Error: %s", ex.getLocalizedMessage()),
-//                    Toast.LENGTH_LONG)
-//                    .show();
-//        }
-//        TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
-//        descriptionView.setText(asset.description);
-//        TextView serialNumView = (TextView) rowView.findViewById(R.id.serial_num);
-//        serialNumView.setText(asset.serialNum);
-//
-//        return rowView;
-//    }
 }

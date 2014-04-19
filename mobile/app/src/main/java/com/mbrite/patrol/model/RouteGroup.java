@@ -1,7 +1,5 @@
 package com.mbrite.patrol.model;
 
-import android.app.Activity;
-
 import com.mbrite.patrol.content.providers.AssetProvider;
 
 import org.json.JSONException;
@@ -21,5 +19,16 @@ public class RouteGroup extends Route {
         for (Asset asset : assets) {
             assetList.add(new AssetGroup(asset, allPoints, this));
         }
+    }
+
+    public double getCompleteness() {
+        double sum = 0;
+        for (AssetGroup a : assetList) {
+            if (a.getStatus() != RecordStatus.NOT_STARTED) {
+                sum += a.getCompleteness();
+            }
+        }
+
+        return sum / assetList.size();
     }
 }
