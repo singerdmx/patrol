@@ -10,6 +10,7 @@ import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.Record;
 
 import java.util.*;
 
@@ -84,10 +85,13 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
     }
 
     private void uploadFile(String file) {
-        Log.i(TAG, String.format("Uploading file %s", file));
+        Log.i(TAG, String.format("Uploading record %s", file));
         try {
-            String record = FileMgr.read(activity, file);
-//            HttpResponse response = RestClient.INSTANCE.post(activity, Constants.RESULTS, record, Constants.CONTENT_TYPE_JSON);
+            String recordContent = FileMgr.read(activity, file);
+            Record record = RecordProvider.INSTANCE.parseRecordString(recordContent);
+            record.setSubmitter(Utils.getSavedUsernameAndPassword(activity)[0]);
+            recordContent = RecordProvider.INSTANCE.toString(record);
+//            HttpResponse response = RestClient.INSTANCE.post(activity, Constants.RESULTS, recordContent, Constants.CONTENT_TYPE_JSON);
 //            int responseStatusCode = response.getStatusLine().getStatusCode();
             int responseStatusCode = 201;
             if (responseStatusCode != Constants.STATUS_CODE_CREATED) {

@@ -1,5 +1,7 @@
 package com.mbrite.patrol.model;
 
+import com.mbrite.patrol.common.Constants;
+
 import java.util.*;
 
 /**
@@ -13,6 +15,8 @@ public class Record {
 
     private String submitter;
 
+    final public String version;
+
     public List<Integer> routes;
 
     public List<PointRecord> points;
@@ -25,6 +29,7 @@ public class Record {
         session = UUID.randomUUID().toString();
         this.user = username;
         points = new ArrayList<PointRecord>();
+        version = Constants.APP_VERSION;
     }
     public void setSubmitter(String submitter) {
         this.submitter = submitter;

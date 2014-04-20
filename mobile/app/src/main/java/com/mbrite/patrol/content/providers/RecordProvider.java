@@ -26,6 +26,14 @@ public enum RecordProvider {
         Tracker.INSTANCE.reset();
     }
 
+    public Record parseRecordString(String recordContent) {
+        return gson.fromJson(recordContent, Record.class);
+    }
+
+    public String toString(Record record) {
+        return gson.toJson(record);
+    }
+
     /**
      * Deserialize Record object from file
      * @param activity
@@ -35,7 +43,7 @@ public enum RecordProvider {
     public Record getRecord(Activity activity, String fileName)
         throws IOException {
         String recordContent = FileMgr.read(activity, fileName);
-        return gson.fromJson(recordContent, Record.class);
+        return parseRecordString(recordContent);
     }
 
     /**
@@ -68,7 +76,7 @@ public enum RecordProvider {
 
     private void save(Activity activity)
         throws IOException {
-        FileMgr.write(activity, Constants.RECORD_FILE_NAME, gson.toJson(record));
+        FileMgr.write(activity, Constants.RECORD_FILE_NAME, toString(record));
     }
 
     public void setRoutes(List<Route> routes, Activity activity)

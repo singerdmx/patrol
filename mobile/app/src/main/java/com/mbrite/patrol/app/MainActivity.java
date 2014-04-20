@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         Log.d(TAG, "started");
         setContentView(R.layout.activity_main);
         setupNotification();
-        setupSynchronizeDate();
+        setupSynchronizeData();
         setupStartPatrol();
     }
 
@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void setupSynchronizeDate() {
+    private void setupSynchronizeData() {
         final TextView refresh = (TextView) findViewById(R.id.refresh);
         refresh.setTextColor(Utils.getColorStateList(this, R.drawable.textview_alter_selector));
         refresh.setOnClickListener(new View.OnClickListener() {
