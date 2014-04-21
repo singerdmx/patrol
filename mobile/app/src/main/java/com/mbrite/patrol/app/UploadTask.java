@@ -60,7 +60,7 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             progressDialog.dismiss();
         }
 
-        if (statusCode != Constants.STATUS_CODE_CREATED) {
+        if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
             Toast.makeText(activity.getApplicationContext(),
                     String.format("%s\n" +
                                     "%s",
@@ -94,7 +94,7 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
 //            HttpResponse response = RestClient.INSTANCE.post(activity, Constants.RESULTS, recordContent, Constants.CONTENT_TYPE_JSON);
 //            int responseStatusCode = response.getStatusLine().getStatusCode();
             int responseStatusCode = 201;
-            if (responseStatusCode != Constants.STATUS_CODE_CREATED) {
+            if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
                 statusCode = responseStatusCode;
                 fails++;
 //                Log.e(TAG, String.format("Fail to upload file %s:\n" +
@@ -108,7 +108,7 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             }
         } catch (Exception ex) {
             fails++;
-            if (statusCode == Constants.STATUS_CODE_CREATED) {
+            if (Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
                 statusCode = -1;
             }
             Log.e(TAG,

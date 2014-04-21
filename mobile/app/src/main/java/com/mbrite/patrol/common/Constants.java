@@ -37,7 +37,16 @@ public class Constants {
 
     public static final int STATUS_CODE_OK = 200;
     public static final int STATUS_CODE_CREATED = 201;
+    public static final int STATUS_CODE_ACCEPTED = 202;
     public static final int STATUS_CODE_NOT_MODIFIED = 304;
+
+    public static final Set<Integer> STATUS_CODE_UPLOAD_SUCCESS;
+
+    static {
+        STATUS_CODE_UPLOAD_SUCCESS = new TreeSet<>();
+        STATUS_CODE_UPLOAD_SUCCESS.add(STATUS_CODE_CREATED);
+        STATUS_CODE_UPLOAD_SUCCESS.add(STATUS_CODE_ACCEPTED);
+    }
 
     // File name related constants
     public static final String ROUTES = "routes";
