@@ -164,9 +164,11 @@ public class Utils {
      */
     public static boolean updateDataFiles(Activity activity)
             throws JSONException, URISyntaxException, IOException {
-        return updateSavedFile(activity, Constants.ROUTES, Constants.ROUTES_FILE_NAME, "?group_by_asset=true") ||
-                Utils.updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME, null) ||
-                Utils.updateSavedFile(activity, Constants.POINTS, Constants.POINTS_FILE_NAME, null);
+        boolean updated = false;
+        updated = updateSavedFile(activity, Constants.ROUTES, Constants.ROUTES_FILE_NAME, "?group_by_asset=true") || updated;
+        updated = updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME, null) || updated;
+        updated = updateSavedFile(activity, Constants.POINTS, Constants.POINTS_FILE_NAME, null) || updated;
+        return updated;
     }
 
     /**

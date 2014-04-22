@@ -7,6 +7,7 @@ import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.Point;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.*;
 
 import java.io.IOException;
@@ -23,7 +24,10 @@ public enum PointProvider {
         List<JSONObject> pointsJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.POINTS));
         for(JSONObject pointJSON : pointsJSON) {
             List<Integer> routes = Utils.convertJSONArrayToList(pointJSON.getJSONArray(Constants.ROUTES));
-            List<String> choice = Utils.convertJSONArrayToList(new JSONArray(pointJSON.getString(Constants.CHOICE)));
+            List<String> choice = new ArrayList<>();
+            if (!StringUtils.isBlank(pointJSON.getString(Constants.CHOICE))) {
+                choice = Utils.convertJSONArrayToList(new JSONArray(pointJSON.getString(Constants.CHOICE)));
+            }
             Point point = new Point(
                     pointJSON.getInt(Constants.ID),
                     pointJSON.getString(Constants.NAME),
