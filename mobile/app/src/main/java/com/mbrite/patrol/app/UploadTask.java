@@ -10,7 +10,10 @@ import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.Record;
+import com.mbrite.patrol.model.*;
+import com.mbrite.patrol.connection.*;
+
+import org.apache.http.*;
 
 import java.util.*;
 
@@ -91,15 +94,14 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             Record record = RecordProvider.INSTANCE.parseRecordString(recordContent);
             record.setSubmitter(Utils.getSavedUsernameAndPassword(activity)[0]);
             recordContent = RecordProvider.INSTANCE.toString(record);
-//            HttpResponse response = RestClient.INSTANCE.post(activity, Constants.RESULTS, recordContent, Constants.CONTENT_TYPE_JSON);
-//            int responseStatusCode = response.getStatusLine().getStatusCode();
-            int responseStatusCode = 201;
+            HttpResponse response = RestClient.INSTANCE.post(activity, Constants.RESULTS, recordContent, Constants.CONTENT_TYPE_JSON);
+            int responseStatusCode = response.getStatusLine().getStatusCode();
             if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
                 statusCode = responseStatusCode;
                 fails++;
-//                Log.e(TAG, String.format("Fail to upload file %s:\n" +
-//                        "Status Code: %d\n" +
-//                        "%s", file, responseStatusCode, response.getEntity().getContent()));
+                Log.e(TAG, String.format("Fail to upload file %s:\n" +
+                        "Status Code: %d\n" +
+                        "%s", file, responseStatusCode, response.getEntity().getContent()));
             } else {
                 FileMgr.delete(activity, file);
                 if (Constants.RECORD_FILE_NAME.equals(file)) {
