@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
+import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
@@ -38,12 +39,12 @@ public class PointsActivity extends Activity {
                 PointsFragment fragment = (PointsFragment) fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     int category = point.category;
+                    if (Constants.CATEGORY_SCAN_ONLY.contains(category)) {
+                        // scan only, skip such point
+                        RecordProvider.INSTANCE.addOrUpdatePointRecord(point, "", 0, "", this);
+                        continue;
+                    }
                     switch (category) {
-                        case 10:
-                        case 20:
-                            // scan only, skip such point
-                            RecordProvider.INSTANCE.addOrUpdatePointRecord(point, "", 0, "", this);
-                            continue;
                         case 30:
                         case 50:
                             fragment = new MeasureEnterValueFragment();
