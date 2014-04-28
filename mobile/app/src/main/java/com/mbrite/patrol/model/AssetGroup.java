@@ -9,7 +9,7 @@ public class AssetGroup extends Asset {
     public List<PointGroup> pointList;
 
     public AssetGroup(Asset asset, ArrayList<Point> allPoints, RouteGroup routeGroup) {
-        super(asset.id, asset.description, asset.serialNum, asset.barcode, asset.points);
+        super(asset.id, asset.name, asset.serialNum, asset.barcode, asset.points);
         routeId = routeGroup.id;
         pointList = new ArrayList<PointGroup>();
 

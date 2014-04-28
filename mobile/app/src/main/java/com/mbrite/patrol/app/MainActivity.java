@@ -137,7 +137,7 @@ public class MainActivity extends Activity {
                 for (Route route : fragment.getRoutes()) {
                     if (route.isSelected()) {
                         selectedRoutes.add(route);
-                        selectedRoutesString.add(route.description);
+                        selectedRoutesString.add(route.name);
                     }
                 }
 

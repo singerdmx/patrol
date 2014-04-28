@@ -4,24 +4,24 @@ import java.util.*;
 
 public class Asset {
     public final int id;
-    public final String description;
+    public final String name;
     public final String serialNum;
     public final String barcode;
     public List<Integer> points;
 
-    public Asset(int id, String description, String serialNum, String barcode) {
+    public Asset(int id, String name, String serialNum, String barcode) {
         this.id = id;
-        this.description = description;
+        this.name = name;
         this.serialNum = serialNum;
         this.barcode = barcode;
     }
 
     public Asset(int id,
-                 String description,
+                 String name,
                  String serialNum,
                  String barcode,
                  List<Integer> points) {
-        this(id, description, serialNum, barcode);
+        this(id, name, serialNum, barcode);
         this.points = points;
     }
 

@@ -34,7 +34,7 @@ public enum AssetProvider {
             assets.add(
                     new Asset(
                             assetJSON.getInt(Constants.ID),
-                            assetJSON.getString(Constants.DESCRIPTION),
+                            assetJSON.getString(Constants.NAME),
                             assetJSON.getString(Constants.SERIAL_NUM),
                             assetJSON.getString(Constants.BARCODE),
                             points));

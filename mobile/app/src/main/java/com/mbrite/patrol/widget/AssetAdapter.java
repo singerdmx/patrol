@@ -44,7 +44,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.activity_list_item_asset, null);
         }
         final TextView descriptionView = (TextView) convertView.findViewById(R.id.description);
-        descriptionView.setText(asset.description);
+        descriptionView.setText(asset.name);
         TextView serialNumView = (TextView) convertView.findViewById(R.id.serial_num);
         serialNumView.setText(asset.serialNum);
         ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -133,7 +133,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
         }
         RouteGroup group = (RouteGroup) getGroup(groupPosition);
         CheckedTextView checkedTextView = (CheckedTextView) convertView;
-        checkedTextView.setText(group.description);
+        checkedTextView.setText(group.name);
         checkedTextView.setChecked(isExpanded);
         ColorBarDrawable drawable = new ColorBarDrawable((float) group.getCompleteness());
         checkedTextView.setBackground(drawable);

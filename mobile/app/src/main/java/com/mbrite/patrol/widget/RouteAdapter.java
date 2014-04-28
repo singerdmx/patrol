@@ -66,7 +66,7 @@ public class RouteAdapter extends ArrayAdapter<Route> {
             ((ViewHolder) rowView.getTag()).checkbox.setTag(route);
         }
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        holder.text.setText(route.description);
+        holder.text.setText(route.name);
         holder.checkbox.setChecked(itemsArrayList.get(position).isSelected());
         return rowView;
     }

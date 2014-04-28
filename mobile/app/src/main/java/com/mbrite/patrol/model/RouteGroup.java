@@ -13,7 +13,7 @@ public class RouteGroup extends Route {
 
     public RouteGroup(Route route, ArrayList<Asset> allAssets, ArrayList<Point> allPoints)
         throws JSONException, IOException {
-        super(route.id, route.description, route.assets);
+        super(route.id, route.name, route.assets);
         List<Asset> assets = AssetProvider.INSTANCE.filterAssets(route.assets, allAssets);
         assetList = new ArrayList<AssetGroup>(assets.size());
         for (Asset asset : assets) {
