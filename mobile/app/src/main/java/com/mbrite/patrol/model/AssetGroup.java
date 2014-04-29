@@ -54,7 +54,7 @@ public class AssetGroup extends Asset {
     }
 
     public double getCompleteness() {
-        int started = 0;
+        double started = 0;
         for (PointGroup p : pointList) {
             if (p.getStatus() != RecordStatus.NOT_STARTED) {
                 started++;
