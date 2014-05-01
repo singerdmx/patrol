@@ -30,6 +30,7 @@ public class AssetsActivity extends Activity {
         setContentView(R.layout.activity_assets);
         setupScanButton();
         setupInputButton();
+        setupSaveDataButton();
         setupCompleteButton();
     }
 
@@ -131,6 +132,20 @@ public class AssetsActivity extends Activity {
                                 // Do nothing.
                             }
                         }).setIcon(android.R.drawable.ic_menu_edit).show();
+            }
+        });
+    }
+
+    private void setupSaveDataButton() {
+        Button saveDataButton = (Button) findViewById(R.id.save_data_button);
+        saveDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(
+                        AssetsActivity.this,
+                        R.string.data_saved,
+                        Toast.LENGTH_LONG)
+                        .show();
             }
         });
     }

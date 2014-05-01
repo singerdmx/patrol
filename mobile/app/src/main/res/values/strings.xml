@@ -77,6 +77,8 @@
     <string name="error_incorrect_barcode">Incorrect Barcode</string>
     <string name="error_incomplete_assets">There are incomplete assets!</string>
     <string name="complete_patrol">Complete Patrol</string>
+    <string name="save_data">Save data</string>
+    <string name="data_saved">Data is saved</string>
     <string name="upload_data">Upload all data?</string>
     <string name="error_upload">Failed to upload %s records</string>
     <string name="upload_success">Successfully uploaded %s records</string>

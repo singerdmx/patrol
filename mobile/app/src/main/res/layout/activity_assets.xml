@@ -27,6 +27,9 @@
         <Button android:id="@+id/input_button" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1"
             android:text="@string/manual_input" />
+        <Button android:id="@+id/save_data_button" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="@string/save_data" />
         <Button android:id="@+id/complete" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1"
             android:text="@string/complete_patrol" />
