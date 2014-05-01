@@ -76,6 +76,7 @@
     <string name="manual_input">Manual Input</string>
     <string name="error_incorrect_barcode">Incorrect Barcode</string>
     <string name="error_incomplete_assets">There are incomplete assets!</string>
+    <string name="whether_save_incomplete_data">Do you want to save incomplete data?</string>
     <string name="complete_patrol">Complete Patrol</string>
     <string name="save_data">Save data</string>
     <string name="data_saved">Data is saved</string>

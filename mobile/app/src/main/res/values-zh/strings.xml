@@ -76,6 +76,7 @@
     <string name="manual_input">手动输入</string>
     <string name="error_incorrect_barcode">编码不相符</string>
     <string name="error_incomplete_assets">有未完成的数据，无法保存！</string>
+    <string name="whether_save_incomplete_data">巡检项目未全部完成，是否结束？（结束后此部分巡检任务将被保存并不可再更改）</string>
     <string name="complete_patrol">完成巡检</string>
     <string name="save_data">保存数据</string>
     <string name="data_saved">数据已保存</string>

@@ -164,21 +164,14 @@ public class AssetsActivity extends Activity {
     }
 
     private void completeRecord() {
+        int msgId = R.string.whether_save_record;
+
         if (!Tracker.INSTANCE.isRecordComplete()) {
-            new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                    .setMessage(R.string.error_incomplete_assets)
-                    .setTitle(R.string.error)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // do nothing
-                        }
-                    }).setIcon(R.drawable.error).show();
-            return;
+            msgId = R.string.whether_save_incomplete_data;
         }
 
         new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                .setMessage(R.string.whether_save_record)
+                .setMessage(msgId)
                 .setTitle(R.string.complete_patrol)
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
