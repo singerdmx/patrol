@@ -28,6 +28,15 @@ public class Constants {
     public static final String MAX = "max";
     public static final String OFFLINE = "OFFLINE";
 
+    // Login related constants
+    public static final String LOGIN = "users/sign_in";
+    public static final String COOKIES_HEADER = "Set-Cookie";
+    public static final String COOKIE = "Cookie";
+    public static final String AUTHENTICITY_TOKEN_HTML_ELEMENT= "<input name=\"authenticity_token\" type=\"hidden\"";
+    public static final String AUTHENTICITY_TOKEN = "authenticity_token";
+    public static final String USER_EMAIL = "user[email]";
+    public static final String USER_PASSWORD = "user[password]";
+
     // Network related constants
     public static final String ETAG= "Etag";
     public static final String LAST_MODIFIED = "Last-Modified";

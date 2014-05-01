@@ -1,6 +1,7 @@
 package com.mbrite.patrol.common;
 
 import android.content.res.*;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.app.*;
@@ -17,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +36,12 @@ import java.util.*;
 public class Utils {
     private final static double EPSILON = 0.00001;
 
+    static {
+        StrictMode.ThreadPolicy policy =
+                new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+    }
+
     public static void setDefaultLocale(android.content.Context context) {
         Locale locale = new Locale(Constants.DEFAULT_LOCALE);
         Locale.setDefault(locale);
@@ -48,12 +56,30 @@ public class Utils {
         return cm.getActiveNetworkInfo() != null;
     }
 
-    public static boolean isValidUsernameAndPassword(String username, String password) {
-        // TODO: attempt authentication against a network service
+    public static boolean isValidUsernameAndPassword(Activity activity, String username, String password)
+            throws URISyntaxException, JSONException, IOException {
         if (TextUtils.isEmpty(password)) {
             return false;
         }
 
+        List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>(4);
+        payload.add(new BasicNameValuePair(Constants.USER_EMAIL, username));
+        payload.add(new BasicNameValuePair(Constants.USER_PASSWORD, password));
+        payload.add(new BasicNameValuePair("user[remember_me]", "1"));
+        payload.add(new BasicNameValuePair(Constants.AUTHENTICITY_TOKEN, getAuthenticityToken(activity)));
+        HttpResponse response = RestClient.INSTANCE.post(activity, Constants.LOGIN, payload);
+        int statusCode = response.getStatusLine().getStatusCode();
+        switch (statusCode) {
+            case 200:
+                break;
+            case 302:
+
+                break;
+            case 401:
+                break;
+            default:
+                throw new HttpResponseException(statusCode, "Error occurred for Login request");
+        }
         return true;
     }
 
@@ -298,5 +324,13 @@ public class Utils {
         Utils.clearUsernameAndPassword(activity);
         activity.startActivity(new Intent(activity, LoginActivity.class));
         activity.finish();
+    }
+
+    private static String getAuthenticityToken(Activity activity)
+            throws URISyntaxException, IOException {
+        HttpResponse response = RestClient.INSTANCE.get(activity, Constants.LOGIN);
+        String signInHtmlContent = Utils.convertStreamToString(response.getEntity().getContent());
+        int authenticityTokenIndex = signInHtmlContent.indexOf(Constants.AUTHENTICITY_TOKEN_HTML_ELEMENT);
+        return signInHtmlContent.substring(authenticityTokenIndex + 54, authenticityTokenIndex + 98);
     }
 }

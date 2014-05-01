@@ -5,10 +5,15 @@ import android.text.TextUtils;
 import android.os.*;
 
 import org.apache.http.*;
-import org.apache.http.client.HttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.HTTP.*;
+import org.apache.http.client.*;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.entity.*;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -26,6 +31,8 @@ public enum RestClient {
     }
 
     private String site;
+
+    private String cookie;
 
     private URI getSiteURI(Activity activity)
             throws URISyntaxException {
@@ -47,24 +54,49 @@ public enum RestClient {
 
     public HttpResponse get(Activity activity, String relativeURI, Map<String, String> headers)
             throws IOException, URISyntaxException {
-        HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(getSiteURI(activity).resolve(relativeURI));
         if (headers != null) {
             for (Map.Entry<String, String> header : headers.entrySet()) {
                 request.setHeader(header.getKey(), header.getValue());
             }
         }
-        return client.execute(request);
+        return executeRequest(request);
     }
 
     public HttpResponse post(Activity activity, String relativeURI, String payload, String contentType)
             throws IOException, URISyntaxException {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpPost postRequest = new HttpPost(getSiteURI(activity).resolve(relativeURI));
-        StringEntity input = new StringEntity(payload);
+        HttpPost request = new HttpPost(getSiteURI(activity).resolve(relativeURI));
+        StringEntity input = new StringEntity(payload, HTTP.UTF_8);
         input.setContentType(contentType);
-        postRequest.setEntity(input);
-        return httpClient.execute(postRequest);
+        request.setEntity(input);
+        return executeRequest(request);
+    }
+
+    public HttpResponse post(Activity activity, String relativeURI, List<BasicNameValuePair> payload)
+            throws IOException, URISyntaxException {
+        HttpPost request = new HttpPost(getSiteURI(activity).resolve(relativeURI));
+        request.setEntity(new UrlEncodedFormEntity(payload));
+        return executeRequest(request);
+    }
+
+    private HttpResponse executeRequest(HttpUriRequest request)
+        throws IOException, URISyntaxException {
+        if (cookie != null) {
+            request.addHeader(Constants.COOKIE, cookie);
+        }
+        HttpClient client = new DefaultHttpClient();
+        HttpResponse response = client.execute(request);
+        setCookie(response);
+        return response;
+    }
+
+    private void setCookie(HttpResponse response) {
+        for (Header header : response.getAllHeaders()) {
+            if (header.getName().equalsIgnoreCase(Constants.COOKIES_HEADER)) {
+                cookie = header.getValue();
+                break;
+            }
+        }
     }
 }
 

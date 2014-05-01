@@ -265,7 +265,40 @@ public class LoginActivity extends Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt offline if server is down
-            return Utils.isValidUsernameAndPassword(mUsername, mPassword);
+            try {
+                return Utils.isValidUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
+            } catch (JSONException ex) {
+                mSignInButton.setError(ex.getLocalizedMessage());
+                Toast.makeText(
+                        LoginActivity.this,
+                        String.format("JSONException: %s", ex.getLocalizedMessage()),
+                        Toast.LENGTH_LONG)
+                        .show();
+            } catch (URISyntaxException | IllegalStateException ex) {
+                mSignInButton.setError(ex.getLocalizedMessage());
+                Toast.makeText(
+                        LoginActivity.this,
+                        String.format(getString(R.string.error_site_url_invalid),
+                                RestClient.INSTANCE.getSite()),
+                        Toast.LENGTH_LONG)
+                        .show();
+            } catch (IOException ex) {
+                mSignInButton.setError(ex.getLocalizedMessage());
+                Toast.makeText(
+                        LoginActivity.this,
+                        String.format(getString(R.string.error_network_connection_failure),
+                                RestClient.INSTANCE.getSite()),
+                        Toast.LENGTH_LONG)
+                        .show();
+            } catch (Exception ex) {
+                mSignInButton.setError(ex.getLocalizedMessage());
+                Toast.makeText(
+                        LoginActivity.this,
+                        String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+            return false;
         }
 
         @Override
@@ -311,6 +344,11 @@ public class LoginActivity extends Activity {
                             .show();
                 }
             } else {
+                Toast.makeText(
+                        LoginActivity.this,
+                        R.string.error_incorrect_password,
+                        Toast.LENGTH_LONG)
+                        .show();
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
