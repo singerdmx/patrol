@@ -13,9 +13,16 @@ import org.apache.commons.lang3.StringUtils;
 
 public class MeasureEnterValueFragment extends PointsFragment {
 
+    private Double min;
+    private Double low;
+    private Double high;
+    private Double max;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = renderView(inflater, R.layout.fragment_meaure_enter_value);
+        setNormalRangeValue(v);
+
         final EditText valueView = (EditText) v.findViewById(R.id.value);
         if (pointRecord != null) {
             valueView.setHint(pointRecord.result);
@@ -70,11 +77,6 @@ public class MeasureEnterValueFragment extends PointsFragment {
         }
 
         if (point.category == 50) {
-            int i = 0;
-            Double min = Utils.getDouble(point.choice.get(i++));
-            Double low = Utils.getDouble(point.choice.get(i++));
-            Double high = Utils.getDouble(point.choice.get(i++));
-            Double max = Utils.getDouble(point.choice.get(i++));
             if ((min != null && inputValue < min) ||
                     (max != null && inputValue > max)) {
                 status = RecordStatus.FAIL;
@@ -95,6 +97,25 @@ public class MeasureEnterValueFragment extends PointsFragment {
             return point.toString() + ": " + getString(R.string.error_no_data); // User did not enter value
         }
         return null;
+    }
+
+    private void setNormalRangeValue(View v) {
+        TextView rangeValue = (TextView) v.findViewById(R.id.normal_range_value);
+        String rangeDisplayValue = "N/A";
+        if (point.category == 50) {
+            min = Utils.getDouble(point.choice.get(0));
+            low = Utils.getDouble(point.choice.get(1));
+            high = Utils.getDouble(point.choice.get(2));
+            max = Utils.getDouble(point.choice.get(3));
+            if (min != null && max != null) {
+                rangeDisplayValue = String.format("介于%1$,.0f和%1$,.0f之间", min, max);
+            } else if (min != null) {
+                rangeDisplayValue = String.format("大于%1$,.0f", min);
+            } else if (max != null) {
+                rangeDisplayValue = String.format("小于%1$,.0f", max);
+            }
+        }
+        rangeValue.setText(rangeDisplayValue);
     }
 
 }
