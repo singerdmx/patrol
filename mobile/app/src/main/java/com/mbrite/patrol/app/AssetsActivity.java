@@ -43,7 +43,9 @@ public class AssetsActivity extends Activity {
                 Tracker.INSTANCE.routeGroups);
         listView.setAdapter(adapter);
         for (int i = 0; i < Tracker.INSTANCE.routeGroups.size(); i++) {
-            listView.expandGroup(i);
+            if (!Utils.areEqualDouble(Tracker.INSTANCE.routeGroups.get(i).getCompleteness(), 1)) {
+                listView.expandGroup(i);
+            }
         }
     }
 
