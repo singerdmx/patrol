@@ -3,6 +3,7 @@ package com.mbrite.patrol.widget;
 import java.util.*;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import com.mbrite.patrol.app.*;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.*;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class AssetAdapter extends BaseExpandableListAdapter {
 
@@ -81,6 +84,18 @@ public class AssetAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 try {
                     Tracker.INSTANCE.targetAsset = asset;
+                    if (asset != null && StringUtils.isBlank(asset.barcode)) {
+                        // asset does not have barcode, special treatment
+                        if (Utils.isScanOnly(null, asset.id, asset, activity)) {
+                            ((AssetsActivity) activity).onResume();
+                            return;
+                        }
+                        Tracker.INSTANCE.pointGroups = Tracker.INSTANCE.getAllPointIdsInAsset(asset.id);
+                        Intent intent = new Intent(activity, PointsActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
+                        return;
+                    }
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.initiateScan();
                 } catch (Exception ex) {

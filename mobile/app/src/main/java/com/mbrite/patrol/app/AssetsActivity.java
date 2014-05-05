@@ -203,22 +203,23 @@ public class AssetsActivity extends Activity {
     private void checkBarcode(String barcode)
             throws IOException, JSONException {
         AssetGroup targetAsset = Tracker.INSTANCE.targetAsset;
+        Tracker.INSTANCE.pointGroups = new TreeSet<>(); // Reset pointGroups to be displayed on PointsActivity
         Integer assetId = null, pointId = null;
         if (targetAsset != null) {
-               // one asset is clicked
-               if(StringUtils.isNoneBlank(targetAsset.barcode) &&
-                       barcode.equals(targetAsset.barcode)) {
-                   // verify barcode
-                   assetId = targetAsset.id;
-               } else {
-                   // look for barcode in targetAsset's points
-                   for (PointGroup p : targetAsset.pointList) {
-                       if (barcode.equals(p.barcode)) {
-                           pointId = p.id;
-                           break;
-                       }
-                   }
-               }
+            // one asset is clicked
+            if (StringUtils.isNoneBlank(targetAsset.barcode) &&
+                    barcode.equals(targetAsset.barcode)) {
+                // verify barcode
+                assetId = targetAsset.id;
+            } else {
+                // look for barcode in targetAsset's points
+                for (PointGroup p : targetAsset.pointList) {
+                    if (barcode.equals(p.barcode)) {
+                        pointId = p.id;
+                        break;
+                    }
+                }
+            }
         } else {
             // Either scan or manual input button is pressed
             // Try Point first
@@ -233,20 +234,15 @@ public class AssetsActivity extends Activity {
             throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
         }
 
-        Tracker.INSTANCE.pointGroups = new TreeSet<>();
         if (pointId != null) {
             Tracker.INSTANCE.pointGroups.add(pointId);
         } else {
             // assetId != null
             // Get all points of asset under all selected routes
-            for (AssetGroup a : Tracker.INSTANCE.getAssetDuplicates().get(assetId)) {
-                for (PointGroup p : a.pointList) {
-                    Tracker.INSTANCE.pointGroups.add(p.id);
-                }
-            }
+            Tracker.INSTANCE.pointGroups = Tracker.INSTANCE.getAllPointIdsInAsset(assetId);
         }
 
-        if (scanOnly(pointId, assetId, targetAsset)) {
+        if (Utils.isScanOnly(pointId, assetId, targetAsset, this)) {
             onResume();
             return;
         }
@@ -254,46 +250,6 @@ public class AssetsActivity extends Activity {
         Intent intent = new Intent(this, PointsActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private boolean scanOnly(Integer pointId, Integer assetId, AssetGroup targetAsset)
-        throws IOException {
-        PointGroup point = null;
-        if (pointId != null) {
-            point = Tracker.INSTANCE.getPointDuplicates().get(pointId).get(0);
-        } else {
-            List<PointGroup> points = new ArrayList<>();
-            if (targetAsset != null) {
-                points = targetAsset.pointList;
-            } else {
-                for (AssetGroup a : Tracker.INSTANCE.getAssetDuplicates().get(assetId)) {
-                    for (PointGroup pt : a.pointList) {
-                        boolean exists = false;
-                        for (PointGroup p : points) {
-                            if (p.id == pt.id) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        if (!exists) {
-                            points.add(pt);
-                        }
-                    }
-                }
-            }
-
-            if (points.size() == 1) {
-                point = points.get(0);
-            }
-        }
-
-        if (point != null && Constants.CATEGORY_SCAN_ONLY.contains(point.category)) {
-            // If there is only one point and that is scan only
-            RecordProvider.INSTANCE.addOrUpdatePointRecord(point, "", 0, "", this);
-            return true;
-        }
-
-        return false;
     }
 
 }

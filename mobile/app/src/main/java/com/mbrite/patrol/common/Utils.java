@@ -13,6 +13,8 @@ import com.mbrite.patrol.app.LoginActivity;
 import com.mbrite.patrol.app.R;
 import com.mbrite.patrol.connection.RestClient;
 import com.mbrite.patrol.content.providers.RecordProvider;
+import com.mbrite.patrol.model.AssetGroup;
+import com.mbrite.patrol.model.PointGroup;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
@@ -316,6 +318,51 @@ public class Utils {
 
     public static boolean areEqualDouble(double a, double b) {
         return Math.abs(a - b) < EPSILON;
+    }
+
+    /*
+     * If pointId is not null, check if it's scanOnly
+     * Otherwise assetId should not be null, check if the asset only has one point that is scan only
+     * Record will add this point if it is scan only
+     */
+    public static boolean isScanOnly(Integer pointId, Integer assetId, AssetGroup targetAsset, Activity activity)
+            throws IOException {
+        PointGroup point = null;
+        if (pointId != null) {
+            point = Tracker.INSTANCE.getPointDuplicates().get(pointId).get(0);
+        } else {
+            List<PointGroup> points = new ArrayList<>();
+            if (targetAsset != null) {
+                points = targetAsset.pointList;
+            } else {
+                for (AssetGroup a : Tracker.INSTANCE.getAssetDuplicates().get(assetId)) {
+                    for (PointGroup pt : a.pointList) {
+                        boolean exists = false;
+                        for (PointGroup p : points) {
+                            if (p.id == pt.id) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (!exists) {
+                            points.add(pt);
+                        }
+                    }
+                }
+            }
+
+            if (points.size() == 1) {
+                point = points.get(0);
+            }
+        }
+
+        if (point != null && Constants.CATEGORY_SCAN_ONLY.contains(point.category)) {
+            // If there is only one point and that is scan only
+            RecordProvider.INSTANCE.addOrUpdatePointRecord(point, "", 0, "", activity);
+            return true;
+        }
+
+        return false;
     }
 
     private static void logoutUser(Activity activity)

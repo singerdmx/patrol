@@ -96,6 +96,18 @@ public enum  Tracker {
         return true;
     }
 
+    // Get all points of asset under all selected routes
+    public Set<Integer> getAllPointIdsInAsset(int assetId) {
+        Set<Integer> result = new TreeSet<>();
+        for (AssetGroup a : getAssetDuplicates().get(assetId)) {
+            for (PointGroup p : a.pointList) {
+                result.add(p.id);
+            }
+        }
+
+        return result;
+    }
+
     private void processDuplicatesAndBarcode() {
         for (RouteGroup routeGroup : routeGroups) {
             for (final AssetGroup assetGroup : routeGroup.assetList) {
