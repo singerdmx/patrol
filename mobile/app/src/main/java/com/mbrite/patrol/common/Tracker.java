@@ -14,9 +14,11 @@ import java.util.*;
 /**
  * In memory tracker of navigation status
  */
-public enum  Tracker {
+public enum Tracker {
 
     INSTANCE;
+
+    public Long recentActiveTimestamp = null;
 
     /**
      * Keep track of current route groups to be shown on MainActivity

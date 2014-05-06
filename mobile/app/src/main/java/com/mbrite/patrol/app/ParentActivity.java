@@ -1,0 +1,35 @@
+package com.mbrite.patrol.app;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.mbrite.patrol.common.Tracker;
+
+/**
+ * Parent class for shared methods.
+ */
+public class ParentActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        checkRecentActiveTime();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkRecentActiveTime();
+    }
+
+    // Tracker in memory might be reclaimed by Android system
+    // We will start from LoginActivity if so
+    private void checkRecentActiveTime() {
+        if (Tracker.INSTANCE == null || Tracker.INSTANCE.recentActiveTimestamp == null ||
+                (System.currentTimeMillis() - Tracker.INSTANCE.recentActiveTimestamp) > 10 * 60 * 1000) {
+            Tracker.INSTANCE.recentActiveTimestamp = System.currentTimeMillis();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        Tracker.INSTANCE.recentActiveTimestamp = System.currentTimeMillis();
+    }
+}

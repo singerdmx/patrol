@@ -20,7 +20,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.*;
 
-public class AssetsActivity extends Activity {
+public class AssetsActivity extends ParentActivity {
     private static final String TAG = AssetsActivity.class.getSimpleName();
     private Button scanButton;
 

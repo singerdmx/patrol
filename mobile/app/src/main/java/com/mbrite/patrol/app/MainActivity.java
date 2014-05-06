@@ -18,7 +18,7 @@ import com.mbrite.patrol.model.*;
 import org.apache.commons.lang3.*;
 import java.util.*;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override

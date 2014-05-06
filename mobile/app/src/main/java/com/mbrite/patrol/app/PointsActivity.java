@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 
 
-public class PointsActivity extends Activity {
+public class PointsActivity extends ParentActivity {
 
     private FragmentManager fragmentManager;
     private Set<PointsFragment> fragments;

@@ -13,7 +13,7 @@ import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.PointGroup;
 
 
-public class ScanOnlyPointActivity extends Activity {
+public class ScanOnlyPointActivity extends ParentActivity {
 
     private Button continueScanButton;
     private TextView label;

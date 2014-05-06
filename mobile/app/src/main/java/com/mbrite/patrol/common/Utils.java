@@ -379,7 +379,9 @@ public class Utils {
             throws IOException {
         RecordProvider.INSTANCE.completeCurrentRecord(activity);
         Utils.clearUsernameAndPassword(activity);
-        activity.startActivity(new Intent(activity, LoginActivity.class));
+        Intent intent = new Intent(activity, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
         activity.finish();
     }
 
