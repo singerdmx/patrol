@@ -1,12 +1,10 @@
 package com.mbrite.patrol.app;
 
-import android.app.*;
 import android.os.Bundle;
 import android.content.*;
-import android.util.Log;
-import android.view.View;
 import android.widget.*;
 
+import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.content.providers.*;
 import com.mbrite.patrol.model.*;
@@ -20,6 +18,7 @@ public class RoutesFragment extends ParentFragment {
     private static final String TAG = RoutesFragment.class.getSimpleName();
 
     private ArrayList<Route> routes;
+    private Set<Integer> completedRoutes = new TreeSet<>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -27,6 +26,12 @@ public class RoutesFragment extends ParentFragment {
         setDivider();
 
         try {
+            Bundle extras = getActivity().getIntent().getExtras();
+            if (extras != null) {
+                for (int r : extras.getIntArray(Constants.ROUTES)) {
+                    completedRoutes.add(r);
+                }
+            }
             routes = RouteProvider.INSTANCE.getRoutes(getActivity());
         }catch (JSONException ex) {
             Toast.makeText(
@@ -63,8 +68,10 @@ public class RoutesFragment extends ParentFragment {
             } else {
                 RouteAdapter adapter = new RouteAdapter(
                         getActivity(),
-                        routes);
+                        routes,
+                        completedRoutes);
                 setListAdapter(adapter);
+                completedRoutes = new TreeSet<>();
             }
         } catch (Exception ex) {
             Toast.makeText(

@@ -79,6 +79,14 @@ public enum RecordProvider {
         FileMgr.write(activity, Constants.RECORD_FILE_NAME, toString(record));
     }
 
+    public int[] getRoutes() {
+        int[] routes = new int[record.routes.size()];
+        for (int i = 0; i < routes.length; i++) {
+            routes[i] = record.routes.get(i);
+        }
+        return routes;
+    }
+
     public void setRoutes(List<Route> routes, Activity activity)
         throws IOException {
         record.routes = new ArrayList<Integer>(routes.size());

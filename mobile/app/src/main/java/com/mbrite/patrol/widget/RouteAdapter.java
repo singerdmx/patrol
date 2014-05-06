@@ -1,6 +1,6 @@
 package com.mbrite.patrol.widget;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,13 +16,15 @@ public class RouteAdapter extends ArrayAdapter<Route> {
 
     private final Activity context;
     private final ArrayList<Route> itemsArrayList;
+    private final Set<Integer> completedRoutes;
 
-    public RouteAdapter(Activity context, ArrayList<Route> itemsArrayList) {
+    public RouteAdapter(Activity context, ArrayList<Route> itemsArrayList, Set<Integer> completedRoutes) {
 
         super(context, R.layout.activity_list_item_route, itemsArrayList);
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;
+        this.completedRoutes = completedRoutes;
     }
 
     static class ViewHolder {
@@ -59,6 +61,9 @@ public class RouteAdapter extends ArrayAdapter<Route> {
                             }
                         }
                     });
+            if (completedRoutes != null && completedRoutes.contains(route.id)) {
+                view.setBackgroundResource(R.drawable.alterselector3);
+            }
             rowView.setTag(viewHolder);
             viewHolder.checkbox.setTag(route);
         } else {

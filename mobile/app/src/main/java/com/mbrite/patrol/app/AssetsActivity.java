@@ -179,9 +179,11 @@ public class AssetsActivity extends Activity {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
-                            RecordProvider.INSTANCE.completeCurrentRecord(AssetsActivity.this);
                             Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra(Constants.ROUTES, RecordProvider.INSTANCE.getRoutes());
+                            // completeCurrentRecord will reset record, so run it after getRoutes
+                            RecordProvider.INSTANCE.completeCurrentRecord(AssetsActivity.this);
                             startActivity(intent);
                             finish();
                         } catch (Exception ex) {
