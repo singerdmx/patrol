@@ -51,12 +51,12 @@
         <activity
             android:name="com.mbrite.patrol.app.PointsActivity"
             android:label="@string/check_point"
-            android:theme="@android:style/Theme.Light">
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
-            android:name="com.mbrite.patrol.app.MeasureActivity"
+            android:name="com.mbrite.patrol.app.ScanOnlyPointActivity"
             android:label="@string/check_point"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@android:style/Theme.Light" >>
         </activity>
     </application>
 

@@ -330,6 +330,7 @@ public class Utils {
      * If pointId is not null, check if it's scanOnly
      * Otherwise assetId should not be null, check if the asset only has one point that is scan only
      * Record will add this point if it is scan only
+     * Tracker pointGroups is updated as well
      */
     public static boolean isScanOnly(Integer pointId, Integer assetId, AssetGroup targetAsset, Activity activity)
             throws IOException {
@@ -365,6 +366,9 @@ public class Utils {
         if (point != null && Constants.CATEGORY_SCAN_ONLY.contains(point.category)) {
             // If there is only one point and that is scan only
             RecordProvider.INSTANCE.addOrUpdatePointRecord(point, "", 0, "", activity);
+            // Update Tracker pointGroups as well
+            Tracker.INSTANCE.pointGroups = new TreeSet<>();
+            Tracker.INSTANCE.pointGroups.add(pointId);
             return true;
         }
 

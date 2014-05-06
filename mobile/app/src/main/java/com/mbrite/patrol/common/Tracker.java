@@ -31,7 +31,7 @@ public enum  Tracker {
     /**
      * Keep track of current point ids to be shown on PointsActivity
      */
-    public Set<Integer> pointGroups;
+    public TreeSet<Integer> pointGroups;
 
     // key is asset id, value is list of AssetGroup having the id
     private Map<Integer, List<AssetGroup>> assetDuplicates = new HashMap<>();
@@ -97,8 +97,8 @@ public enum  Tracker {
     }
 
     // Get all points of asset under all selected routes
-    public Set<Integer> getAllPointIdsInAsset(int assetId) {
-        Set<Integer> result = new TreeSet<>();
+    public TreeSet<Integer> getAllPointIdsInAsset(int assetId) {
+        TreeSet<Integer> result = new TreeSet<>();
         for (AssetGroup a : getAssetDuplicates().get(assetId)) {
             for (PointGroup p : a.pointList) {
                 result.add(p.id);

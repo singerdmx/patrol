@@ -76,7 +76,7 @@
     <string name="scan_barcode">扫描编码</string>
     <string name="barcode">编码</string>
     <string name="manual_input">手动输入</string>
-    <string name="error_incorrect_barcode">编码不相符</string>
+    <string name="error_incorrect_barcode">编码与选中的设备或巡检点不相符</string>
     <string name="error_incomplete_assets">有未完成的数据，无法保存！</string>
     <string name="whether_save_incomplete_data">巡检项目未全部完成，是否结束？（结束后此部分巡检任务将被保存并不可再更改）</string>
     <string name="complete_patrol">完成巡检</string>
@@ -102,4 +102,6 @@
     <string name="error_no_data">没有输入数据</string>
     <string name="result_in_warning_status">结果处于警告状态</string>
     <string name="result_in_fail_status">结果处于异常状态</string>
+    <string name="continue_scan">继续扫描</string>
+    <string name="enter_scan_in_secs">%s秒后将自动进入扫描界面</string>
 </resources>

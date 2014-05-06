@@ -23,7 +23,7 @@ public class PointsFragment extends Fragment {
     protected String message;
     protected EditText memoView;
     protected InputMethodManager imm;
-    protected int[] linearLayoutIds = new int[] {R.id.title, R.id.secondLine, R.id.content, R.id.memo};
+    protected int[] linearLayoutIds = new int[] {R.id.title, R.id.secondLine, R.id.range, R.id.content, R.id.memo};
 
     protected String value = "";
     protected int status = RecordStatus.PASS; // Default to Pass
@@ -105,7 +105,9 @@ public class PointsFragment extends Fragment {
 
             for (int id : linearLayoutIds) {
                 LinearLayout layout = (LinearLayout) view.findViewById(id);
-                layout.setBackgroundResource(resId);
+                if (layout != null) {
+                    layout.setBackgroundResource(resId);
+                }
             }
         }
     }

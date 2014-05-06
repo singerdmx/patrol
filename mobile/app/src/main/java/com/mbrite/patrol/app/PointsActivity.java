@@ -103,7 +103,9 @@ public class PointsActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToAssetsActivity();
+                Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -202,7 +204,10 @@ public class PointsActivity extends Activity {
     }
 
     private void goToAssetsActivity() {
-        Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
+        Intent intent = new Intent(this, AssetsActivity.class);
+        if (Utils.getContinuousScanMode(this)) {
+            intent.putExtra(Constants.CONTINUOUS_SCAN, true);
+        }
         startActivity(intent);
         finish();
     }

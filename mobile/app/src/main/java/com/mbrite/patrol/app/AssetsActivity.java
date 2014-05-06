@@ -22,6 +22,7 @@ import java.util.*;
 
 public class AssetsActivity extends Activity {
     private static final String TAG = AssetsActivity.class.getSimpleName();
+    private Button scanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,11 @@ public class AssetsActivity extends Activity {
         setupInputButton();
         setupSaveDataButton();
         setupCompleteButton();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.getBoolean(Constants.CONTINUOUS_SCAN, false)) {
+            scanButton.performClick();
+        }
     }
 
     @Override
@@ -78,7 +84,16 @@ public class AssetsActivity extends Activity {
         if (resultCode == RESULT_OK) {
             try {
                 checkBarcode(scanResult.getContents());
-            } catch (Exception ex) {
+            } catch (BarcodeNotMatchException ex) {
+                Toast.makeText(
+                        this,
+                        ex.getLocalizedMessage(),
+                        Toast.LENGTH_LONG)
+                        .show();
+                if (Utils.getContinuousScanMode(this)) {
+                    scanButton.performClick();
+                }
+            }catch (Exception ex) {
                 Toast.makeText(
                         this,
                         String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
@@ -95,7 +110,7 @@ public class AssetsActivity extends Activity {
     }
 
     private void setupScanButton() {
-        Button scanButton = (Button) findViewById(R.id.scan_button);
+        scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -203,7 +218,7 @@ public class AssetsActivity extends Activity {
     }
 
     private void checkBarcode(String barcode)
-            throws IOException, JSONException {
+            throws IOException, JSONException, BarcodeNotMatchException {
         AssetGroup targetAsset = Tracker.INSTANCE.targetAsset;
         Tracker.INSTANCE.pointGroups = new TreeSet<>(); // Reset pointGroups to be displayed on PointsActivity
         Integer assetId = null, pointId = null;
@@ -233,7 +248,7 @@ public class AssetsActivity extends Activity {
         }
 
         if (assetId == null && pointId == null) {
-            throw new IllegalStateException(getString(R.string.error_incorrect_barcode));
+            throw new BarcodeNotMatchException(getString(R.string.error_incorrect_barcode));
         }
 
         if (pointId != null) {
@@ -245,13 +260,17 @@ public class AssetsActivity extends Activity {
         }
 
         if (Utils.isScanOnly(pointId, assetId, targetAsset, this)) {
-            onResume();
+            if (Utils.getContinuousScanMode(this)) {
+                Intent intent = new Intent(this, ScanOnlyPointActivity.class);
+                startActivity(intent);
+            } else {
+                onResume();
+            }
             return;
         }
 
         Intent intent = new Intent(this, PointsActivity.class);
         startActivity(intent);
-        finish();
     }
 
 }

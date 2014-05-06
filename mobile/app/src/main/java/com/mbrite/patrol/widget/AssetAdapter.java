@@ -87,7 +87,12 @@ public class AssetAdapter extends BaseExpandableListAdapter {
                     if (asset != null && StringUtils.isBlank(asset.barcode)) {
                         // asset does not have barcode, special treatment
                         if (Utils.isScanOnly(null, asset.id, asset, activity)) {
-                            ((AssetsActivity) activity).onResume();
+                            if (Utils.getContinuousScanMode(activity)) {
+                                Intent intent = new Intent(activity, ScanOnlyPointActivity.class);
+                                activity.startActivity(intent);
+                            } else {
+                                ((AssetsActivity) activity).onResume();
+                            }
                             return;
                         }
                         Tracker.INSTANCE.pointGroups = Tracker.INSTANCE.getAllPointIdsInAsset(asset.id);
