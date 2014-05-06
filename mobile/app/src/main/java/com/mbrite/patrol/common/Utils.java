@@ -154,6 +154,12 @@ public class Utils {
         return new String[] { username, password };
     }
 
+    public static boolean getContinuousScanMode(Activity activity) {
+        return PreferenceManager
+                .getDefaultSharedPreferences(activity)
+                .getBoolean(Constants.CONTINUOUS_SCAN_CHECKBOX, false);
+    }
+
     public static String getSiteURI(Activity activity) {
         return PreferenceManager
                 .getDefaultSharedPreferences(activity)

@@ -38,6 +38,8 @@
     <!-- Strings related to settings -->
     <string name="server">Server</string>
     <string name="site_url">Site URL</string>
+    <string name="continuous_scan">Continuous Scan Mode</string>
+    <string name="continuous_scan_description">Continuously scan barcode instead of returning to assets page</string>
     <string name="error_site_url_missing">Site URL is not set! Please configure it in Settings menu.</string>
     <string name="error_site_url_invalid">Site URL %s is invalid! Please configure it in Settings menu.</string>
     <string name="error_network_connection_failure">Failed to connect to site %s.</string>

@@ -19,7 +19,6 @@ public class Constants {
     public static final String MAIN_ACTIVITY = "com.mbrite.patrol.app.action.main";
     public static final String PREFERENCE_FILE_KEY = "com.mbrite.patrol.preference_file_key";
     public static final String DEFAULT_SITE_URL = "http://warm-depths-4825.herokuapp.com";
-    public static final String SITE_URL = "site_url";
     public static final String STATUS = "status";
     public static final String NAME = "name";
     public static final String STATE = "state";
@@ -27,6 +26,10 @@ public class Constants {
     public static final String MIN = "min";
     public static final String MAX = "max";
     public static final String OFFLINE = "OFFLINE";
+
+    // settings related constants
+    public static final String SITE_URL = "site_url";
+    public static final String CONTINUOUS_SCAN_CHECKBOX = "continuous_scan_checkbox";
 
     // Login related constants
     public static final String LOGIN = "users/sign_in";

@@ -38,6 +38,8 @@
     <!-- Strings related to settings -->
     <string name="server">服务器</string>
     <string name="site_url">网址</string>
+    <string name="continuous_scan">连续扫描模式</string>
+    <string name="continuous_scan_description">连续扫描条形码而不自动退回到设备列表界面</string>
     <string name="error_site_url_missing">网址为空!请在设置菜单中填入网址。</string>
     <string name="error_site_url_invalid">无效网址 %s! 请在设置菜单中修改网址。</string>
     <string name="error_network_connection_failure">无法连接到网址 %s。</string>
