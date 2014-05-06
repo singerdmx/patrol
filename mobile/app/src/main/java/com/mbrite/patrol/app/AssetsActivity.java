@@ -44,6 +44,10 @@ public class AssetsActivity extends ParentActivity {
     public void onResume() {
         super.onResume();
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.assets);
+        if (Tracker.INSTANCE.routeGroups == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
         AssetAdapter adapter = new AssetAdapter(
                 this,
                 Tracker.INSTANCE.routeGroups);

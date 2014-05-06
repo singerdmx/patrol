@@ -33,6 +33,10 @@ public class PointsActivity extends ParentActivity {
         fragments = new HashSet<>();
 
         try {
+            if (Tracker.INSTANCE.pointGroups == null) {
+                startActivity(new Intent(this, LoginActivity.class));
+                return;
+            }
             for (int pointId : Tracker.INSTANCE.pointGroups) {
                 String tag = Integer.toString(pointId);
                 PointGroup point = Tracker.INSTANCE.getPointDuplicates().get(pointId).get(0);

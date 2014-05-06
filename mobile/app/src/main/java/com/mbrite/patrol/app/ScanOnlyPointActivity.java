@@ -1,6 +1,5 @@
 package com.mbrite.patrol.app;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.*;
 import android.view.*;
@@ -70,6 +69,10 @@ public class ScanOnlyPointActivity extends ParentActivity {
     }
 
     private void setupView() {
+        if (Tracker.INSTANCE.pointGroups == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
         int pointId = Tracker.INSTANCE.pointGroups.first();
         point = Tracker.INSTANCE.getPointDuplicates().get(pointId).get(0);
         TextView nameView = (TextView) findViewById(R.id.name);
