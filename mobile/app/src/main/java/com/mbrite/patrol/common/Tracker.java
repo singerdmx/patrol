@@ -2,6 +2,7 @@ package com.mbrite.patrol.common;
 
 import android.app.Activity;
 
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.mbrite.patrol.content.providers.*;
 import com.mbrite.patrol.model.*;
 
@@ -46,6 +47,16 @@ public enum Tracker {
 
     // key is barcode, value is point id
     private Map<String, Integer> pointBarcodeMap = new HashMap<>();
+
+    public boolean startedScan;
+
+    public void startScan(Activity activity) {
+        if (!startedScan) {
+            IntentIntegrator integrator = new IntentIntegrator(activity);
+            startedScan = true;
+            integrator.initiateScan();
+        }
+    }
 
     public Map<Integer, List<AssetGroup>> getAssetDuplicates() {
         return assetDuplicates;
