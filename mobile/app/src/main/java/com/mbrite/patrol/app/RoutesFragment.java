@@ -10,8 +10,6 @@ import com.mbrite.patrol.content.providers.*;
 import com.mbrite.patrol.model.*;
 import com.mbrite.patrol.widget.RouteAdapter;
 
-import org.json.JSONException;
-
 import java.util.*;
 
 public class RoutesFragment extends ParentFragment {
@@ -32,13 +30,6 @@ public class RoutesFragment extends ParentFragment {
                     completedRoutes.add(r);
                 }
             }
-            routes = RouteProvider.INSTANCE.getRoutes(getActivity());
-        }catch (JSONException ex) {
-            Toast.makeText(
-                    getActivity(),
-                    String.format("JSONException: %s", ex.getLocalizedMessage()),
-                    Toast.LENGTH_LONG)
-                    .show();
         } catch (Exception ex) {
             Toast.makeText(
                     getActivity(),
@@ -52,13 +43,18 @@ public class RoutesFragment extends ParentFragment {
     public void onResume() {
         super.onResume();
         try {
+            routes = RouteProvider.INSTANCE.getRoutes(getActivity());
             Record record = RecordProvider.INSTANCE.get(getActivity());
-            if (record != null) {
+            if (record != null || routes.size() == 1) { // if there is only one route, jump directly to AssetActivity
                 ArrayList<Route> selectedRoutes = new ArrayList<>();
-                for (Route route : routes) {
-                    if (record.routes.indexOf(route.id) != -1) {
-                        selectedRoutes.add(route);
+                if (record != null) {
+                    for (Route route : routes) {
+                        if (record.routes.indexOf(route.id) != -1) {
+                            selectedRoutes.add(route);
+                        }
                     }
+                } else { // routes.size() == 1
+                    selectedRoutes.add(routes.get(0));
                 }
 
                 Tracker.INSTANCE.createRouteGroups(selectedRoutes, getActivity());
