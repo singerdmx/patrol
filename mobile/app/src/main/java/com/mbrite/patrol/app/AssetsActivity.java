@@ -36,7 +36,9 @@ public class AssetsActivity extends ParentActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.getBoolean(Constants.CONTINUOUS_SCAN, false)) {
-            scanButton.performClick();
+            if (!Tracker.INSTANCE.startedScan) {
+                scanButton.performClick();
+            }
         }
     }
 
@@ -84,6 +86,7 @@ public class AssetsActivity extends ParentActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        Tracker.INSTANCE.startedScan = false;
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK) {
             try {
@@ -94,9 +97,6 @@ public class AssetsActivity extends ParentActivity {
                         ex.getLocalizedMessage(),
                         Toast.LENGTH_LONG)
                         .show();
-                if (Utils.getContinuousScanMode(this)) {
-                    scanButton.performClick();
-                }
             }catch (Exception ex) {
                 Toast.makeText(
                         this,
@@ -119,8 +119,7 @@ public class AssetsActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 Tracker.INSTANCE.targetAsset = null;
-                IntentIntegrator integrator = new IntentIntegrator(AssetsActivity.this);
-                integrator.initiateScan();
+                Tracker.INSTANCE.startScan(AssetsActivity.this);
             }
         });
     }
@@ -139,7 +138,7 @@ public class AssetsActivity extends ParentActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String value = input.getText().toString();
                                 try {
-                                    checkBarcode(value);
+                                    checkBarcode(value, true);
                                 } catch (Exception ex) {
                                     Toast.makeText(
                                             AssetsActivity.this,
@@ -223,6 +222,11 @@ public class AssetsActivity extends ParentActivity {
 
     private void checkBarcode(String barcode)
             throws IOException, JSONException, BarcodeNotMatchException {
+        checkBarcode(barcode, false);
+    }
+
+    private void checkBarcode(String barcode, boolean manualInputMode)
+            throws IOException, JSONException, BarcodeNotMatchException {
         AssetGroup targetAsset = Tracker.INSTANCE.targetAsset;
         Tracker.INSTANCE.pointGroups = new TreeSet<>(); // Reset pointGroups to be displayed on PointsActivity
         Integer assetId = null, pointId = null;
@@ -264,7 +268,7 @@ public class AssetsActivity extends ParentActivity {
         }
 
         if (Utils.isScanOnly(pointId, assetId, targetAsset, this)) {
-            if (Utils.getContinuousScanMode(this)) {
+            if (!manualInputMode && Utils.getContinuousScanMode(this)) {
                 Intent intent = new Intent(this, ScanOnlyPointActivity.class);
                 startActivity(intent);
             } else {

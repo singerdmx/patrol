@@ -36,6 +36,13 @@ public class ScanOnlyPointActivity extends ParentActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        countDown.cancel();
+        finish();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.scan_only_point, menu);
         return true;
@@ -55,19 +62,6 @@ public class ScanOnlyPointActivity extends ParentActivity {
         }
     }
 
-    private void setupCancelButton() {
-        Button button = (Button) findViewById(R.id.cancel);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                countDown.cancel();
-                Intent intent = new Intent(ScanOnlyPointActivity.this, AssetsActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-    }
-
     private void setupView() {
         if (Tracker.INSTANCE.pointGroups == null) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -83,15 +77,29 @@ public class ScanOnlyPointActivity extends ParentActivity {
         stateView.setText(point.state);
     }
 
+    private void setupCancelButton() {
+        Button button = (Button) findViewById(R.id.cancel);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                countDown.cancel();
+                Intent intent = new Intent(ScanOnlyPointActivity.this, AssetsActivity.class);
+                startActivity(intent);
+                ScanOnlyPointActivity.this.finish();
+            }
+        });
+    }
+
     private void setupContinueScanButton() {
         continueScanButton = (Button) findViewById(R.id.continue_scan_button);
         continueScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                countDown.cancel();
                 Intent intent = new Intent(ScanOnlyPointActivity.this, AssetsActivity.class);
                 intent.putExtra(Constants.CONTINUOUS_SCAN, true);
                 startActivity(intent);
-                finish();
+                ScanOnlyPointActivity.this.finish();
             }
         });
     }

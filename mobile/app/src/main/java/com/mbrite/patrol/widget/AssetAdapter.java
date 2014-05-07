@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.mbrite.patrol.app.*;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
@@ -101,8 +100,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
                         activity.finish();
                         return;
                     }
-                    IntentIntegrator integrator = new IntentIntegrator(activity);
-                    integrator.initiateScan();
+                    Tracker.INSTANCE.startScan(activity);
                 } catch (Exception ex) {
                     Toast.makeText(
                             activity,
