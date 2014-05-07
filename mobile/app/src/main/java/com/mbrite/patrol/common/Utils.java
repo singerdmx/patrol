@@ -368,7 +368,7 @@ public class Utils {
             RecordProvider.INSTANCE.addOrUpdatePointRecord(point, "", 0, "", activity);
             // Update Tracker pointGroups as well
             Tracker.INSTANCE.pointGroups = new TreeSet<>();
-            Tracker.INSTANCE.pointGroups.add(pointId);
+            Tracker.INSTANCE.pointGroups.add(point.id);
             return true;
         }
 
