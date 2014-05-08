@@ -25,9 +25,12 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
     private Activity activity;
     private ProgressDialog progressDialog;
 
-    public UploadTask(Activity activity, ProgressDialog progressDialog) {
+    public UploadTask(Activity activity) {
         this.activity = activity;
-        this.progressDialog = progressDialog;
+        this.progressDialog = ProgressDialog.show(activity,
+                activity.getString(R.string.uploading),
+                activity.getString(R.string.please_wait),
+                true);
     }
 
     @Override
@@ -36,7 +39,9 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             List<String> recordFiles = RecordProvider.INSTANCE.getRecordFiles(activity);
             total = recordFiles.size();
             for (String recordFile : recordFiles) {
-                uploadFile(recordFile);
+                if (!Constants.RECORD_FILE_NAME.equals(recordFile)) {
+                    uploadFile(recordFile);
+                }
             }
 
             return statusCode;
@@ -74,16 +79,6 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             Toast.makeText(activity.getApplicationContext(),
                     String.format(activity.getString(R.string.upload_success), total),
                     Toast.LENGTH_SHORT).show();
-            try {
-                RecordProvider.INSTANCE.reset(activity);
-                Utils.updateRecordFiles(activity);
-            } catch (Exception ex) {
-                Toast.makeText(
-                        activity.getApplicationContext(),
-                        String.format(activity.getString(R.string.error_of), ex.getLocalizedMessage()),
-                        Toast.LENGTH_LONG)
-                        .show();
-            }
         }
     }
 

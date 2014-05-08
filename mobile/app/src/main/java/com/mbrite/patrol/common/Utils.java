@@ -196,13 +196,52 @@ public class Utils {
      * @throws URISyntaxException
      * @throws IOException
      */
-    public static boolean updateDataFiles(Activity activity)
-            throws JSONException, URISyntaxException, IOException {
-        boolean updated = false;
-        updated = updateSavedFile(activity, Constants.ROUTES, Constants.ROUTES_FILE_NAME, "?group_by_asset=true") || updated;
-        updated = updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME, null) || updated;
-        updated = updateSavedFile(activity, Constants.POINTS, Constants.POINTS_FILE_NAME, null) || updated;
-        return updated;
+    public static void updateDataFiles(Activity activity) {
+        try {
+            boolean updated = false;
+            updated = updateSavedFile(activity, Constants.ROUTES, Constants.ROUTES_FILE_NAME, "?group_by_asset=true") || updated;
+            updated = updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME, null) || updated;
+            updated = updateSavedFile(activity, Constants.POINTS, Constants.POINTS_FILE_NAME, null) || updated;
+            if (updated) {
+                Toast.makeText(
+                        activity,
+                        R.string.update_complete,
+                        Toast.LENGTH_LONG)
+                        .show();
+            } else {
+                Toast.makeText(
+                        activity,
+                        R.string.no_update,
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+        } catch (JSONException ex) {
+            Toast.makeText(
+                    activity,
+                    String.format("JSONException: %s", ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        } catch (URISyntaxException | IllegalStateException ex) {
+            Toast.makeText(
+                    activity,
+                    String.format(activity.getString(R.string.error_site_url_invalid),
+                            RestClient.INSTANCE.getSite()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        } catch (IOException ex) {
+            Toast.makeText(
+                    activity,
+                    String.format(activity.getString(R.string.error_network_connection_failure),
+                            RestClient.INSTANCE.getSite()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        } catch (Exception ex) {
+            Toast.makeText(
+                    activity,
+                    String.format(activity.getString(R.string.error_of), ex.getLocalizedMessage()),
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     /**
@@ -271,25 +310,6 @@ public class Utils {
                     .show();
         }
         return null;
-    }
-
-    public static void updateRecordFiles(Activity activity)
-            throws JSONException, URISyntaxException, IOException {
-        boolean updated = Utils.updateDataFiles(activity);
-
-        if (updated) {
-            Toast.makeText(
-                    activity,
-                    R.string.update_complete,
-                    Toast.LENGTH_LONG)
-                    .show();
-        } else {
-            Toast.makeText(
-                    activity,
-                    R.string.no_update,
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
     }
 
     public static <T> ArrayList<T> convertJSONArrayToList(JSONArray array)

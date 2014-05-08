@@ -310,31 +310,9 @@ public class LoginActivity extends Activity {
                 try {
                     Utils.saveUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
                     Utils.updateDataFiles(LoginActivity.this);
+                    new UploadTask(LoginActivity.this).execute();
                     startActivity(new Intent(Constants.MAIN_ACTIVITY));
-                    finish();
-                } catch (JSONException ex) {
-                    mSignInButton.setError(ex.getLocalizedMessage());
-                    Toast.makeText(
-                            LoginActivity.this,
-                            String.format("JSONException: %s", ex.getLocalizedMessage()),
-                            Toast.LENGTH_LONG)
-                            .show();
-                } catch (URISyntaxException | IllegalStateException ex) {
-                    mSignInButton.setError(ex.getLocalizedMessage());
-                    Toast.makeText(
-                            LoginActivity.this,
-                            String.format(getString(R.string.error_site_url_invalid),
-                                          RestClient.INSTANCE.getSite()),
-                            Toast.LENGTH_LONG)
-                            .show();
-                } catch (IOException ex) {
-                    mSignInButton.setError(ex.getLocalizedMessage());
-                    Toast.makeText(
-                            LoginActivity.this,
-                            String.format(getString(R.string.error_network_connection_failure),
-                                          RestClient.INSTANCE.getSite()),
-                            Toast.LENGTH_LONG)
-                            .show();
+                    LoginActivity.this.finish();
                 } catch (Exception ex) {
                     mSignInButton.setError(ex.getLocalizedMessage());
                     Toast.makeText(

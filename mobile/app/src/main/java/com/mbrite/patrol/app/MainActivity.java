@@ -1,7 +1,6 @@
 package com.mbrite.patrol.app;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.*;
@@ -102,25 +101,10 @@ public class MainActivity extends ParentActivity {
                     return;
                 }
 
-                uploadRecords();
+                Utils.updateDataFiles(MainActivity.this);
+                new UploadTask(MainActivity.this).execute();
             };
         });
-    }
-
-    private void uploadRecords() {
-        ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this,
-                getString(R.string.uploading),
-                getString(R.string.please_wait),
-                true);
-        try {
-            new UploadTask(MainActivity.this, progressDialog).execute();
-        } catch (Exception ex) {
-            Toast.makeText(
-                    MainActivity.this,
-                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
     }
 
     private void setupStartPatrol() {
