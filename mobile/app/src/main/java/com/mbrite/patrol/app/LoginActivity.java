@@ -47,7 +47,7 @@ public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Utils.setDefaultLocale(getBaseContext());
+//        Utils.setDefaultLocale(getBaseContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
