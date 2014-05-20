@@ -6,7 +6,6 @@ import android.os.*;
 
 import org.apache.http.*;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.protocol.HTTP.*;
 import org.apache.http.client.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
@@ -84,7 +83,7 @@ public enum RestClient {
         if (cookie != null) {
             request.addHeader(Constants.COOKIE, cookie);
         }
-        HttpClient client = new DefaultHttpClient();
+        HttpClient client = new DefaultHttpClient(Constants.HTTP_PARAMS);
         HttpResponse response = client.execute(request);
         setCookie(response);
         return response;

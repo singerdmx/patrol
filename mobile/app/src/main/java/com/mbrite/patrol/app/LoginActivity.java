@@ -23,6 +23,7 @@ import com.mbrite.patrol.connection.RestClient;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Record;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 
 import java.net.URISyntaxException;
@@ -256,6 +257,7 @@ public class LoginActivity extends Activity {
 
         private final String mUsername;
         private final String mPassword;
+        private String errorMsg;
 
         UserLoginTask(String username, String password) {
             mUsername = username;
@@ -266,37 +268,22 @@ public class LoginActivity extends Activity {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt offline if server is down
             try {
-                return Utils.isValidUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
+                if (!Utils.isValidUsernameAndPassword(LoginActivity.this, mUsername, mPassword)) {
+                    errorMsg = getString(R.string.error_incorrect_password);
+                    return false;
+                }
+
+                return true;
             } catch (JSONException ex) {
-                mSignInButton.setError(ex.getLocalizedMessage());
-                Toast.makeText(
-                        LoginActivity.this,
-                        String.format("JSONException: %s", ex.getLocalizedMessage()),
-                        Toast.LENGTH_LONG)
-                        .show();
+                errorMsg = String.format("JSONException: %s", ex.getLocalizedMessage());
             } catch (URISyntaxException | IllegalStateException ex) {
-                mSignInButton.setError(ex.getLocalizedMessage());
-                Toast.makeText(
-                        LoginActivity.this,
-                        String.format(getString(R.string.error_site_url_invalid),
-                                RestClient.INSTANCE.getSite()),
-                        Toast.LENGTH_LONG)
-                        .show();
+                errorMsg = String.format(getString(R.string.error_site_url_invalid),
+                        RestClient.INSTANCE.getSite());
             } catch (IOException ex) {
-                mSignInButton.setError(ex.getLocalizedMessage());
-                Toast.makeText(
-                        LoginActivity.this,
-                        String.format(getString(R.string.error_network_connection_failure),
-                                RestClient.INSTANCE.getSite()),
-                        Toast.LENGTH_LONG)
-                        .show();
+                errorMsg = String.format(getString(R.string.error_network_connection_failure),
+                        RestClient.INSTANCE.getSite());
             } catch (Exception ex) {
-                mSignInButton.setError(ex.getLocalizedMessage());
-                Toast.makeText(
-                        LoginActivity.this,
-                        String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                        Toast.LENGTH_LONG)
-                        .show();
+                errorMsg = String.format(getString(R.string.error_of), ex.getLocalizedMessage());
             }
             return false;
         }
@@ -314,21 +301,23 @@ public class LoginActivity extends Activity {
                     startActivity(new Intent(Constants.MAIN_ACTIVITY));
                     LoginActivity.this.finish();
                 } catch (Exception ex) {
-                    mSignInButton.setError(ex.getLocalizedMessage());
-                    Toast.makeText(
-                            LoginActivity.this,
-                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                            Toast.LENGTH_LONG)
-                            .show();
+                    errorMsg = String.format(getString(R.string.error_of), ex.getLocalizedMessage());
                 }
-            } else {
-                Toast.makeText(
-                        LoginActivity.this,
-                        R.string.error_incorrect_password,
-                        Toast.LENGTH_LONG)
-                        .show();
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            }
+
+            if (StringUtils.isNoneBlank(errorMsg)) {
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        mSignInButton.setError(errorMsg);
+                        mPasswordView.setError(errorMsg);
+                        mPasswordView.requestFocus();
+                        Toast.makeText(
+                                LoginActivity.this,
+                                errorMsg,
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
             }
         }
 

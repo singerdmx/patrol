@@ -60,7 +60,7 @@ public class Utils {
 
     public static boolean isValidUsernameAndPassword(Activity activity, String username, String password)
             throws URISyntaxException, JSONException, IOException {
-        if (TextUtils.isEmpty(password)) {
+        if (StringUtils.isBlank(password)) {
             return false;
         }
 

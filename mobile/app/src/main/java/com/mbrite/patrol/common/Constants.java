@@ -1,6 +1,7 @@
 package com.mbrite.patrol.common;
 
 import java.util.*;
+import org.apache.http.params.*;
 
 /**
  * Shared Constants
@@ -42,6 +43,18 @@ public class Constants {
     public static final String USER_PASSWORD = "user[password]";
 
     // Network related constants
+    public static final HttpParams HTTP_PARAMS;
+
+    static {
+        HTTP_PARAMS = new BasicHttpParams();
+        // Set the timeout in milliseconds until a connection is established.
+        // The default value is zero, that means the timeout is not used.
+        HttpConnectionParams.setConnectionTimeout(HTTP_PARAMS, 3000);
+        // Set the default socket timeout (SO_TIMEOUT)
+        // in milliseconds which is the timeout for waiting for data.
+        HttpConnectionParams.setSoTimeout(HTTP_PARAMS, 30000);
+    }
+
     public static final String ETAG= "Etag";
     public static final String LAST_MODIFIED = "Last-Modified";
     public static final String IF_NONE_MATCH= "If-None-Match";
