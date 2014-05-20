@@ -45,7 +45,7 @@ public class RoutesFragment extends ParentFragment {
         try {
             routes = RouteProvider.INSTANCE.getRoutes(getActivity());
             Record record = RecordProvider.INSTANCE.get(getActivity());
-            if (record != null || routes.size() == 1) { // if there is only one route, jump directly to AssetActivity
+            if (record != null) {
                 ArrayList<Route> selectedRoutes = new ArrayList<>();
                 if (record != null) {
                     for (Route route : routes) {
@@ -53,8 +53,6 @@ public class RoutesFragment extends ParentFragment {
                             selectedRoutes.add(route);
                         }
                     }
-                } else { // routes.size() == 1
-                    selectedRoutes.add(routes.get(0));
                 }
 
                 Tracker.INSTANCE.createRouteGroups(selectedRoutes, getActivity());
