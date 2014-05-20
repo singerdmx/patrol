@@ -19,6 +19,8 @@ public enum Tracker {
 
     INSTANCE;
 
+    public boolean offLine;
+
     public Long recentActiveTimestamp = null;
 
     /**

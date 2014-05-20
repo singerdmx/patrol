@@ -81,7 +81,7 @@ public class LoginActivity extends Activity {
         try {
             checkAppVersion();
             Record record = RecordProvider.INSTANCE.get(this);
-            if (record != null) {
+            if (Tracker.INSTANCE.offLine || record != null) {
                 // If there is open record in progress, skip login
                 startActivity(new Intent(Constants.MAIN_ACTIVITY));
                 finish();
@@ -136,7 +136,7 @@ public class LoginActivity extends Activity {
 
     private void signInWithSavedUsernameAndPassword() {
         String[] savedUsernameAndPassword = Utils.getSavedUsernameAndPassword(this);
-        if (savedUsernameAndPassword != null) {
+        if (savedUsernameAndPassword != null && !Constants.OFFLINE.equals(savedUsernameAndPassword[0])) {
             mUsernameView.setText(savedUsernameAndPassword[0]);
             mPasswordView.setText(savedUsernameAndPassword[1]);
             mSignInButton.performClick();
@@ -225,12 +225,14 @@ public class LoginActivity extends Activity {
     }
 
     private void attemptOffline(String message) {
+        Tracker.INSTANCE.offLine = false;
         new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
                 .setTitle(R.string.use_offline_mode)
                 .setMessage(message + getString(R.string.use_offline_mode))
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
+                            Tracker.INSTANCE.offLine = true;
                             Utils.saveUsernameAndPassword(LoginActivity.this, Constants.OFFLINE, "");
                             startActivity(new Intent(Constants.MAIN_ACTIVITY));
                             finish();
@@ -266,7 +268,6 @@ public class LoginActivity extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt offline if server is down
             try {
                 if (!Utils.isValidUsernameAndPassword(LoginActivity.this, mUsername, mPassword)) {
                     errorMsg = getString(R.string.error_incorrect_password);
@@ -282,6 +283,11 @@ public class LoginActivity extends Activity {
             } catch (IOException ex) {
                 errorMsg = String.format(getString(R.string.error_network_connection_failure),
                         RestClient.INSTANCE.getSite());
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        attemptOffline(errorMsg);
+                    }
+                });
             } catch (Exception ex) {
                 errorMsg = String.format(getString(R.string.error_of), ex.getLocalizedMessage());
             }
