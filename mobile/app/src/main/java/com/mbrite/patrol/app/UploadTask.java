@@ -91,7 +91,7 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             recordContent = RecordProvider.INSTANCE.toString(record);
             HttpResponse response = RestClient.INSTANCE.post(activity, Constants.RESULTS, recordContent, Constants.CONTENT_TYPE_JSON);
             int responseStatusCode = response.getStatusLine().getStatusCode();
-            if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
+            if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(responseStatusCode)) {
                 statusCode = responseStatusCode;
                 fails++;
                 Log.e(TAG, String.format("Fail to upload file %s:\n" +
