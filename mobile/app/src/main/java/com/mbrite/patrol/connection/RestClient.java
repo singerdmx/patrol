@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.os.*;
 
 import org.apache.http.*;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.client.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -33,6 +34,8 @@ public enum RestClient {
 
     private String cookie;
 
+    private String authenticationToken;
+
     private URI getSiteURI(Activity activity)
             throws URISyntaxException {
         site = Utils.getSiteURI(activity).trim();
@@ -44,6 +47,11 @@ public enum RestClient {
 
     public String getSite() {
         return site;
+    }
+
+    public void clearSession() {
+        authenticationToken = null;
+        cookie = null;
     }
 
     public HttpResponse get(Activity activity, String relativeURI)
@@ -78,21 +86,41 @@ public enum RestClient {
         return executeRequest(request);
     }
 
+    public void getAuthenticityToken(Activity activity)
+            throws URISyntaxException, IOException {
+        HttpResponse response = RestClient.INSTANCE.get(activity, Constants.LOGIN);
+        setAuthenticationToken(response);
+    }
+
     private HttpResponse executeRequest(HttpUriRequest request)
         throws IOException, URISyntaxException {
         if (cookie != null) {
             request.addHeader(Constants.COOKIE, cookie);
         }
+        if (authenticationToken != null) {
+            request.addHeader(new BasicHeader(Constants.X_CSRF_TOKEN, authenticationToken));
+        }
+
         HttpClient client = new DefaultHttpClient(Constants.HTTP_PARAMS);
         HttpResponse response = client.execute(request);
         setCookie(response);
+        setAuthenticationToken(response);
         return response;
     }
 
     private void setCookie(HttpResponse response) {
         for (Header header : response.getAllHeaders()) {
-            if (header.getName().equalsIgnoreCase(Constants.COOKIES_HEADER)) {
+            if (header.getName().equalsIgnoreCase(Constants.COOKIES_HEADER) && header.getValue().startsWith("_blog_session")) {
                 cookie = header.getValue();
+                break;
+            }
+        }
+    }
+
+    private void setAuthenticationToken(HttpResponse response) {
+        for (Header header : response.getAllHeaders()) {
+            if (header.getName().equalsIgnoreCase(Constants.X_CSRF_TOKEN)) {
+                authenticationToken = header.getValue();
                 break;
             }
         }

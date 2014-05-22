@@ -37,8 +37,7 @@ public class Constants {
     public static final String LOGIN = "users/sign_in";
     public static final String COOKIES_HEADER = "Set-Cookie";
     public static final String COOKIE = "Cookie";
-    public static final String AUTHENTICITY_TOKEN_HTML_ELEMENT= "<input name=\"authenticity_token\" type=\"hidden\"";
-    public static final String AUTHENTICITY_TOKEN = "authenticity_token";
+    public static final String X_CSRF_TOKEN = "X-CSRF-Token";
     public static final String USER_EMAIL = "user[email]";
     public static final String USER_PASSWORD = "user[password]";
 
@@ -65,6 +64,7 @@ public class Constants {
     public static final int STATUS_CODE_CREATED = 201;
     public static final int STATUS_CODE_ACCEPTED = 202;
     public static final int STATUS_CODE_NOT_MODIFIED = 304;
+    public static final int STATUS_CODE_UNAUTHORIZED = 401;
 
     public static final Set<Integer> STATUS_CODE_UPLOAD_SUCCESS;
 

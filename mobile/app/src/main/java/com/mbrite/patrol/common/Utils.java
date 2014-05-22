@@ -3,7 +3,6 @@ package com.mbrite.patrol.common;
 import android.content.res.*;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.app.*;
 import android.content.*;
 import android.widget.*;
@@ -17,8 +16,7 @@ import com.mbrite.patrol.model.AssetGroup;
 import com.mbrite.patrol.model.PointGroup;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
+import org.apache.http.*;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -64,25 +62,24 @@ public class Utils {
             return false;
         }
 
-        List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>(4);
+        RestClient.INSTANCE.getAuthenticityToken(activity);
+        List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>(3);
         payload.add(new BasicNameValuePair(Constants.USER_EMAIL, username));
         payload.add(new BasicNameValuePair(Constants.USER_PASSWORD, password));
         payload.add(new BasicNameValuePair("user[remember_me]", "1"));
-        payload.add(new BasicNameValuePair(Constants.AUTHENTICITY_TOKEN, getAuthenticityToken(activity)));
-        HttpResponse response = RestClient.INSTANCE.post(activity, Constants.LOGIN, payload);
+        HttpResponse response = RestClient.INSTANCE.post(activity, Constants.LOGIN + ".json", payload);
         int statusCode = response.getStatusLine().getStatusCode();
         switch (statusCode) {
-            case 200:
-                break;
-            case 302:
-
-                break;
-            case 401:
-                break;
+            case Constants.STATUS_CODE_OK:
+                return true;
+            case Constants.STATUS_CODE_CREATED:
+                return true;
+            case Constants.STATUS_CODE_UNAUTHORIZED:
+                return false;
             default:
-                throw new HttpResponseException(statusCode, "Error occurred for Login request");
+                throw new HttpResponseException(statusCode,
+                        String.format("Error occurred for Login request. Status code: %d", statusCode));
         }
-        return true;
     }
 
     public static void saveUsernameAndPassword(Activity activity, String username, String password) {
@@ -399,17 +396,10 @@ public class Utils {
             throws IOException {
         RecordProvider.INSTANCE.completeCurrentRecord(activity);
         Utils.clearUsernameAndPassword(activity);
+        RestClient.INSTANCE.clearSession();
         Intent intent = new Intent(activity, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(intent);
         activity.finish();
-    }
-
-    private static String getAuthenticityToken(Activity activity)
-            throws URISyntaxException, IOException {
-        HttpResponse response = RestClient.INSTANCE.get(activity, Constants.LOGIN);
-        String signInHtmlContent = Utils.convertStreamToString(response.getEntity().getContent());
-        int authenticityTokenIndex = signInHtmlContent.indexOf(Constants.AUTHENTICITY_TOKEN_HTML_ELEMENT);
-        return signInHtmlContent.substring(authenticityTokenIndex + 54, authenticityTokenIndex + 98);
     }
 }
