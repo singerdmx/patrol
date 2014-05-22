@@ -74,37 +74,58 @@ public class MainActivity extends ParentActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refresh.setBackground(getResources().getDrawable(R.drawable.background_darkblue));
-                if (!Tracker.INSTANCE.isRecordComplete()) {
+                if (Tracker.INSTANCE.offLine || Constants.OFFLINE.equals(Utils.getSavedUsernameAndPassword(MainActivity.this)[0])) {
                     new AlertDialog.Builder(MainActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                            .setMessage(R.string.error_incomplete_assets)
-                            .setTitle(R.string.error)
+                            .setMessage(R.string.not_logged_in)
+                            .setTitle(R.string._notice)
                             .setCancelable(false)
-                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Utils.logout(MainActivity.this);
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // do nothing
                                 }
-                            }).setIcon(R.drawable.error).show();
-                    return;
+                            }).setIcon(R.drawable.question).show();
+                } else {
+                    synchronizeData(refresh);
                 }
-
-                if (!Utils.isNetworkConnected(MainActivity.this)) {
-                    new AlertDialog.Builder(MainActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                            .setMessage(R.string.error_no_network)
-                            .setTitle(R.string.error)
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // do nothing
-                                }
-                            }).setIcon(R.drawable.error).show();
-                    return;
-                }
-
-                Utils.updateDataFiles(MainActivity.this);
-                new UploadTask(MainActivity.this).execute();
             };
         });
+    }
+
+    private void synchronizeData(TextView refresh) {
+        refresh.setBackground(getResources().getDrawable(R.drawable.background_darkblue));
+        if (!Tracker.INSTANCE.isRecordComplete()) {
+            new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                    .setMessage(R.string.error_incomplete_assets)
+                    .setTitle(R.string.error)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // do nothing
+                        }
+                    }).setIcon(R.drawable.error).show();
+            return;
+        }
+
+        if (!Utils.isNetworkConnected(MainActivity.this)) {
+            new AlertDialog.Builder(MainActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                    .setMessage(R.string.error_no_network)
+                    .setTitle(R.string.error)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // do nothing
+                        }
+                    }).setIcon(R.drawable.error).show();
+            return;
+        }
+
+        Utils.updateDataFiles(MainActivity.this);
+        new UploadTask(MainActivity.this).execute();
     }
 
     private void setupStartPatrol() {

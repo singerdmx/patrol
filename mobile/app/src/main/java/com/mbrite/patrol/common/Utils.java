@@ -288,6 +288,13 @@ public class Utils {
             case Constants.STATUS_CODE_NOT_MODIFIED:
                 // Not Modified
                 return false;
+            case Constants.STATUS_CODE_UNAUTHORIZED:
+                Toast.makeText(
+                        activity,
+                        R.string.error_incorrect_password_please_login,
+                        Toast.LENGTH_LONG)
+                        .show();
+                return false;
             default:
                 throw new HttpResponseException(statusCode,
                         "Error occurred for GET request: " + type);
@@ -396,6 +403,7 @@ public class Utils {
             throws IOException {
         RecordProvider.INSTANCE.completeCurrentRecord(activity);
         Utils.clearUsernameAndPassword(activity);
+        Tracker.INSTANCE.offLine = false;
         RestClient.INSTANCE.clearSession();
         Intent intent = new Intent(activity, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
