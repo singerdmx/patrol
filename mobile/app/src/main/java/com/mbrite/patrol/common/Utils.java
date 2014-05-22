@@ -403,7 +403,6 @@ public class Utils {
             throws IOException {
         RecordProvider.INSTANCE.completeCurrentRecord(activity);
         Utils.clearUsernameAndPassword(activity);
-        Tracker.INSTANCE.offLine = false;
         RestClient.INSTANCE.clearSession();
         Intent intent = new Intent(activity, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

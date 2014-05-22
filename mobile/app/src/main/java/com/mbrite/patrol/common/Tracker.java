@@ -96,6 +96,7 @@ public enum Tracker {
         assetBarcodeMap = new HashMap<>();
         pointDuplicates = new HashMap<>();
         pointBarcodeMap = new HashMap<>();
+        offLine = false;
     }
 
     public boolean isRecordComplete() {
