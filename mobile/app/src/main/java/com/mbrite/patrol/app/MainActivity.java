@@ -2,6 +2,7 @@ package com.mbrite.patrol.app;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.*;
 import android.content.Intent;
@@ -19,6 +20,9 @@ import java.util.*;
 public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    // UI references.
+    private TextView notificationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,12 @@ public class MainActivity extends ParentActivity {
         setupNotification();
         setupSynchronizeData();
         setupStartPatrol();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        new UserNotificationTask().execute((Void) null);
     }
 
     // Called to lazily initialize the action bar
@@ -53,9 +63,9 @@ public class MainActivity extends ParentActivity {
     }
 
     private void setupNotification() {
-        final TextView notification = (TextView) findViewById(R.id.notification);
-        notification.setTextColor(Utils.getColorStateList(this, R.drawable.textview_alter_selector));
-        notification.setOnClickListener(new View.OnClickListener() {
+        notificationView = (TextView) findViewById(R.id.notification);
+        notificationView.setTextColor(Utils.getColorStateList(this, R.drawable.textview_alter_selector));
+        notificationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: Show notification
@@ -191,5 +201,38 @@ public class MainActivity extends ParentActivity {
                 alert.show();
             };
         });
+    }
+
+    /**
+     * Represents an asynchronous task used to retrieve notification.
+     */
+    private class UserNotificationTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            if (Tracker.INSTANCE.offLine ||
+                    Constants.OFFLINE.equals(Utils.getSavedUsernameAndPassword(MainActivity.this)[0]) ||
+                    !Utils.isNetworkConnected(MainActivity.this)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean updated) {
+            if (updated)  {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        notificationView
+                                .setCompoundDrawablesWithIntrinsicBounds(null,
+                                        getResources().getDrawable(R.drawable.mailplus),
+                                        null,
+                                        null);
+                    }
+                });
+            }
+        }
+
     }
 }
