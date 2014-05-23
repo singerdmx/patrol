@@ -83,6 +83,8 @@ public class Constants {
     public static final String POINTS_FILE_NAME = "points.json";
     public static final String RESULTS = "results.json";
     public static final String RECORD_FILE_NAME = "record.json";
+    public static final String NOTIFICATION = "notification";
+    public static final String NOTIFICATION_FILE_NAME = "notification.json";
 
     // Asset related constants
     public static final String SERIAL_NUM = "serialnum";

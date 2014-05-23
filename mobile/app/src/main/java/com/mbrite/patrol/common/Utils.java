@@ -250,15 +250,15 @@ public class Utils {
      * @throws URISyntaxException
      * @throws IOException
      */
-    private static boolean updateSavedFile (Activity activity, String type, String fileName, String param)
+    public static boolean updateSavedFile(Activity activity, String type, String fileName, String param)
             throws JSONException, URISyntaxException, IOException {
         Map<String, String> headers = null;
         if (FileMgr.exists(activity, fileName)) {
-            JSONObject savedRoutes = new JSONObject(FileMgr.read(activity, fileName));
-            if (savedRoutes.has(Constants.IF_MODIFIED_SINCE) && savedRoutes.has(Constants.IF_NONE_MATCH)) {
+            JSONObject savedData = new JSONObject(FileMgr.read(activity, fileName));
+            if (savedData.has(Constants.IF_MODIFIED_SINCE) && savedData.has(Constants.IF_NONE_MATCH)) {
                 headers = new HashMap<String, String>();
-                headers.put(Constants.IF_NONE_MATCH, savedRoutes.getString(Constants.IF_NONE_MATCH));
-                headers.put(Constants.IF_MODIFIED_SINCE, savedRoutes.getString(Constants.IF_MODIFIED_SINCE));
+                headers.put(Constants.IF_NONE_MATCH, savedData.getString(Constants.IF_NONE_MATCH));
+                headers.put(Constants.IF_MODIFIED_SINCE, savedData.getString(Constants.IF_MODIFIED_SINCE));
             }
         }
         String url = String.format("%s.json", type);

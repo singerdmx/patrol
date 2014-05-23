@@ -74,6 +74,7 @@ public class MainActivity extends ParentActivity {
                                 getResources().getDrawable(R.drawable.mail),
                                 null,
                                 null);
+                finish();
             };
         });
     }
@@ -216,7 +217,17 @@ public class MainActivity extends ParentActivity {
                 return false;
             }
 
-            return true;
+            try {
+                return Utils.updateSavedFile(MainActivity.this, Constants.NOTIFICATION, Constants.NOTIFICATION_FILE_NAME, null);
+            } catch (Exception ex) {
+                Toast.makeText(
+                        MainActivity.this,
+                        String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+
+            return false;
         }
 
         @Override

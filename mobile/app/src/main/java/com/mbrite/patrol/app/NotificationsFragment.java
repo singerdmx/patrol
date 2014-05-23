@@ -3,6 +3,7 @@ package com.mbrite.patrol.app;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.mbrite.patrol.content.providers.NotificationProvider;
 import com.mbrite.patrol.widget.*;
 
 import java.util.ArrayList;
@@ -19,10 +20,7 @@ public class NotificationsFragment extends ParentFragment {
     public void onResume() {
         super.onResume();
         try {
-            ArrayList<String> notifications = new ArrayList<>();
-            notifications.add("1");
-            notifications.add("2");
-            notifications.add("3");
+            ArrayList<String> notifications = NotificationProvider.INSTANCE.getNotifications(getActivity());
             NotificationAdapter adapter = new NotificationAdapter(
                     getActivity(),
                     notifications);
