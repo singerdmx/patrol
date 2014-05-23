@@ -68,12 +68,12 @@ public class MainActivity extends ParentActivity {
         notificationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Show notification
-                Toast.makeText(
-                        MainActivity.this,
-                        "Show notification",
-                        Toast.LENGTH_LONG)
-                        .show();
+                startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
+                notificationView
+                        .setCompoundDrawablesWithIntrinsicBounds(null,
+                                getResources().getDrawable(R.drawable.mail),
+                                null,
+                                null);
             };
         });
     }

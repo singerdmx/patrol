@@ -52,12 +52,17 @@
     <string name="app_version_upgrade">程序版本升级</string>
     <string name="app_version_upgrade_message">检测到先前版本的数据，已自动保存</string>
 
+    <string name="not_logged_in">您尚未登入，是否转到登入页面？</string>
     <string name="error_incorrect_password">用户名或密码错误</string>
+    <string name="error_incorrect_password_please_login">用户名或密码错误，请登出再重新登入。</string>
     <string name="error_field_required">请填写此项</string>
     <string name="error_no_network">无法连接到网络。</string>
 
     <!-- Strings related to logout -->
     <string name="logout_warning">当前巡检未全部完成，登出将保存未完成的数据并无法更改</string>
+
+    <!-- Strings related to notification -->
+    <string name="back_to_route_list">返回到路线列表</string>
 
     <!-- Strings related to route -->
     <string name="route">路线</string>

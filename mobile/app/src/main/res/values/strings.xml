@@ -50,12 +50,17 @@
     <string name="use_offline_mode"> Use Offline Mode?</string>
     <string name="app_version_upgrade">App Version Upgrade</string>
     <string name="app_version_upgrade_message">Record of previous version is detected and saved</string>
+    <string name="not_logged_in">You are not logged in yet. Do you want to go to Login page?</string>
     <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_password_please_login">This password is incorrect, please logout and login again.</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_no_network">No network available.</string>
 
     <!-- Strings related to logout -->
     <string name="logout_warning">Logout will save current data and you will be unable to change it</string>
+
+    <!-- Strings related to notification -->
+    <string name="back_to_route_list">Back to Routes</string>
 
     <!-- Strings related to route -->
     <string name="route">Route</string>
@@ -102,5 +107,7 @@
     <string name="result_in_fail_status">Result in FAIL status</string>
     <string name="continue_scan">Continue scanning</string>
     <string name="enter_scan_in_secs">Enter scan page in %s seconds</string>
+    <string name="title_activity_notifications">Notifications</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

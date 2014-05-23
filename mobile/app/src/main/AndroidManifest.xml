@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mbrite.patrol.app">
+    package="com.mbrite.patrol.app" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -13,8 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:debuggable="true"
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/patrol"
         android:theme="@style/AppTheme" >
@@ -57,7 +57,12 @@
         <activity
             android:name="com.mbrite.patrol.app.ScanOnlyPointActivity"
             android:label="@string/check_point"
-            android:theme="@android:style/Theme.Light" >>
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+        <activity
+            android:name="com.mbrite.patrol.app.NotificationsActivity"
+            android:label="@string/notification"
+            android:theme="@android:style/Theme.Light" >
         </activity>
     </application>
 
