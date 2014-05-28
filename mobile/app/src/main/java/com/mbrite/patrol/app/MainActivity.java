@@ -239,48 +239,70 @@ public class MainActivity extends ParentActivity {
                             String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
                             JSONArray responseData = new JSONArray(responseContent);
                             NotificationProvider.INSTANCE.addNewNotifications(MainActivity.this, responseData);
-                            return true;
-                        case Constants.STATUS_CODE_NOT_MODIFIED:
-                            // Not Modified
-                            return false;
+                            break;
                         case Constants.STATUS_CODE_UNAUTHORIZED:
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    R.string.error_incorrect_password_please_login,
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                            return false;
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(
+                                            MainActivity.this,
+                                            R.string.error_incorrect_password_please_login,
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            });
+                            break;
                         default:
                             throw new HttpResponseException(statusCode,
-                                    "Error occurred for GET Notification request");
+                                    "Error occurred for GET request");
                     }
 
-                } catch (Exception ex) {
-                    Toast.makeText(
-                            MainActivity.this,
-                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                            Toast.LENGTH_LONG)
-                            .show();
+                } catch (final Exception ex) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
                 } finally {
                     NOTIFICATION_SYNC_LOCK.release();
                 }
-            }
 
-            return false;
+                return true;
+            } else {
+                return false;
+            }
         }
 
         @Override
         protected void onPostExecute(final Boolean newNotification) {
             if (newNotification)  {
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        notificationView
-                                .setCompoundDrawablesWithIntrinsicBounds(null,
-                                        getResources().getDrawable(R.drawable.mailplus),
-                                        null,
-                                        null);
+                try {
+                    ArrayList<Notification> newNotifications = NotificationProvider.INSTANCE.getNewNotifications(MainActivity.this);
+                    if (!newNotifications.isEmpty()) {
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                notificationView
+                                        .setCompoundDrawablesWithIntrinsicBounds(null,
+                                                getResources().getDrawable(R.drawable.mailplus),
+                                                null,
+                                                null);
+                            }
+                        });
                     }
-                });
+                } catch (final Exception ex) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+                }
             }
         }
 

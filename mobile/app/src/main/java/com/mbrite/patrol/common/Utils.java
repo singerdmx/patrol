@@ -325,6 +325,26 @@ public class Utils {
 
        return result;
     }
+//
+//    public static <T> JSONArray convertListToJSONArray(ArrayList<T> l)
+//            throws JSONException {
+//        JSONArray result = new JSONArray();
+//        for (int i = 0; i < l.size(); i++) {
+//            result.put(i, l.get(i));
+//        }
+//
+//        return result;
+//    }
+
+    public static <T> ArrayList<T> removeElements(ArrayList<T> l, Set<Integer> indices) {
+        ArrayList<T> result = new ArrayList<T>(l.size());
+        for (int i = 0; i < l.size(); i++) {
+            if (!indices.contains(i)) {
+                result.add(l.get(i));
+            }
+        }
+        return result;
+    }
 
     public static String getString(JSONObject jsonObject, String key)
         throws JSONException {

@@ -7,6 +7,7 @@
     <string name="logout">Log out</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="_return">Return</string>
     <string name="submit">Submit</string>
@@ -61,6 +62,7 @@
 
     <!-- Strings related to notification -->
     <string name="back_to_route_list">Back to Routes</string>
+    <string name="n_items_selected">%d items selected</string>
 
     <!-- Strings related to route -->
     <string name="route">Route</string>
