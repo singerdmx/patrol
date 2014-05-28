@@ -85,6 +85,7 @@ public class Constants {
     public static final String RECORD_FILE_NAME = "record.json";
     public static final String NOTIFICATION = "notification";
     public static final String NOTIFICATION_FILE_NAME = "notification.json";
+    public static final String OLD_NOTIFICATION_FILE_NAME = "old_notification.json";
 
     // Asset related constants
     public static final String SERIAL_NUM = "serialnum";

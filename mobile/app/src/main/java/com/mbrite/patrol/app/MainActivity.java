@@ -11,14 +11,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mbrite.patrol.common.*;
+import com.mbrite.patrol.connection.RestClient;
+import com.mbrite.patrol.content.providers.NotificationProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.*;
 
 import org.apache.commons.lang3.*;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpResponseException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.concurrent.*;
 import java.util.*;
 
 public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final Semaphore NOTIFICATION_SYNC_LOCK = new Semaphore(1);
 
     // UI references.
     private TextView notificationView;
@@ -217,22 +227,51 @@ public class MainActivity extends ParentActivity {
                 return false;
             }
 
-            try {
-                return Utils.updateSavedFile(MainActivity.this, Constants.NOTIFICATION, Constants.NOTIFICATION_FILE_NAME, null);
-            } catch (Exception ex) {
-                Toast.makeText(
-                        MainActivity.this,
-                        String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                        Toast.LENGTH_LONG)
-                        .show();
+            if (NOTIFICATION_SYNC_LOCK.tryAcquire()) {
+                try {
+                    HttpResponse response = RestClient.INSTANCE
+                            .get(MainActivity.this,
+                                    String.format("%s.json", Constants.NOTIFICATION));
+                    int statusCode = response.getStatusLine().getStatusCode();
+                    switch (statusCode) {
+                        case Constants.STATUS_CODE_OK:
+                            // TODO: reverse order? or it is descending already
+                            String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
+                            JSONArray responseData = new JSONArray(responseContent);
+                            NotificationProvider.INSTANCE.addNewNotifications(MainActivity.this, responseData);
+                            return true;
+                        case Constants.STATUS_CODE_NOT_MODIFIED:
+                            // Not Modified
+                            return false;
+                        case Constants.STATUS_CODE_UNAUTHORIZED:
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    R.string.error_incorrect_password_please_login,
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                            return false;
+                        default:
+                            throw new HttpResponseException(statusCode,
+                                    "Error occurred for GET Notification request");
+                    }
+
+                } catch (Exception ex) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                } finally {
+                    NOTIFICATION_SYNC_LOCK.release();
+                }
             }
 
             return false;
         }
 
         @Override
-        protected void onPostExecute(final Boolean updated) {
-            if (updated)  {
+        protected void onPostExecute(final Boolean newNotification) {
+            if (newNotification)  {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         notificationView
