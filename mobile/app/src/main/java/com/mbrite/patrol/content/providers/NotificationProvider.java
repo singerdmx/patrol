@@ -7,6 +7,7 @@ import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.Notification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.*;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public enum NotificationProvider {
         FileMgr.write(activity, Constants.OLD_NOTIFICATION_FILE_NAME, data.toString());
     }
 
-    public void addNewNotifications(Activity activity, JSONArray contents)
+    public void addNewNotifications(Activity activity, JSONArray contents, String lastModified)
             throws JSONException, IOException {
         ArrayList<Notification> existingNewNotifications = getNewNotifications(activity);
         JSONObject data = new JSONObject();
@@ -43,15 +44,36 @@ public enum NotificationProvider {
             contents.put(i, existingNewNotifications.get(j).getContent());
         }
         data.put(Constants.NOTIFICATION, contents);
+        if (StringUtils.isNoneBlank(lastModified)) {
+            data.put(Constants.IF_MODIFIED_SINCE, lastModified);
+        }
         FileMgr.write(activity, Constants.NOTIFICATION_FILE_NAME, data.toString());
     }
 
     public void clearNewNotifications(Activity activity)
         throws JSONException, IOException {
+        String ifModifiedSince = getIfModifiedSince(activity);
         JSONObject data = new JSONObject();
         JSONArray contents = new JSONArray();
         data.put(Constants.NOTIFICATION, contents); // empty array
+        if (StringUtils.isNoneBlank(ifModifiedSince)) {
+            data.put(Constants.IF_MODIFIED_SINCE, ifModifiedSince);
+        }
         FileMgr.write(activity, Constants.NOTIFICATION_FILE_NAME, data.toString());
+    }
+
+    public String getIfModifiedSince(Activity activity)
+        throws JSONException, IOException {
+        if (!FileMgr.exists(activity, Constants.NOTIFICATION_FILE_NAME)) {
+            return null;
+        }
+
+        JSONObject data = new JSONObject(FileMgr.read(activity, Constants.NOTIFICATION_FILE_NAME));
+        if (data.has(Constants.IF_MODIFIED_SINCE)) {
+            return data.getString(Constants.IF_MODIFIED_SINCE);
+        }
+
+        return null;
     }
 
     public ArrayList<Notification> getNewNotifications(Activity activity)

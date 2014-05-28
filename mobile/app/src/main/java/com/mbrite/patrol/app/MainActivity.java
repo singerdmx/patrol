@@ -21,7 +21,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpResponseException;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.concurrent.*;
 import java.util.*;
@@ -229,16 +228,29 @@ public class MainActivity extends ParentActivity {
 
             if (NOTIFICATION_SYNC_LOCK.tryAcquire()) {
                 try {
+                    Map<String, String> headers = null;
+                    String ifModifiedSince = NotificationProvider.INSTANCE.getIfModifiedSince(MainActivity.this);
+                    if (StringUtils.isNoneBlank(ifModifiedSince)) {
+                        headers = new HashMap<>();
+                        headers.put(Constants.IF_MODIFIED_SINCE, ifModifiedSince);
+                    }
                     HttpResponse response = RestClient.INSTANCE
                             .get(MainActivity.this,
-                                    String.format("%s.json", Constants.NOTIFICATION));
+                                    String.format("%s.json", Constants.NOTIFICATION),
+                                    headers);
                     int statusCode = response.getStatusLine().getStatusCode();
                     switch (statusCode) {
                         case Constants.STATUS_CODE_OK:
-                            // TODO: reverse order? or it is descending already
                             String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
                             JSONArray responseData = new JSONArray(responseContent);
-                            NotificationProvider.INSTANCE.addNewNotifications(MainActivity.this, responseData);
+                            Header lastModified = response.getFirstHeader(Constants.LAST_MODIFIED);
+                            NotificationProvider.INSTANCE
+                                    .addNewNotifications(
+                                            MainActivity.this,
+                                            responseData,
+                                            lastModified == null ? null : lastModified.getValue());
+                            break;
+                        case Constants.STATUS_CODE_NOT_MODIFIED:
                             break;
                         case Constants.STATUS_CODE_UNAUTHORIZED:
                             MainActivity.this.runOnUiThread(new Runnable() {
