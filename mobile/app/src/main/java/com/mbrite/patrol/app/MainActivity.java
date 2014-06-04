@@ -110,7 +110,26 @@ public class MainActivity extends ParentActivity {
                                 }
                             }).setIcon(R.drawable.question).show();
                 } else {
-                    synchronizeData(refresh);
+                    try {
+                        String[] usernameAndPassword = Utils.getSavedUsernameAndPassword(MainActivity.this);
+                        // Log in case token is expired
+                        if (usernameAndPassword == null ||
+                                !Utils.isValidUsernameAndPassword(MainActivity.this, usernameAndPassword[0], usernameAndPassword[1])) {
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    R.string.error_incorrect_password,
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        } else {
+                            synchronizeData(refresh);
+                        }
+                    } catch (Exception ex) {
+                        Toast.makeText(
+                                MainActivity.this,
+                                String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
                 }
             };
         });
@@ -253,15 +272,16 @@ public class MainActivity extends ParentActivity {
                         case Constants.STATUS_CODE_NOT_MODIFIED:
                             break;
                         case Constants.STATUS_CODE_UNAUTHORIZED:
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(
-                                            MainActivity.this,
-                                            R.string.error_incorrect_password_please_login,
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            });
+                            // Ignore since token may expire
+//                            MainActivity.this.runOnUiThread(new Runnable() {
+//                                public void run() {
+//                                    Toast.makeText(
+//                                            MainActivity.this,
+//                                            R.string.error_incorrect_password_please_login,
+//                                            Toast.LENGTH_LONG)
+//                                            .show();
+//                                }
+//                            });
                             break;
                         default:
                             throw new HttpResponseException(statusCode,
