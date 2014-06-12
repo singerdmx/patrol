@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.mbrite.patrol.common.Utils;
 
@@ -44,7 +45,7 @@ public class NotificationsActivity extends ParentActivity {
     }
 
     private void setupBackButton() {
-        Button backButton = (Button) findViewById(R.id.back_to_route_list_button);
+        TextView backButton = (TextView) findViewById(R.id.back_to_route_list_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

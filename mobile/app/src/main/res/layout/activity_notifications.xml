@@ -19,11 +19,24 @@
 
     <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:orientation="horizontal"
-        android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
-
-        <Button android:id="@+id/back_to_route_list_button" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_weight="1"
-            android:text="@string/back_to_route_list" />
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/back_to_route_list_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:textSize="18sp"
+            android:text="@string/back_to_route_list"
+            android:drawableLeft="@drawable/left_turn_arrow"
+            android:drawablePadding="3px"
+            android:layout_margin="2px"
+            android:padding="15px"
+            android:background="@drawable/background_cyan"
+            android:textColor="@color/white"
+            android:gravity="center_vertical">
+        </TextView>
 
     </LinearLayout>
 </RelativeLayout>

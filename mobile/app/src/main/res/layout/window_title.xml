@@ -18,9 +18,7 @@
         android:drawableLeft="@drawable/helmet"
         android:drawablePadding="3px"
         android:textSize="20sp"
-        android:padding="5px"
         android:textColor="@color/Snow"
-        android:textStyle="bold"
-        android:layout_margin="10px"/>
+        android:textStyle="bold"/>
 
 </LinearLayout>
