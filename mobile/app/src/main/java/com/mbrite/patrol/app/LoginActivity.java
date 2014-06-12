@@ -52,6 +52,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        setupOffLineButton();
+
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -224,11 +226,20 @@ public class LoginActivity extends Activity {
         }
     }
 
+    private void setupOffLineButton() {
+        TextView offLineButton = (TextView) findViewById(R.id.off_line_button);
+        offLineButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptOffline(null);
+            }
+        });
+    }
+
     private void attemptOffline(String message) {
         Tracker.INSTANCE.offLine = false;
-        new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+        AlertDialog.Builder builder = (new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
                 .setTitle(R.string.use_offline_mode)
-                .setMessage(message + getString(R.string.use_offline_mode))
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
@@ -248,7 +259,12 @@ public class LoginActivity extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         // Do nothing.
                     }
-                }).setIcon(R.drawable.question).show();
+                }).setIcon(R.drawable.question));
+        
+        if (message != null) {
+            builder.setMessage(message + getString(R.string.use_offline_mode));
+        }
+        builder.show();
     }
 
     /**
