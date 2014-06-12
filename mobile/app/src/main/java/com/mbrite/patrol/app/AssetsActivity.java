@@ -22,7 +22,7 @@ import java.util.*;
 
 public class AssetsActivity extends ParentActivity {
     private static final String TAG = AssetsActivity.class.getSimpleName();
-    private Button scanButton;
+    private TextView scanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +115,7 @@ public class AssetsActivity extends ParentActivity {
     }
 
     private void setupScanButton() {
-        scanButton = (Button) findViewById(R.id.scan_button);
+        scanButton = (TextView) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +126,7 @@ public class AssetsActivity extends ParentActivity {
     }
 
     private void setupInputButton() {
-        Button inputButton = (Button) findViewById(R.id.input_button);
+        TextView inputButton = (TextView) findViewById(R.id.input_button);
         inputButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,7 +158,7 @@ public class AssetsActivity extends ParentActivity {
     }
 
     private void setupSaveDataButton() {
-        Button saveDataButton = (Button) findViewById(R.id.save_data_button);
+        TextView saveDataButton = (TextView) findViewById(R.id.save_data_button);
         saveDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,7 +172,7 @@ public class AssetsActivity extends ParentActivity {
     }
 
     private void setupCompleteButton() {
-        Button completeButton = (Button) findViewById(R.id.complete);
+        TextView completeButton = (TextView) findViewById(R.id.complete);
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
