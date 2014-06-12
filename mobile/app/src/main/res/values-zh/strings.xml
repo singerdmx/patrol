@@ -49,6 +49,7 @@
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="sign_in">登入</string>
+    <string name="offline_mode">使用离线模式</string>
     <string name="use_offline_mode"> 使用离线模式？</string>
     <string name="app_version_upgrade">程序版本升级</string>
     <string name="app_version_upgrade_message">检测到先前版本的数据，已自动保存</string>

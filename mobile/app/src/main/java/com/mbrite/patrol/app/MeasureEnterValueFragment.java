@@ -108,7 +108,7 @@ public class MeasureEnterValueFragment extends PointsFragment {
             high = Utils.getDouble(point.choice.get(2));
             max = Utils.getDouble(point.choice.get(3));
             if (min != null && max != null) {
-                rangeDisplayValue = String.format("介于%1$,.0f和%1$,.0f之间", min, max);
+                rangeDisplayValue = String.format("介于%1$,.0f和%2$,.0f之间", min, max);
             } else if (min != null) {
                 rangeDisplayValue = String.format("大于%1$,.0f", min);
             } else if (max != null) {

@@ -44,7 +44,7 @@ public class LoginActivity extends Activity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private Button mSignInButton;
+    private TextView mSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        mSignInButton = (Button) findViewById(R.id.sign_in_button);
+        mSignInButton = (TextView) findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
