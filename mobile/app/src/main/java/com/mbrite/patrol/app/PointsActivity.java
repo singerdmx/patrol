@@ -104,7 +104,7 @@ public class PointsActivity extends ParentActivity {
     }
 
     private void setupCancelButton() {
-        Button button = (Button) findViewById(R.id.cancel);
+        TextView button = (TextView) findViewById(R.id.cancel);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +116,7 @@ public class PointsActivity extends ParentActivity {
     }
 
     private void setupSaveButton() {
-        Button button = (Button) findViewById(R.id.save_button);
+        TextView button = (TextView) findViewById(R.id.save_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -14,7 +14,7 @@ import com.mbrite.patrol.model.PointGroup;
 
 public class ScanOnlyPointActivity extends ParentActivity {
 
-    private Button continueScanButton;
+    private TextView continueScanButton;
     private TextView label;
     private CountDown countDown;
     private PointGroup point;
@@ -79,7 +79,7 @@ public class ScanOnlyPointActivity extends ParentActivity {
     }
 
     private void setupCancelButton() {
-        Button button = (Button) findViewById(R.id.cancel);
+        TextView button = (TextView) findViewById(R.id.cancel);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +92,7 @@ public class ScanOnlyPointActivity extends ParentActivity {
     }
 
     private void setupContinueScanButton() {
-        continueScanButton = (Button) findViewById(R.id.continue_scan_button);
+        continueScanButton = (TextView) findViewById(R.id.continue_scan_button);
         continueScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
