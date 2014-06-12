@@ -47,22 +47,22 @@
         <activity
             android:name="com.mbrite.patrol.app.AssetsActivity"
             android:label="@string/asset"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.mbrite.patrol.app.PointsActivity"
             android:label="@string/check_point"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.mbrite.patrol.app.ScanOnlyPointActivity"
             android:label="@string/check_point"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.mbrite.patrol.app.NotificationsActivity"
             android:label="@string/notification"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@style/AppTheme" >
         </activity>
     </application>
 

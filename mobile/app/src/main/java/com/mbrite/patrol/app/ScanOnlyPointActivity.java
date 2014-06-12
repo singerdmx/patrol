@@ -23,6 +23,7 @@ public class ScanOnlyPointActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_only_point);
+        setWindowTitle(R.string.check_point);
 
         setupView();
 

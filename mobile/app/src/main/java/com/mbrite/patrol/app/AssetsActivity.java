@@ -29,6 +29,7 @@ public class AssetsActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "started");
         setContentView(R.layout.activity_assets);
+        setWindowTitle(R.string.asset);
         setupScanButton();
         setupInputButton();
         setupSaveDataButton();
