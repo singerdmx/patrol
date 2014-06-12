@@ -37,6 +37,7 @@ public class MainActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "started");
         setContentView(R.layout.activity_main);
+        setWindowTitle(R.string.route_list);
         setupNotification();
         setupSynchronizeData();
         setupStartPatrol();

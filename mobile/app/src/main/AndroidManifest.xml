@@ -21,7 +21,7 @@
         <activity
             android:name="com.mbrite.patrol.app.MainActivity"
             android:label="@string/route"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="com.mbrite.patrol.app.action.main" />
 

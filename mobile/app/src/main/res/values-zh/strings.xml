@@ -68,6 +68,7 @@
 
     <!-- Strings related to route -->
     <string name="route">路线</string>
+    <string name="route_list">路线列表</string>
     <string name="confirm_route">确认路线</string>
     <string name="selected_route">选定的路线：%s</string>
     <string name="confirm_new_route">换为新路线: %s\n正在进行的路线的数据将会丢失！</string>

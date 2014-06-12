@@ -66,6 +66,7 @@
 
     <!-- Strings related to route -->
     <string name="route">Route</string>
+    <string name="route_list">Route List</string>
     <string name="confirm_route">Confirm Route</string>
     <string name="selected_route">Selected Route: %s</string>
     <string name="confirm_new_route">Change to new route: %s\nCurrent saved data will be gone!</string>

@@ -3,6 +3,8 @@ package com.mbrite.patrol.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
+import android.widget.TextView;
 
 import com.mbrite.patrol.common.Tracker;
 
@@ -13,6 +15,7 @@ public class ParentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         checkRecentActiveTime();
     }
 
@@ -20,6 +23,12 @@ public class ParentActivity extends Activity {
     public void onResume() {
         super.onResume();
         checkRecentActiveTime();
+    }
+
+    protected void setWindowTitle(int titleResId) {
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
+        TextView headerTitle = (TextView) findViewById(R.id.headerTitle);
+        headerTitle.setText(titleResId);
     }
 
     // Tracker in memory might be reclaimed by Android system
