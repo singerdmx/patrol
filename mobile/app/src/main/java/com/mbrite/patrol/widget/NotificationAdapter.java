@@ -19,6 +19,13 @@ import java.util.*;
 
 public class NotificationAdapter extends ArrayAdapter<Notification> {
 
+    private static final int[] EMAIL_DRAWABLE_OLD_NOTIFICATION =
+            new int[] {R.drawable.email_info_icon_black_white,
+                    R.drawable.email_delete_icon_black_white, R.drawable.email_alert_icon_black_white};
+    private static final int[] EMAIL_DRAWABLE_NEW_NOTIFICATION =
+            new int[] {R.drawable.email_info_icon,
+                    R.drawable.email_delete_icon, R.drawable.email_alert_icon};
+
     private final Activity context;
     private final ArrayList<Notification> itemsArrayList;
     private SparseBooleanArray mSelectedItemsIds;
@@ -40,21 +47,35 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         // Get rowView from inflater
         View rowView = inflater.inflate(R.layout.activity_list_item_notification, parent, false);
         TextView notificationView = (TextView) rowView.findViewById(R.id.label);
-        if (notification.isOld()) {
-            notificationView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-            rowView.setBackgroundResource(R.drawable.alterselector1);
+
+        // Sample notification.getContent():
+
+        // left side icon
+        int emailDrawableResId;
+        if (mSelectedItemsIds.get(position)) {
+           emailDrawableResId = R.drawable.email_trash_icon;
         } else {
-            notificationView
-                    .setCompoundDrawablesWithIntrinsicBounds(
-                            context.getResources().getDrawable(R.drawable.new_mail),
-                            null, null, null);
-            rowView.setBackgroundResource(R.drawable.alterselector2);
+            int category = Integer.parseInt(notification.getContent().substring(1, 2));
+            emailDrawableResId = notification.isOld() ? EMAIL_DRAWABLE_OLD_NOTIFICATION[category] :
+                    EMAIL_DRAWABLE_NEW_NOTIFICATION[category];
         }
 
+        notificationView.setCompoundDrawablesWithIntrinsicBounds(
+                context.getResources().getDrawable(emailDrawableResId),
+                null, null, null);
+
+        // background
         if (mSelectedItemsIds.get(position)) {
-            rowView.setBackgroundResource(R.drawable.alterselector3);
+            rowView.setBackgroundResource(R.drawable.alterselector4);
+        } else {
+            rowView.setBackgroundResource(notification.isOld() ?
+                    R.drawable.alterselector1 : R.drawable.alterselector2);
         }
-        notificationView.setText(notification.getContent());
+
+        // text
+        String content = notification.getContent().substring(3);
+        notificationView.setText(content);
+
         return rowView;
     }
 

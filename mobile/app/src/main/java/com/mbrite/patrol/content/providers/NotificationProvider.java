@@ -81,6 +81,16 @@ public enum NotificationProvider {
         return getNotifications(activity, Constants.NOTIFICATION_FILE_NAME, false);
     }
 
+    public void reset(Activity activity)
+            throws IOException {
+        if (FileMgr.exists(activity, Constants.NOTIFICATION_FILE_NAME)) {
+            FileMgr.delete(activity, Constants.NOTIFICATION_FILE_NAME);
+        }
+        if (FileMgr.exists(activity, Constants.NOTIFICATION_FILE_NAME)) {
+            FileMgr.delete(activity, Constants.NOTIFICATION_FILE_NAME);
+        }
+    }
+
     private ArrayList<Notification> getNotifications(Activity activity, String fileName, boolean isOld)
             throws JSONException, IOException {
         ArrayList<Notification> result = new ArrayList<>();

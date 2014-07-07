@@ -20,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.mbrite.patrol.common.*;
 import com.mbrite.patrol.connection.RestClient;
+import com.mbrite.patrol.content.providers.NotificationProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Record;
 
@@ -132,6 +133,8 @@ public class LoginActivity extends Activity {
                         Toast.LENGTH_LONG)
                         .show();
             }
+            RecordProvider.INSTANCE.reset(this);
+            NotificationProvider.INSTANCE.reset(this);
             FileMgr.write(this, Constants.APP_VERSION_FILE, Constants.APP_VERSION);
         }
     }
