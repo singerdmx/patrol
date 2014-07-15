@@ -19,7 +19,7 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String MAIN_ACTIVITY = "com.mbrite.patrol.app.action.main";
     public static final String PREFERENCE_FILE_KEY = "com.mbrite.patrol.preference_file_key";
-    public static final String DEFAULT_SITE_URL = "http://192.168.0.49:3000";
+    public static final String DEFAULT_SITE_URL = "http://patroldemo.herokuapp.com";
     public static final String STATUS = "status";
     public static final String NAME = "name";
     public static final String STATE = "state";
