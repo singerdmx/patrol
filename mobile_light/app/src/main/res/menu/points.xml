@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.mbrite.patrol.app.PointsActivity">
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/userblock"
+        android:title="@string/logout" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/options"
+        android:title="@string/settings" />
+</menu>

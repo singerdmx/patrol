@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/robotium-solo-5.1-c26e2d81149b3a32dba8324360cd24660f0a587a.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/app/libs/robotium-solo-5.1.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="5ff4001bfb640635cf35737c112c34bfea30b0c1"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/gson-2.2.4-197b96b867044990887b4a81b438c1c78cf63bcf.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/app/libs/gson-2.2.4.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="973e832af433b44c3ed11c426f2f390b29f3f3f8"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/guava-16.0.1-04dd651ad67a48bb10ff9733db43718323d003ea.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/app/libs/guava-16.0.1.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="5fa98cd1a63c99a44dd8d3b77e4762b066a5d0c5"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/commons-lang3-3.3.2-8a18171fab22c6df71f808d45618edcaf3123dc2.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/app/libs/commons-lang3-3.3.2.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="659861b4acde07a0527211e40d256119face1d15"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/java-json-02f015a6d49edb77352bf4801a81ffb404de065c.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/app/libs/java-json.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="edad9c5de6fb8df07c535a47045956026011ffa3"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/classes-7d55d678aae81acca391372d1244270efe5928f7.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.0.30/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="cebe8e4a3a469c4623addcca1dc571407ff3a08e"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/classes-d96ecb560db964f24e23b5e4707bc80a05e343ce.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/core-3.0.0-c1fc6ba8a3687b25e2076e48cf68f01966d8472a.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/app/libs/zxing/core-3.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="ee7d9bc1ce7f847f6de8d089c866831effe8d415"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/junit-f37894edd2032d4c8782dba2da52f24733ef85e3.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/app/libs/junit.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="543b0ae86f3e65fbf14ecac169d0c87cbb622e71"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/android-integration-3.0.0-439beb26fbfb95474341cd6bf05c3d1132f693f9.jar"
+        jar="/Users/xyao/workspace/patrol/mobile_light/app/libs/zxing/android-integration-3.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3108762d0d26dba0f65007faacd5bc7373562547"/>
+    <item
+        dex="/Users/xyao/workspace/patrol/mobile_light/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-fe930dc68beb1e566675ce71b270d4091c6c249b.jar"
+        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+
+</pre-dex-items>
