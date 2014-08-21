@@ -19,31 +19,31 @@
 
         <TextView
             android:id="@+id/name"
+            style="@style/TextAppearance.AppCompat.Base.SearchResult.Title"
             android:layout_width="0dp"
-            android:layout_weight=".50"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight=".50"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:textAlignment="center"
             android:text="温度"
-            style="@style/TextAppearance.AppCompat.Base.SearchResult.Title" />
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/description"
+            style="@style/TextAppearance.AppCompat.Base.SearchResult.Title"
             android:layout_width="0dp"
-            android:layout_weight=".50"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight=".50"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:textAlignment="center"
             android:text="温度"
-            style="@style/TextAppearance.AppCompat.Base.SearchResult.Title" />
+            android:textAlignment="center" />
 
     </LinearLayout>
 
@@ -85,10 +85,10 @@
         android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/FloralWhite"
-        android:orientation="horizontal"
+        android:layout_above="@+id/footer"
         android:layout_below="@+id/secondLine"
-        android:layout_above="@+id/footer">
+        android:background="@color/FloralWhite"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/label"
@@ -104,36 +104,38 @@
 
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".60"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:text="@string/asset_list"
-            android:drawableTop="@drawable/left_turn_arrow"
             android:background="@drawable/background_cyan"
-            android:textColor="@color/white"
-            android:gravity="center">
-        </TextView>
+            android:clickable="true"
+            android:drawableTop="@drawable/left_turn_arrow"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/asset_list"
+            android:textColor="@color/white"></TextView>
 
         <TextView
             android:id="@+id/continue_scan_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".40"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:text="@string/continue_scan"
-            android:drawableTop="@drawable/check"
             android:background="@drawable/background_cyan"
-            android:textColor="@color/white"
-            android:gravity="center">
-        </TextView>
+            android:clickable="true"
+            android:drawableTop="@drawable/check"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/continue_scan"
+            android:textColor="@color/white"></TextView>
 
     </LinearLayout>
 

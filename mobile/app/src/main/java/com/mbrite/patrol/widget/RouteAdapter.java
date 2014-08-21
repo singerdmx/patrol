@@ -1,16 +1,20 @@
 package com.mbrite.patrol.widget;
 
-import java.util.*;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
-import com.mbrite.patrol.app.*;
+import com.mbrite.patrol.app.R;
 import com.mbrite.patrol.model.Route;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class RouteAdapter extends ArrayAdapter<Route> {
 
@@ -25,11 +29,6 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         this.context = context;
         this.itemsArrayList = itemsArrayList;
         this.completedRoutes = completedRoutes;
-    }
-
-    static class ViewHolder {
-        protected TextView text;
-        protected CheckBox checkbox;
     }
 
     @Override
@@ -74,5 +73,10 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         holder.text.setText(route.name);
         holder.checkbox.setChecked(itemsArrayList.get(position).isSelected());
         return rowView;
+    }
+
+    static class ViewHolder {
+        protected TextView text;
+        protected CheckBox checkbox;
     }
 }

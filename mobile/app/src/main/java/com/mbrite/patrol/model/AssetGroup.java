@@ -1,12 +1,14 @@
 package com.mbrite.patrol.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class AssetGroup extends Asset {
 
-    private int routeId;
-
     public List<PointGroup> pointList;
+    private int routeId;
 
     public AssetGroup(Asset asset, ArrayList<Point> allPoints, RouteGroup routeGroup) {
         super(asset.id, asset.name, asset.serialNum, asset.barcode, asset.points);
@@ -26,7 +28,7 @@ public class AssetGroup extends Asset {
     }
 
     public int getStatus() {
-        int notStarted = 0, fail  = 0, warn = 0;
+        int notStarted = 0, fail = 0, warn = 0;
         for (PointGroup p : pointList) {
             switch (p.getStatus()) {
                 case RecordStatus.NOT_STARTED:

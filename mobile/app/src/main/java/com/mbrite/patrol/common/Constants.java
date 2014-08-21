@@ -1,7 +1,11 @@
 package com.mbrite.patrol.common;
 
-import java.util.*;
-import org.apache.http.params.*;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Shared Constants
@@ -54,9 +58,9 @@ public class Constants {
         HttpConnectionParams.setSoTimeout(HTTP_PARAMS, 30000);
     }
 
-    public static final String ETAG= "Etag";
+    public static final String ETAG = "Etag";
     public static final String LAST_MODIFIED = "Last-Modified";
-    public static final String IF_NONE_MATCH= "If-None-Match";
+    public static final String IF_NONE_MATCH = "If-None-Match";
     public static final String IF_MODIFIED_SINCE = "If-Modified-Since";
     public static final String CONTENT_TYPE_JSON = "application/json";
 

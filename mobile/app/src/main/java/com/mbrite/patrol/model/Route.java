@@ -1,6 +1,6 @@
 package com.mbrite.patrol.model;
 
-import java.util.*;
+import java.util.List;
 
 public class Route {
     public final int id;

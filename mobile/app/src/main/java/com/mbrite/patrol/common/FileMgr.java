@@ -2,12 +2,9 @@ package com.mbrite.patrol.common;
 
 import android.app.Activity;
 import android.content.Context;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class FileMgr {
 
@@ -16,12 +13,12 @@ public class FileMgr {
     }
 
     public static boolean delete(Activity activity, String fileName)
-        throws IOException {
+            throws IOException {
         return activity.deleteFile(fileName);
     }
 
     public static void copy(Activity activity, String sourceFileName, String targetFileName)
-        throws IOException {
+            throws IOException {
         String content = read(activity, sourceFileName);
         write(activity, targetFileName, content);
     }

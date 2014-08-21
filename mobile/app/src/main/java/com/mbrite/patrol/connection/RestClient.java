@@ -1,40 +1,42 @@
 package com.mbrite.patrol.connection;
 
 import android.app.Activity;
+import android.os.StrictMode;
 import android.text.TextUtils;
-import android.os.*;
 
-import org.apache.http.*;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.client.*;
+import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.Utils;
+
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.entity.*;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import com.mbrite.patrol.common.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
 
 public enum RestClient {
 
     INSTANCE;
-
+    private String site;
+    private String cookie;
+    private String authenticationToken;
     {
         StrictMode.ThreadPolicy policy =
                 new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
-
-    private String site;
-
-    private String cookie;
-
-    private String authenticationToken;
 
     private URI getSiteURI(Activity activity)
             throws URISyntaxException {
@@ -93,7 +95,7 @@ public enum RestClient {
     }
 
     private HttpResponse executeRequest(HttpUriRequest request)
-        throws IOException, URISyntaxException {
+            throws IOException, URISyntaxException {
         if (cookie != null) {
             request.addHeader(Constants.COOKIE, cookie);
         }

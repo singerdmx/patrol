@@ -7,12 +7,15 @@ import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.Asset;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public enum AssetProvider {
 
@@ -29,7 +32,7 @@ public enum AssetProvider {
         assets = new ArrayList<Asset>();
         String data = FileMgr.read(activity, Constants.ASSETS_FILE_NAME);
         List<JSONObject> assetsJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.ASSETS));
-        for(JSONObject assetJSON : assetsJSON) {
+        for (JSONObject assetJSON : assetsJSON) {
             List<Integer> points = Utils.convertJSONArrayToList(assetJSON.getJSONArray(Constants.POINTS));
             assets.add(
                     new Asset(
@@ -37,7 +40,8 @@ public enum AssetProvider {
                             assetJSON.getString(Constants.NAME),
                             assetJSON.getString(Constants.SERIAL_NUM),
                             assetJSON.getString(Constants.BARCODE),
-                            points));
+                            points)
+            );
         }
         return assets;
     }
@@ -46,7 +50,7 @@ public enum AssetProvider {
             throws JSONException, IOException {
         Set<Integer> assetIndexes = new HashSet<Integer>(assetIds.size());
         for (int assetId : assetIds) {
-                assetIndexes.add(assetId);
+            assetIndexes.add(assetId);
         }
 
         ArrayList<Asset> result = new ArrayList<Asset>();

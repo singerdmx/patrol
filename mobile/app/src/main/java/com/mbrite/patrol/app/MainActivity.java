@@ -2,28 +2,37 @@ package com.mbrite.patrol.app;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.*;
-import android.content.Intent;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mbrite.patrol.common.*;
+import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.Tracker;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.connection.RestClient;
 import com.mbrite.patrol.content.providers.NotificationProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.*;
+import com.mbrite.patrol.model.Notification;
+import com.mbrite.patrol.model.Record;
+import com.mbrite.patrol.model.Route;
 
-import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpResponseException;
 import org.json.JSONArray;
 
-import java.util.concurrent.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -85,7 +94,9 @@ public class MainActivity extends ParentActivity {
                                 null,
                                 null);
                 finish();
-            };
+            }
+
+            ;
         });
     }
 
@@ -132,7 +143,9 @@ public class MainActivity extends ParentActivity {
                                 .show();
                     }
                 }
-            };
+            }
+
+            ;
         });
     }
 
@@ -229,7 +242,9 @@ public class MainActivity extends ParentActivity {
                 AlertDialog alert = builder.create();
                 alert.setIcon(R.drawable.question);
                 alert.show();
-            };
+            }
+
+            ;
         });
     }
 
@@ -311,7 +326,7 @@ public class MainActivity extends ParentActivity {
 
         @Override
         protected void onPostExecute(final Boolean newNotification) {
-            if (newNotification)  {
+            if (newNotification) {
                 try {
                     ArrayList<Notification> newNotifications = NotificationProvider.INSTANCE.getNewNotifications(MainActivity.this);
                     if (!newNotifications.isEmpty()) {

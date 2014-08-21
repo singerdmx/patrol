@@ -1,9 +1,11 @@
 package com.mbrite.patrol.app;
 
 import android.content.Intent;
-import android.os.*;
-import android.view.*;
-import android.widget.Button;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.mbrite.patrol.common.Constants;

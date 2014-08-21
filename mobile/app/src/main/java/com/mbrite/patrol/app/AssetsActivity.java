@@ -1,24 +1,34 @@
 package com.mbrite.patrol.app;
 
-import android.app.*;
-import android.content.*;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.mbrite.patrol.common.*;
+import com.mbrite.patrol.common.BarcodeNotMatchException;
+import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.Tracker;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.*;
+import com.mbrite.patrol.model.AssetGroup;
+import com.mbrite.patrol.model.PointGroup;
 import com.mbrite.patrol.widget.AssetAdapter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.TreeSet;
 
 public class AssetsActivity extends ParentActivity {
     private static final String TAG = AssetsActivity.class.getSimpleName();
@@ -98,7 +108,7 @@ public class AssetsActivity extends ParentActivity {
                         ex.getLocalizedMessage(),
                         Toast.LENGTH_LONG)
                         .show();
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 Toast.makeText(
                         this,
                         String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
@@ -149,10 +159,10 @@ public class AssetsActivity extends ParentActivity {
                                 }
                             }
                         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                // Do nothing.
-                            }
-                        }).setIcon(android.R.drawable.ic_menu_edit).show();
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).setIcon(android.R.drawable.ic_menu_edit).show();
             }
         });
     }

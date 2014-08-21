@@ -1,26 +1,35 @@
 package com.mbrite.patrol.widget;
 
-import java.util.*;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckedTextView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.mbrite.patrol.app.*;
+import com.mbrite.patrol.app.AssetsActivity;
+import com.mbrite.patrol.app.PointsActivity;
+import com.mbrite.patrol.app.R;
+import com.mbrite.patrol.app.ScanOnlyPointActivity;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
-import com.mbrite.patrol.model.*;
+import com.mbrite.patrol.model.AssetGroup;
+import com.mbrite.patrol.model.RecordStatus;
+import com.mbrite.patrol.model.RouteGroup;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
 public class AssetAdapter extends BaseExpandableListAdapter {
 
+    private final List<RouteGroup> groups;
     private LayoutInflater inflater;
     private Activity activity;
-    private final List<RouteGroup> groups;
 
     public AssetAdapter(Activity context, List<RouteGroup> groups) {
         activity = context;
@@ -56,7 +65,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
             resId = R.drawable.progress_start;
         } else if (Utils.areEqualDouble(completeness, 1)) {
             resId = R.drawable.progress_complete;
-        }  else {
+        } else {
             resId = R.drawable.in_progress;
         }
         icon.setImageResource(resId);

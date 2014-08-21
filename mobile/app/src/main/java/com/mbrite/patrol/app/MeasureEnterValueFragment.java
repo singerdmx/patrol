@@ -1,10 +1,13 @@
 package com.mbrite.patrol.app;
 
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
-import android.view.View.*;
-import android.view.inputmethod.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.RecordStatus;

@@ -9,13 +9,13 @@ import android.widget.Toast;
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Utils;
+import com.mbrite.patrol.connection.RestClient;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.*;
-import com.mbrite.patrol.connection.*;
+import com.mbrite.patrol.model.Record;
 
-import org.apache.http.*;
+import org.apache.http.HttpResponse;
 
-import java.util.*;
+import java.util.List;
 
 public class UploadTask extends AsyncTask<Void, Void, Integer> {
     private static final String TAG = UploadTask.class.getSimpleName();
@@ -73,8 +73,10 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                     String.format("%s\n" +
                                     "%s",
                             String.format(activity.getString(R.string.error_upload), fails),
-                            String.format(activity.getString(R.string.upload_success), total - fails)),
-                    Toast.LENGTH_LONG).show();
+                            String.format(activity.getString(R.string.upload_success), total - fails)
+                    ),
+                    Toast.LENGTH_LONG
+            ).show();
         } else {
             Toast.makeText(activity.getApplicationContext(),
                     String.format(activity.getString(R.string.upload_success), total),
@@ -112,7 +114,8 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                     String.format("Fail to upload file %s:\n%s\n%s",
                             file,
                             ex.getMessage(),
-                            ex.getStackTrace()));
+                            ex.getStackTrace())
+            );
         }
     }
 }

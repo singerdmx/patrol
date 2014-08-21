@@ -1,6 +1,6 @@
 package com.mbrite.patrol.model;
 
-import java.util.*;
+import java.util.List;
 
 public class Point {
     public final int id;

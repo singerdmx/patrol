@@ -1,21 +1,29 @@
 package com.mbrite.patrol.app;
 
-import android.app.*;
+import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.*;
+import com.mbrite.patrol.model.PointGroup;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 public class PointsActivity extends ParentActivity {
@@ -174,11 +182,11 @@ public class PointsActivity extends ParentActivity {
                             promptNotice();
                         }
                     }).setNegativeButton(R.string._return, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            // Do nothing
-                        }
-                    }).setIcon(R.drawable.warning).show();
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    // Do nothing
+                }
+            }).setIcon(R.drawable.warning).show();
         } else {
             promptNotice();
         }

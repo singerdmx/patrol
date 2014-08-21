@@ -3,14 +3,24 @@ package com.mbrite.patrol.common;
 import android.app.Activity;
 
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.mbrite.patrol.content.providers.*;
-import com.mbrite.patrol.model.*;
+import com.mbrite.patrol.content.providers.AssetProvider;
+import com.mbrite.patrol.content.providers.PointProvider;
+import com.mbrite.patrol.model.Asset;
+import com.mbrite.patrol.model.AssetGroup;
+import com.mbrite.patrol.model.Point;
+import com.mbrite.patrol.model.PointGroup;
+import com.mbrite.patrol.model.Route;
+import com.mbrite.patrol.model.RouteGroup;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
-import org.apache.commons.lang3.*;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * In memory tracker of navigation status
@@ -37,20 +47,15 @@ public enum Tracker {
      * Keep track of current point ids to be shown on PointsActivity
      */
     public TreeSet<Integer> pointGroups;
-
+    public boolean startedScan;
     // key is asset id, value is list of AssetGroup having the id
     private Map<Integer, List<AssetGroup>> assetDuplicates = new HashMap<>();
-
     // key is barcode, value is asset id
     private Map<String, Integer> assetBarcodeMap = new HashMap<>();
-
     // key is point id, value is list of PointGroup having the id
     private Map<Integer, List<PointGroup>> pointDuplicates = new HashMap<>();
-
     // key is barcode, value is point id
     private Map<String, Integer> pointBarcodeMap = new HashMap<>();
-
-    public boolean startedScan;
 
     public void startScan(Activity activity) {
         if (!startedScan) {
@@ -77,7 +82,7 @@ public enum Tracker {
     }
 
     public void createRouteGroups(ArrayList<Route> selectedRoutes, Activity activity)
-        throws JSONException, IOException {
+            throws JSONException, IOException {
         routeGroups = new ArrayList<RouteGroup>(selectedRoutes.size());
         ArrayList<Asset> allAssets = AssetProvider.INSTANCE.getAssets(activity);
         ArrayList<Point> allPoints = PointProvider.INSTANCE.getPoints(activity);

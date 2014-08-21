@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mbrite.patrol.app" >
+    package="com.mbrite.patrol.app">
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -17,11 +17,11 @@
         android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/patrol"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name="com.mbrite.patrol.app.MainActivity"
             android:label="@string/route"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.mbrite.patrol.app.action.main" />
 
@@ -32,7 +32,7 @@
             android:name="com.mbrite.patrol.app.LoginActivity"
             android:label="@string/patrol"
             android:theme="@android:style/Theme.Holo.Light"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,28 +42,23 @@
         <activity
             android:name="com.mbrite.patrol.app.SettingsActivity"
             android:label="@string/settings"
-            android:theme="@android:style/Theme.Light" >
-        </activity>
+            android:theme="@android:style/Theme.Light"></activity>
         <activity
             android:name="com.mbrite.patrol.app.AssetsActivity"
             android:label="@string/asset"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name="com.mbrite.patrol.app.PointsActivity"
             android:label="@string/check_point"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name="com.mbrite.patrol.app.ScanOnlyPointActivity"
             android:label="@string/check_point"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name="com.mbrite.patrol.app.NotificationsActivity"
             android:label="@string/notification"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

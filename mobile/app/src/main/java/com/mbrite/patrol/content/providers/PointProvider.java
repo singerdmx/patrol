@@ -8,10 +8,13 @@ import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.Point;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum PointProvider {
 
@@ -22,7 +25,7 @@ public enum PointProvider {
         ArrayList<Point> points = new ArrayList<Point>();
         String data = FileMgr.read(activity, Constants.POINTS_FILE_NAME);
         List<JSONObject> pointsJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.POINTS));
-        for(JSONObject pointJSON : pointsJSON) {
+        for (JSONObject pointJSON : pointsJSON) {
             List<Integer> routes = Utils.convertJSONArrayToList(pointJSON.getJSONArray(Constants.ROUTES));
             List<String> choice = new ArrayList<>();
             if (!StringUtils.isBlank(pointJSON.getString(Constants.CHOICE))) {

@@ -1,12 +1,19 @@
 package com.mbrite.patrol.common;
 
-import android.content.res.*;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
+import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.app.*;
-import android.content.*;
-import android.widget.*;
-import android.net.*;
+import android.widget.Toast;
 
 import com.mbrite.patrol.app.LoginActivity;
 import com.mbrite.patrol.app.R;
@@ -16,7 +23,8 @@ import com.mbrite.patrol.model.AssetGroup;
 import com.mbrite.patrol.model.PointGroup;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.*;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -28,7 +36,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Utility class
@@ -48,7 +62,7 @@ public class Utils {
         Configuration config = new Configuration();
         config.locale = locale;
         context.getResources().updateConfiguration(config,
-                                                   context.getResources().getDisplayMetrics());
+                context.getResources().getDisplayMetrics());
     }
 
     public static boolean isNetworkConnected(Activity activity) {
@@ -86,8 +100,8 @@ public class Utils {
         SharedPreferences sharedPref = activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor
-          .putString(Constants.USER_NAME, username)
-          .putString(Constants.PASSWORD, password);
+                .putString(Constants.USER_NAME, username)
+                .putString(Constants.PASSWORD, password);
         editor.commit();
     }
 
@@ -95,8 +109,8 @@ public class Utils {
         SharedPreferences sharedPref = activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor
-          .remove(Constants.USER_NAME)
-          .remove(Constants.PASSWORD);
+                .remove(Constants.USER_NAME)
+                .remove(Constants.PASSWORD);
         editor.commit();
     }
 
@@ -141,14 +155,14 @@ public class Utils {
      * If either username or password is not found, null is returned.
      */
     public static String[] getSavedUsernameAndPassword(Activity activity) {
-        SharedPreferences sharedPref = activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY,Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         String username = sharedPref.getString(Constants.USER_NAME, null);
         String password = sharedPref.getString(Constants.PASSWORD, null);
         if (username == null || password == null) {
             return null;
         }
 
-        return new String[] { username, password };
+        return new String[]{username, password};
     }
 
     public static boolean getContinuousScanMode(Activity activity) {
@@ -170,7 +184,7 @@ public class Utils {
             char[] buf = new char[1024];
             int numRead = 0;
 
-            while((numRead=reader.read(buf)) != -1) {
+            while ((numRead = reader.read(buf)) != -1) {
                 String readData = String.valueOf(buf, 0, numRead);
                 sb.append(readData);
             }
@@ -223,14 +237,16 @@ public class Utils {
                     activity,
                     String.format(activity.getString(R.string.error_site_url_invalid),
                             RestClient.INSTANCE.getSite()),
-                    Toast.LENGTH_LONG)
+                    Toast.LENGTH_LONG
+            )
                     .show();
         } catch (IOException ex) {
             Toast.makeText(
                     activity,
                     String.format(activity.getString(R.string.error_network_connection_failure),
                             RestClient.INSTANCE.getSite()),
-                    Toast.LENGTH_LONG)
+                    Toast.LENGTH_LONG
+            )
                     .show();
         } catch (Exception ex) {
             Toast.makeText(
@@ -278,7 +294,7 @@ public class Utils {
                 JSONObject data = new JSONObject();
                 data.put(type, responseData);
                 Header ifNoneMatch = response.getFirstHeader(Constants.ETAG);
-                Header ifModifiedSince= response.getFirstHeader(Constants.LAST_MODIFIED);
+                Header ifModifiedSince = response.getFirstHeader(Constants.LAST_MODIFIED);
                 if (ifNoneMatch != null && ifModifiedSince != null) {
                     data.put(Constants.IF_NONE_MATCH, ifNoneMatch.getValue());
                     data.put(Constants.IF_MODIFIED_SINCE, ifModifiedSince.getValue());
@@ -317,13 +333,13 @@ public class Utils {
     }
 
     public static <T> ArrayList<T> convertJSONArrayToList(JSONArray array)
-        throws JSONException {
-       ArrayList<T> result = new ArrayList<>(array.length());
-       for (int i = 0; i < array.length(); i++) {
-           result.add((T) array.get(i));
-       }
+            throws JSONException {
+        ArrayList<T> result = new ArrayList<>(array.length());
+        for (int i = 0; i < array.length(); i++) {
+            result.add((T) array.get(i));
+        }
 
-       return result;
+        return result;
     }
 //
 //    public static <T> JSONArray convertListToJSONArray(ArrayList<T> l)
@@ -347,7 +363,7 @@ public class Utils {
     }
 
     public static String getString(JSONObject jsonObject, String key)
-        throws JSONException {
+            throws JSONException {
         if (jsonObject.has(key)) {
             String value = jsonObject.getString(key);
             if (!"null".equals(value)) {

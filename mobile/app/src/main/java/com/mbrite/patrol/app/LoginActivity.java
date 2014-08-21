@@ -17,8 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
-import com.mbrite.patrol.common.*;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.FileMgr;
+import com.mbrite.patrol.common.Tracker;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.connection.RestClient;
 import com.mbrite.patrol.content.providers.NotificationProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
@@ -27,8 +33,8 @@ import com.mbrite.patrol.model.Record;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.io.*;
 
 /**
  * A login screen that offers login via username/password.
@@ -263,7 +269,7 @@ public class LoginActivity extends Activity {
                         // Do nothing.
                     }
                 }).setIcon(R.drawable.question));
-        
+
         if (message != null) {
             builder.setMessage(message + getString(R.string.use_offline_mode));
         }

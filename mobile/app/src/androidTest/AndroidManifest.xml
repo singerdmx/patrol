@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mbrite.patrol.test"
-          android:versionCode="1"
-          android:versionName="1.0">
+    package="com.mbrite.patrol.test"
+    android:versionCode="1"
+    android:versionName="1.0">
 
     <uses-sdk
-            android:minSdkVersion="16"
-            android:targetSdkVersion="16" />
+        android:minSdkVersion="16"
+        android:targetSdkVersion="16" />
 
     <!-- We add an application tag here just so that we can indicate that
          this package needs to link against the android.test library,
@@ -19,8 +19,8 @@
     Specifies the instrumentation test runner used to run the tests.
     -->
     <instrumentation
-            android:name="android.test.InstrumentationTestRunner"
-            android:targetPackage="com.mbrite.patrol"
-            android:label="Tests for com.mbrite.patrol.test" />
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="Tests for com.mbrite.patrol.test"
+        android:targetPackage="com.mbrite.patrol" />
 
 </manifest>

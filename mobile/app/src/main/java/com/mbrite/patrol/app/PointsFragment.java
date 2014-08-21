@@ -1,18 +1,20 @@
 package com.mbrite.patrol.app;
 
 import android.app.Fragment;
-import android.content.*;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.inputmethod.*;
 
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.content.providers.RecordProvider;
-import com.mbrite.patrol.model.*;
+import com.mbrite.patrol.model.PointGroup;
+import com.mbrite.patrol.model.PointRecord;
+import com.mbrite.patrol.model.RecordStatus;
 
 public class PointsFragment extends Fragment {
     private static final String TAG = PointsFragment.class.getSimpleName();
@@ -23,7 +25,7 @@ public class PointsFragment extends Fragment {
     protected String message;
     protected EditText memoView;
     protected InputMethodManager imm;
-    protected int[] linearLayoutIds = new int[] {R.id.title, R.id.secondLine, R.id.range, R.id.content, R.id.memo};
+    protected int[] linearLayoutIds = new int[]{R.id.title, R.id.secondLine, R.id.range, R.id.content, R.id.memo};
 
     protected String value = "";
     protected int status = RecordStatus.PASS; // Default to Pass

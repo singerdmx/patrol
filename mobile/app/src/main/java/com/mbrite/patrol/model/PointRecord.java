@@ -1,6 +1,6 @@
 package com.mbrite.patrol.model;
 
-import java.util.*;
+import java.util.Set;
 
 public class PointRecord {
     final public int id;
@@ -16,7 +16,7 @@ public class PointRecord {
         this.status = status;
         this.memo = memo;
         this.id = id;
-        this.check_time = System.currentTimeMillis()/1000;
+        this.check_time = System.currentTimeMillis() / 1000;
         this.routes = routes;
         this.asset_id = asset_id;
     }

@@ -8,7 +8,9 @@ import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.Notification;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +53,7 @@ public enum NotificationProvider {
     }
 
     public void clearNewNotifications(Activity activity)
-        throws JSONException, IOException {
+            throws JSONException, IOException {
         String ifModifiedSince = getIfModifiedSince(activity);
         JSONObject data = new JSONObject();
         JSONArray contents = new JSONArray();
@@ -63,7 +65,7 @@ public enum NotificationProvider {
     }
 
     public String getIfModifiedSince(Activity activity)
-        throws JSONException, IOException {
+            throws JSONException, IOException {
         if (!FileMgr.exists(activity, Constants.NOTIFICATION_FILE_NAME)) {
             return null;
         }

@@ -2,7 +2,8 @@ package com.mbrite.patrol.test.app;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.mbrite.patrol.app.*;
+import com.mbrite.patrol.app.MainActivity;
+import com.mbrite.patrol.app.R;
 import com.robotium.solo.Solo;
 
 /**

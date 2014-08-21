@@ -3,63 +3,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_repeat"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.mbrite.patrol.app.MainActivity">
 
     <fragment
+        android:id="@+id/routes"
+        android:name="com.mbrite.patrol.app.RoutesFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:name="com.mbrite.patrol.app.RoutesFragment"
-        android:id="@+id/routes"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/footer"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/footer"/>
+        android:layout_alignParentTop="true" />
 
-    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/notification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".33"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:text="@string/notification"
-            android:drawableTop="@drawable/mail"
             android:background="@drawable/background_cyan"
-            android:textColor="@color/white"
-            android:gravity="center">
-        </TextView>
+            android:clickable="true"
+            android:drawableTop="@drawable/mail"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/notification"
+            android:textColor="@color/white"></TextView>
+
         <TextView
             android:id="@+id/refresh"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".33"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:text="@string/synchronize_data"
-            android:drawableTop="@drawable/refresh"
             android:background="@drawable/background_cyan"
-            android:textColor="@color/white"
-            android:gravity="center">
-        </TextView>
+            android:clickable="true"
+            android:drawableTop="@drawable/refresh"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/synchronize_data"
+            android:textColor="@color/white"></TextView>
+
         <TextView
             android:id="@+id/start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".33"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:text="@string/start_patrol"
-            android:drawableTop="@drawable/circleright"
             android:background="@drawable/background_cyan"
-            android:textColor="@color/white"
-            android:gravity="center">
-        </TextView>
+            android:clickable="true"
+            android:drawableTop="@drawable/circleright"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/start_patrol"
+            android:textColor="@color/white"></TextView>
     </LinearLayout>
 </RelativeLayout>

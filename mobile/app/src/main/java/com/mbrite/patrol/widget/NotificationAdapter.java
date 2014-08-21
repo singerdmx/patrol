@@ -2,12 +2,12 @@ package com.mbrite.patrol.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.util.SparseBooleanArray;
 import android.widget.Toast;
 
 import com.mbrite.patrol.app.R;
@@ -15,15 +15,17 @@ import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.NotificationProvider;
 import com.mbrite.patrol.model.Notification;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class NotificationAdapter extends ArrayAdapter<Notification> {
 
     private static final int[] EMAIL_DRAWABLE_OLD_NOTIFICATION =
-            new int[] {R.drawable.email_info_icon_black_white,
+            new int[]{R.drawable.email_info_icon_black_white,
                     R.drawable.email_delete_icon_black_white, R.drawable.email_alert_icon_black_white};
     private static final int[] EMAIL_DRAWABLE_NEW_NOTIFICATION =
-            new int[] {R.drawable.email_info_icon,
+            new int[]{R.drawable.email_info_icon,
                     R.drawable.email_delete_icon, R.drawable.email_alert_icon};
 
     private final Activity context;
@@ -53,7 +55,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         // left side icon
         int emailDrawableResId;
         if (mSelectedItemsIds.get(position)) {
-           emailDrawableResId = R.drawable.email_trash_icon;
+            emailDrawableResId = R.drawable.email_trash_icon;
         } else {
             int category = Integer.parseInt(notification.getContent().substring(1, 2));
             emailDrawableResId = notification.isOld() ? EMAIL_DRAWABLE_OLD_NOTIFICATION[category] :
