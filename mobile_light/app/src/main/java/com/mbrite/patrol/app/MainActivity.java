@@ -1,12 +1,13 @@
 package com.mbrite.patrol.app;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mbrite.patrol.common.Utils;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends ParentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +23,17 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    // Called every time user clicks on an action
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.logout:
+                Utils.logout(this);
+                return true;
+            case R.id.settings:
+                return true;
+            default:
+                return false;
         }
-        return super.onOptionsItemSelected(item);
     }
 }

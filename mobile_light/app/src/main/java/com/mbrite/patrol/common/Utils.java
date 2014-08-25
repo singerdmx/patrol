@@ -198,9 +198,7 @@ public class Utils {
     public static void updateDataFiles(Activity activity) {
         try {
             boolean updated = false;
-            updated = updateSavedFile(activity, Constants.ROUTES, Constants.ROUTES_FILE_NAME, "?group_by_asset=true") || updated;
-            updated = updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME, null) || updated;
-            updated = updateSavedFile(activity, Constants.POINTS, Constants.POINTS_FILE_NAME, null) || updated;
+            updated = updateSavedFile(activity, Constants.ASSETS, Constants.ASSETS_FILE_NAME, null);
             if (updated) {
                 Toast.makeText(
                         activity,
