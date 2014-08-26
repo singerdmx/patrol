@@ -50,5 +50,18 @@
             android:orientation="vertical"
             android:text="@string/synchronize_data"
             android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:id="@+id/scan_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/camera"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/scan_barcode"
+            android:textColor="@color/white"></TextView>
     </LinearLayout>
 </RelativeLayout>

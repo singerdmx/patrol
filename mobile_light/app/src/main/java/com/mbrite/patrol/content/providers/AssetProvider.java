@@ -29,7 +29,7 @@ public enum AssetProvider {
             return assets;
         }
 
-        assets = new ArrayList<Asset>();
+        assets = new ArrayList<>();
         String data = FileMgr.read(activity, Constants.ASSETS_FILE_NAME);
         List<JSONObject> assetsJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.ASSETS));
         for (JSONObject assetJSON : assetsJSON) {
