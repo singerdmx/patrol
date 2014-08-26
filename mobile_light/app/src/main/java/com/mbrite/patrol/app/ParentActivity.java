@@ -15,7 +15,7 @@ public class ParentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         checkRecentActiveTime();
     }
 
