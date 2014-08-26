@@ -19,7 +19,6 @@
         android:label="@string/patrol"
         android:theme="@style/AppTheme">
 
-
         <activity
             android:name="com.mbrite.patrol.app.MainActivity"
             android:label="@string/route"
@@ -41,6 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.mbrite.patrol.app.SettingsActivity"
+            android:label="@string/settings"
+            android:theme="@android:style/Theme.Light"></activity>
 
     </application>
 

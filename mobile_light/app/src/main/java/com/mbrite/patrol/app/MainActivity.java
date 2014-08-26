@@ -1,5 +1,6 @@
 package com.mbrite.patrol.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ public class MainActivity extends ParentActivity {
                 Utils.logout(this);
                 return true;
             case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             default:
                 return false;
