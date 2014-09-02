@@ -58,6 +58,7 @@ public class PointsActivity extends ParentActivity {
                         continue;
                     }
                     switch (category) {
+                        case 20:
                         case 30:
                         case 50:
                             fragment = new MeasureEnterValueFragment();

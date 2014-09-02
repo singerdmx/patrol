@@ -103,7 +103,6 @@ public class Constants {
     static {
         CATEGORY_SCAN_ONLY = new TreeSet<>();
         CATEGORY_SCAN_ONLY.add(10);
-        CATEGORY_SCAN_ONLY.add(20);
     }
 
 }
