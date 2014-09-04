@@ -17,7 +17,7 @@ public class MeasureSelectValueFragment extends PointsFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         renderView(inflater, R.layout.fragment_meaure_select_value);
         select = (Spinner) view.findViewById(R.id.select);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_spinner_item,
                 point.choice);

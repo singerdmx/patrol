@@ -3,28 +3,40 @@ package com.mbrite.patrol.app;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Spinner;
 
-import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.RecordStatus;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class MeasureEnterValueFragment extends PointsFragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    private Double min;
-    private Double low;
-    private Double high;
-    private Double max;
+public class MeasureEnterSelectValueFragment extends PointsFragment {
+
+    private Spinner select;
+
+    private List<String> choice = new ArrayList<>(2);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        renderView(inflater, R.layout.fragment_meaure_enter_value);
-        setNormalRangeValue(view);
+        renderView(inflater, R.layout.fragment_meaure_enter_select_value);
+        select = (Spinner) view.findViewById(R.id.select);
+        choice.add(getString(R.string.normal));
+        choice.add(getString(R.string.abnormal));
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(
+                getActivity(),
+                android.R.layout.simple_spinner_item,
+                choice);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        select.setAdapter(dataAdapter);
+        if (pointRecord != null) {
+            select.setSelection(pointRecord.status);
+        }
 
         final EditText valueView = (EditText) view.findViewById(R.id.value);
         if (pointRecord != null) {
@@ -32,7 +44,7 @@ public class MeasureEnterValueFragment extends PointsFragment {
         } else if (StringUtils.isNoneBlank(point.defaultValue)) {
             valueView.setText(point.defaultValue);
         }
-        valueView.setOnFocusChangeListener(new OnFocusChangeListener() {
+        valueView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean gainFocus) {
                 //onFocus
                 if (gainFocus) {
@@ -41,6 +53,7 @@ public class MeasureEnterValueFragment extends PointsFragment {
                 }
             }
         });
+
         return view;
     }
 
@@ -73,54 +86,17 @@ public class MeasureEnterValueFragment extends PointsFragment {
             return true; // User did not enter value, skip
         }
 
-        Double inputValue;
         try {
-            inputValue = Double.parseDouble(value);
+            Double.parseDouble(value);
         } catch (NumberFormatException ex) {
             message = String.format(getString(R.string.error_not_a_number), value);
             return false;
         }
 
-        if (point.category == 50) {
-            if ((min != null && inputValue < min) ||
-                    (max != null && inputValue > max)) {
-                status = RecordStatus.FAIL;
-                message = point.toString() + ": " + getString(R.string.result_in_fail_status);
-            } else if ((low != null && inputValue < low) ||
-                    (high != null && inputValue > high)) {
-                status = RecordStatus.WARN;
-                message = point.toString() + ": " + getString(R.string.result_in_warning_status);
-            }
+        status = select.getSelectedItemPosition();
+        if (status == RecordStatus.FAIL) {
+            message = point.toString() + ": " + getString(R.string.result_in_fail_status);
         }
-
         return super.save() && (status == RecordStatus.PASS);
     }
-
-    @Override
-    public String getWarning() {
-        if (StringUtils.isBlank(value)) {
-            return point.toString() + ": " + getString(R.string.error_no_data); // User did not enter value
-        }
-        return null;
-    }
-
-    private void setNormalRangeValue(View v) {
-        TextView rangeValue = (TextView) v.findViewById(R.id.normal_range_value);
-        String rangeDisplayValue = "N/A";
-        if (point.category == 50) {
-            min = Utils.getDouble(point.choice.get(0));
-            low = Utils.getDouble(point.choice.get(1));
-            high = Utils.getDouble(point.choice.get(2));
-            max = Utils.getDouble(point.choice.get(3));
-            if (min != null && max != null) {
-                rangeDisplayValue = String.format("介于%1$,.0f和%2$,.0f之间", min, max);
-            } else if (min != null) {
-                rangeDisplayValue = String.format("大于%1$,.0f", min);
-            } else if (max != null) {
-                rangeDisplayValue = String.format("小于%1$,.0f", max);
-            }
-        }
-        rangeValue.setText(rangeDisplayValue);
-    }
-
 }

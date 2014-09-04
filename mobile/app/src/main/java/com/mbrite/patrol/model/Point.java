@@ -11,6 +11,7 @@ public class Point {
     public final String barcode;
     public final int category;
     public final List<String> choice;
+    public final String defaultValue;
 
     public Point(int id,
                  String name,
@@ -19,7 +20,8 @@ public class Point {
                  List<Integer> routes,
                  String barcode,
                  int category,
-                 List<String> choice) {
+                 List<String> choice,
+                 String defaultValue) {
         this.id = id;
         this.description = description;
         this.name = name;
@@ -28,5 +30,6 @@ public class Point {
         this.barcode = barcode;
         this.category = category;
         this.choice = choice;
+        this.defaultValue = defaultValue;
     }
 }

@@ -39,7 +39,8 @@ public enum PointProvider {
                     routes,
                     Utils.getString(pointJSON, Constants.BARCODE),
                     pointJSON.getInt(Constants.CATEGORY),
-                    choice);
+                    choice,
+                    pointJSON.getString(Constants.DEFAULT_VALUE));
 
             points.add(point);
         }

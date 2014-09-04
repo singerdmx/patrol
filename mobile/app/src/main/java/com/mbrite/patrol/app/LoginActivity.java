@@ -139,6 +139,7 @@ public class LoginActivity extends Activity {
                         Toast.LENGTH_LONG)
                         .show();
             }
+            Utils.deleteDataFiles(this);
             RecordProvider.INSTANCE.reset(this);
             NotificationProvider.INSTANCE.reset(this);
             FileMgr.write(this, Constants.APP_VERSION_FILE, Constants.APP_VERSION);

@@ -67,6 +67,9 @@ public class PointsActivity extends ParentActivity {
                         case 41:
                             fragment = new MeasureSelectValueFragment();
                             break;
+                        case 51:
+                            fragment = new MeasureEnterSelectValueFragment();
+                            break;
                         default:
                             throw new IllegalArgumentException(String.format("Invalid point category: %d", category));
                     }

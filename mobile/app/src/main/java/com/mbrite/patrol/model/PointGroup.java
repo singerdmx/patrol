@@ -16,7 +16,8 @@ public class PointGroup extends Point {
                 point.routes,
                 point.barcode,
                 point.category,
-                point.choice);
+                point.choice,
+                point.defaultValue);
         routeId = assetGroup.getRouteId();
         assetId = assetGroup.id;
     }

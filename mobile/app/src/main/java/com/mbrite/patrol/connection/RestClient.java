@@ -32,6 +32,7 @@ public enum RestClient {
     private String site;
     private String cookie;
     private String authenticationToken;
+
     {
         StrictMode.ThreadPolicy policy =
                 new StrictMode.ThreadPolicy.Builder().permitAll().build();

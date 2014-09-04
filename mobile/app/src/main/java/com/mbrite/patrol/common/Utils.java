@@ -197,6 +197,19 @@ public class Utils {
         return sb.toString();
     }
 
+    public static void deleteDataFiles(Activity activity) throws IOException {
+        for (String fileName : new String[]
+                {
+                        Constants.RECORD_FILE_NAME,
+                        Constants.ASSETS_FILE_NAME,
+                        Constants.POINTS_FILE_NAME
+                }) {
+            if (FileMgr.exists(activity, fileName)) {
+                FileMgr.delete(activity, fileName);
+            }
+        }
+    }
+
     /**
      * @param activity
      * @param type

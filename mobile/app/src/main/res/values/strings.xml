@@ -102,6 +102,7 @@
     <string name="confirm_point">Confirm Point</string>
     <string name="selected_point">Selected Point: %s</string>
     <string name="enter_value">Please enter value</string>
+    <string name="select_value">Please select value</string>
     <string name="normal_range">Normal Range</string>
     <string name="asset_status">Asset Status</string>
     <string name="error_not_a_number">"%s" is not a number</string>
