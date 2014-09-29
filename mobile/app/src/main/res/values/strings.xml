@@ -57,6 +57,7 @@
     <string name="error_incorrect_password_please_login">This password is incorrect, please logout and login again.</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_no_network">No network available.</string>
+    <string name="error_please_input_site_url">Please input site URL.</string>
 
     <!-- Strings related to logout -->
     <string name="logout_warning">Logout will save current data and you will be unable to change it</string>

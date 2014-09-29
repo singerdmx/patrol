@@ -22,7 +22,10 @@ public enum PointProvider {
 
     public ArrayList<Point> getPoints(Activity activity)
             throws JSONException, IOException {
-        ArrayList<Point> points = new ArrayList<Point>();
+        ArrayList<Point> points = new ArrayList<>();
+        if (!FileMgr.exists(activity, Constants.POINTS_FILE_NAME)) {
+            return points;
+        }
         String data = FileMgr.read(activity, Constants.POINTS_FILE_NAME);
         List<JSONObject> pointsJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.POINTS));
         for (JSONObject pointJSON : pointsJSON) {

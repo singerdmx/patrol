@@ -29,7 +29,10 @@ public enum AssetProvider {
             return assets;
         }
 
-        assets = new ArrayList<Asset>();
+        assets = new ArrayList<>();
+        if (!FileMgr.exists(activity, Constants.ASSETS_FILE_NAME)) {
+            return assets;
+        }
         String data = FileMgr.read(activity, Constants.ASSETS_FILE_NAME);
         List<JSONObject> assetsJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.ASSETS));
         for (JSONObject assetJSON : assetsJSON) {
@@ -48,7 +51,7 @@ public enum AssetProvider {
 
     public ArrayList<Asset> filterAssets(Collection<Integer> assetIds, ArrayList<Asset> allAssets)
             throws JSONException, IOException {
-        Set<Integer> assetIndexes = new HashSet<Integer>(assetIds.size());
+        Set<Integer> assetIndexes = new HashSet<>(assetIds.size());
         for (int assetId : assetIds) {
             assetIndexes.add(assetId);
         }

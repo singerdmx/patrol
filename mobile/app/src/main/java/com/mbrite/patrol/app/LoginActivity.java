@@ -127,6 +127,23 @@ public class LoginActivity extends Activity {
         }
     }
 
+    private boolean isSiteURLEmpty() {
+        if (StringUtils.isBlank(Utils.getSiteURI(this))) {
+            new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                    .setMessage(R.string.error_please_input_site_url)
+                    .setTitle(R.string.error)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            startActivity(new Intent(LoginActivity.this, SettingsActivity.class));
+                        }
+                    }).setIcon(R.drawable.error).show();
+            return true;
+        }
+
+        return false;
+    }
+
     private void checkAppVersion()
             throws IOException {
         if (!FileMgr.exists(this, Constants.APP_VERSION_FILE) ||
@@ -160,6 +177,11 @@ public class LoginActivity extends Activity {
      * If there are form errors , the errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+        if (isSiteURLEmpty()) {
+            return;
+        }
+        ;
+
         if (mAuthTask != null) {
             return;
         }

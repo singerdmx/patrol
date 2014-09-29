@@ -12,7 +12,7 @@ import java.util.TreeSet;
  */
 public class Constants {
 
-    public static final String APP_VERSION = "v1.2";
+    public static final String APP_VERSION = "v1.3";
     public static final String APP_VERSION_FILE = "APP_VERSION";
 
     public static final String DEFAULT_LOCALE = "zh";
@@ -23,7 +23,7 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String MAIN_ACTIVITY = "com.mbrite.patrol.app.action.main";
     public static final String PREFERENCE_FILE_KEY = "com.mbrite.patrol.preference_file_key";
-    public static final String DEFAULT_SITE_URL = "http://shibeiwuye.managebrite.com";
+    public static final String DEFAULT_SITE_URL = "";
     public static final String STATUS = "status";
     public static final String NAME = "name";
     public static final String STATE = "state";

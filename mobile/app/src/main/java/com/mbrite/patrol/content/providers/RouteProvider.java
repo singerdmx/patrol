@@ -21,7 +21,10 @@ public enum RouteProvider {
 
     public ArrayList<Route> getRoutes(Activity activity)
             throws JSONException, IOException {
-        ArrayList<Route> routes = new ArrayList<Route>();
+        ArrayList<Route> routes = new ArrayList<>();
+        if (!FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
+            return routes;
+        }
         String data = FileMgr.read(activity, Constants.ROUTES_FILE_NAME);
         List<JSONObject> routesJSON = Utils.convertJSONArrayToList(new JSONObject(data).getJSONArray(Constants.ROUTES));
         for (JSONObject routeJSON : routesJSON) {

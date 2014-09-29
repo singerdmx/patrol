@@ -59,6 +59,7 @@
     <string name="error_incorrect_password_please_login">用户名或密码错误，请登出再重新登入。</string>
     <string name="error_field_required">请填写此项</string>
     <string name="error_no_network">无法连接到网络。</string>
+    <string name="error_please_input_site_url">请输入服务器地址！</string>
 
     <!-- Strings related to logout -->
     <string name="logout_warning">当前巡检未全部完成，登出将保存未完成的数据并无法更改</string>
