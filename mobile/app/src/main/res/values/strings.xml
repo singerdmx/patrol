@@ -116,4 +116,12 @@
     <string name="title_activity_notifications">Notifications</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Strings related to graph -->
+    <string name="graph_1_pareto________">Pareto</string>
+    <string name="graph_2_horizontal_bar">Horizontal Bars</string>
+    <string name="graph_3_pie___________">Pie</string>
+    <string name="graph_4_exploded_pie__">Exploded Pie</string>
+    <string name="graph_5_doughnut______">Doughnut</string>
+
+    <string name="historical_data_graph">Historical Data Graph</string>
 </resources>

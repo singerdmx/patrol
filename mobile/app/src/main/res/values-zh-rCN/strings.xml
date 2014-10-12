@@ -115,4 +115,13 @@
     <string name="result_in_fail_status">结果处于异常状态</string>
     <string name="continue_scan">继续扫描</string>
     <string name="enter_scan_in_secs">%s秒后将自动进入扫描界面</string>
+
+    <!-- Strings related to graph -->
+    <string name="graph_1_pareto________">帕累托图</string>
+    <string name="graph_2_horizontal_bar">横条图</string>
+    <string name="graph_3_pie___________">饼图</string>
+    <string name="graph_4_exploded_pie__">爆炸饼图</string>
+    <string name="graph_5_doughnut______">圆环图</string>
+
+    <string name="historical_data_graph">历史数据图</string>
 </resources>

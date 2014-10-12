@@ -1,9 +1,14 @@
 package com.mbrite.patrol.common;
 
+import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.ImmutableSortedSet;
+import com.mbrite.patrol.app.R;
+
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -99,11 +104,15 @@ public class Constants {
     public static final String CATEGORY = "category";
     public static final String CHOICE = "choice";
     public static final String DEFAULT_VALUE = "default_value";
-    public static final Set<Integer> CATEGORY_SCAN_ONLY;
+    public static final Set<Integer> CATEGORY_SCAN_ONLY = ImmutableSortedSet.of(10);
 
-    static {
-        CATEGORY_SCAN_ONLY = new TreeSet<>();
-        CATEGORY_SCAN_ONLY.add(10);
-    }
+    // Key is resId of String, value is url param
+    public static Map<Integer, String> GRAPH_TYPES = ImmutableSortedMap.of(
+            R.string.graph_1_pareto________, "pareto",
+            R.string.graph_2_horizontal_bar, "horizontal%20bar",
+            R.string.graph_3_pie___________, "pie",
+            R.string.graph_4_exploded_pie__, "exploded%20pie",
+            R.string.graph_5_doughnut______, "doughnut"
+    );
 
 }

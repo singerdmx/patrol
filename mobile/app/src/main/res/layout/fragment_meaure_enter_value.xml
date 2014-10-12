@@ -191,4 +191,28 @@
             android:singleLine="true" />
 
     </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/show_graph"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/memo"
+        android:background="@color/FloralWhite"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|center_horizontal">
+
+        <TextView
+            android:id="@+id/show_graph_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableLeft="@drawable/bargraph"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/historical_data_graph"
+            android:textColor="@color/white"
+            android:padding="6dp">
+        </TextView>
+    </LinearLayout>
 </RelativeLayout>
