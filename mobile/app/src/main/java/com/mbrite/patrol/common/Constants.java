@@ -1,5 +1,6 @@
 package com.mbrite.patrol.common;
 
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.mbrite.patrol.app.R;
 
@@ -7,8 +8,8 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -106,13 +107,11 @@ public class Constants {
     public static final Set<Integer> CATEGORY_SCAN_ONLY = ImmutableSortedSet.of(10);
 
     // Key is resId of String, value is url param
-    public static final TreeMap<Integer, String> GRAPH_TYPES = new TreeMap<>();
-
-    static {
-        GRAPH_TYPES.put(R.string.graph_1_pareto________, "pareto");
-        GRAPH_TYPES.put(R.string.graph_2_horizontal_bar, "horizontal%20bar");
-        GRAPH_TYPES.put(R.string.graph_3_pie___________, "pie");
-        GRAPH_TYPES.put(R.string.graph_4_exploded_pie__, "exploded%20pie");
-        GRAPH_TYPES.put(R.string.graph_5_doughnut______, "doughnut");
-    }
+    public static Map<Integer, String> GRAPH_TYPES = ImmutableSortedMap.of(
+            R.string.graph_1_pareto________, "pareto",
+            R.string.graph_2_horizontal_bar, "horizontal%20bar",
+            R.string.graph_3_pie___________, "pie",
+            R.string.graph_4_exploded_pie__, "exploded%20pie",
+            R.string.graph_5_doughnut______, "doughnut"
+    );
 }
