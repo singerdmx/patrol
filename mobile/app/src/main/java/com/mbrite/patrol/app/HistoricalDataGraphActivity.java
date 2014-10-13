@@ -4,10 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HistoricalDataGraphActivity extends ParentActivity {
 
@@ -30,6 +36,18 @@ public class HistoricalDataGraphActivity extends ParentActivity {
 
         TextView pointTitle = (TextView) findViewById(R.id.point_title);
         pointTitle.setText(Tracker.INSTANCE.targetPoint.toString());
+
+        Spinner graphType = (Spinner) findViewById(R.id.graph_type);
+        List<String> types = new ArrayList<>();
+        for (int typeResId : Constants.GRAPH_TYPES.keySet()) {
+            types.add(getString(typeResId));
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                types);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        graphType.setAdapter(dataAdapter);
     }
 
 

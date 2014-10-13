@@ -198,22 +198,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/memo"
         android:background="@color/FloralWhite"
-        android:orientation="horizontal"
-        android:gravity="center_vertical|center_horizontal">
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/show_graph_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/background_cyan"
             android:clickable="true"
             android:drawableLeft="@drawable/bargraph"
             android:gravity="center"
             android:orientation="vertical"
-            android:text="@string/historical_data_graph"
-            android:textColor="@color/white"
             android:padding="6dp"
-            android:layout_margin="10dp">
-        </TextView>
+            android:text="@string/historical_data_graph"
+            android:textColor="@color/white"></TextView>
     </LinearLayout>
 </RelativeLayout>
