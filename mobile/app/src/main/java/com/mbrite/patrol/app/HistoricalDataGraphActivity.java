@@ -1,7 +1,10 @@
 package com.mbrite.patrol.app;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +22,7 @@ import com.mbrite.patrol.common.Utils;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -129,23 +133,38 @@ public class HistoricalDataGraphActivity extends ParentActivity {
                     return;
                 }
 
+                if (!Utils.isNetworkConnected(HistoricalDataGraphActivity.this)) {
+                    new AlertDialog.Builder(HistoricalDataGraphActivity.this,
+                            R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                            .setMessage(R.string.error_no_network)
+                            .setTitle(R.string.error)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // do nothing
+                                }
+                            }).setIcon(R.drawable.error).show();
+                    return;
+                }
+
                 try {
+                    // Add one day for endDate
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(endDate);
+                    c.add(Calendar.DATE, 1);
+                    endDate = c.getTime();
                     String relativeUri =
                             String.format("graphs?check_point_id=%d&type=%s&check_time=%d..%d",
                                     Tracker.INSTANCE.targetPoint.id,
                                     type,
-                                    startDate.getTime()/1000,
-                                    endDate.getTime()/1000);
+                                    startDate.getTime() / 1000,
+                                    endDate.getTime() / 1000);
                     URI graph_url = new URI(
                             Utils.getSiteURI(HistoricalDataGraphActivity.this).trim())
                             .resolve(relativeUri);
 
-                    Toast.makeText(
-                            HistoricalDataGraphActivity.this,
-                            graph_url.toString(),
-                            Toast.LENGTH_LONG)
-                            .show();
-
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(graph_url.toString()));
+                    startActivity(intent);
                 } catch (Exception ex) {
                     Toast.makeText(
                             HistoricalDataGraphActivity.this,
