@@ -111,7 +111,7 @@ public class Constants {
     // Key is resId of String, value is url param
     public static Map<Integer, String> GRAPH_TYPES = ImmutableSortedMap.of(
             R.string.graph_1_pareto________, "pareto",
-            R.string.graph_2_horizontal_bar, "horizontal%20bar",
+            R.string.graph_2_horizontal_bar, "horizontal%20bars",
             R.string.graph_3_pie___________, "pie",
             R.string.graph_4_exploded_pie__, "exploded%20pie",
             R.string.graph_5_doughnut______, "doughnut"
