@@ -16,6 +16,7 @@ import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
 
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -125,14 +126,33 @@ public class HistoricalDataGraphActivity extends ParentActivity {
                 Date endDate = getDate(endDatePicker);
 
                 if (!isDateRangeValid(startDate, endDate)) {
-
+                    return;
                 }
 
-                Toast.makeText(
-                        HistoricalDataGraphActivity.this,
-                        String.format("%s --- %s --- %s", type, startDate.toString(), endDate.toString()),
-                        Toast.LENGTH_LONG)
-                        .show();
+                try {
+                    String relativeUri =
+                            String.format("graphs?check_point_id=%d&type=%s&check_time=%d..%d",
+                                    Tracker.INSTANCE.targetPoint.id,
+                                    type,
+                                    startDate.getTime()/1000,
+                                    endDate.getTime()/1000);
+                    URI graph_url = new URI(
+                            Utils.getSiteURI(HistoricalDataGraphActivity.this).trim())
+                            .resolve(relativeUri);
+
+                    Toast.makeText(
+                            HistoricalDataGraphActivity.this,
+                            graph_url.toString(),
+                            Toast.LENGTH_LONG)
+                            .show();
+
+                } catch (Exception ex) {
+                    Toast.makeText(
+                            HistoricalDataGraphActivity.this,
+                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
     }
