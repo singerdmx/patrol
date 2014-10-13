@@ -166,7 +166,8 @@
             android:orientation="vertical"
             android:text="@string/historical_data_graph"
             android:textColor="@color/white"
-            android:padding="6dp">
+            android:padding="6dp"
+            android:layout_margin="10dp">
        </TextView>
    </LinearLayout>
 </RelativeLayout>
