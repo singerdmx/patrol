@@ -106,6 +106,8 @@ public class Constants {
     public static final String DEFAULT_VALUE = "default_value";
     public static final Set<Integer> CATEGORY_SCAN_ONLY = ImmutableSortedSet.of(10);
 
+    public static final Set<Integer> CATEGORY_SHOW_GRAPH = ImmutableSortedSet.of(40, 41);
+
     // Key is resId of String, value is url param
     public static Map<Integer, String> GRAPH_TYPES = ImmutableSortedMap.of(
             R.string.graph_1_pareto________, "pareto",

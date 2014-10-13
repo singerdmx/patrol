@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.PointGroup;
@@ -51,15 +52,19 @@ public class PointsFragment extends Fragment {
                 memoView.setText(pointRecord.memo);
             }
 
-            TextView showGraphBtn = (TextView) view.findViewById(R.id.show_graph_btn);
-            showGraphBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Tracker.INSTANCE.targetPoint = point;
-                    Intent intent = new Intent(getActivity(), HistoricalDataGraphActivity.class);
-                    startActivity(intent);
-                }
-            });
+            if (Constants.CATEGORY_SHOW_GRAPH.contains(point.category)) {
+                TextView showGraphBtn = (TextView) view.findViewById(R.id.show_graph_btn);
+                showGraphBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Tracker.INSTANCE.targetPoint = point;
+                        Intent intent = new Intent(getActivity(), HistoricalDataGraphActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                view.findViewById(R.id.show_graph).setVisibility(View.GONE);
+            }
             setBackground();
         } catch (Exception ex) {
             Toast.makeText(
