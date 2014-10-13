@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ public class HistoricalDataGraphActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historical_data_graph);
         setWindowTitle(R.string.historical_data_graph);
+
+        setupReturnButton();
     }
 
     @Override
@@ -70,5 +73,16 @@ public class HistoricalDataGraphActivity extends ParentActivity {
             default:
                 return false;
         }
+    }
+
+    private void setupReturnButton() {
+        TextView button = (TextView) findViewById(R.id.return_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tracker.INSTANCE.targetPoint = null;
+                finish();
+            }
+        });
     }
 }

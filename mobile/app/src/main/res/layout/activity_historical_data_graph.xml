@@ -8,111 +8,153 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mbrite.patrol.app.HistoricalDataGraphActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/title"
+    <RelativeLayout
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footer">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@color/FloralWhite"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/point_title"
+                style="@style/TextAppearance.AppCompat.Base.SearchResult.Title"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="12dp"
+                android:gravity="center_horizontal"
+                android:text="@string/hello_world" />
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/graph_type_selection"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:background="@color/FloralWhite"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight=".50"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:text="@string/select_value"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/graph_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".50" />
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/start_date_selection"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/graph_type_selection"
+            android:background="@color/FloralWhite"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/label1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".20"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:text="@string/start_date"
+                android:textStyle="bold" />
+
+            <DatePicker
+                android:id="@+id/start_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight=".80" />
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/end_date_selection"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/start_date_selection"
+            android:background="@color/FloralWhite"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/label2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".20"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:text="@string/end_date"
+                android:textStyle="bold" />
+
+            <DatePicker
+                android:id="@+id/end_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight=".80" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/footer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:background="@color/FloralWhite"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/point_title"
-            style="@style/TextAppearance.AppCompat.Base.SearchResult.Title"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_margin="12dp"
-            android:gravity="center_horizontal"
-            android:text="@string/hello_world" />
-
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/graph_type_selection"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:background="@color/FloralWhite"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/label"
+            android:id="@+id/return_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_weight=".50"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:text="@string/select_value"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/graph_type"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".50" />
-
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/start_date_selection"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/graph_type_selection"
-        android:background="@color/FloralWhite"
-        android:orientation="horizontal">
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/left_turn_arrow"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/_return"
+            android:textColor="@color/white"></TextView>
 
         <TextView
-            android:id="@+id/label1"
+            android:id="@+id/show_graph_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight=".20"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:text="@string/start_date"
-            android:textStyle="bold" />
-
-        <DatePicker
-            android:id="@+id/start_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_weight=".80" />
-
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/end_date_selection"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/start_date_selection"
-        android:background="@color/FloralWhite"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/label2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight=".20"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:text="@string/end_date"
-            android:textStyle="bold" />
-
-        <DatePicker
-            android:id="@+id/end_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_weight=".80" />
+            android:layout_weight=".50"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/bargraph"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/historical_data_graph"
+            android:textColor="@color/white"></TextView>
 
     </LinearLayout>
 
