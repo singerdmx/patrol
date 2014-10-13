@@ -120,6 +120,7 @@ public class PointsActivity extends ParentActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Tracker.INSTANCE.targetPoint = null;
                 Intent intent = new Intent(PointsActivity.this, AssetsActivity.class);
                 startActivity(intent);
                 finish();
@@ -133,6 +134,7 @@ public class PointsActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 try {
+                    Tracker.INSTANCE.targetPoint = null;
                     List<String> messages = new ArrayList<String>();
                     for (PointsFragment fragment : fragments) {
                         if (!fragment.validate() && StringUtils.isNoneBlank(fragment.message)) {

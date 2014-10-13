@@ -2,6 +2,7 @@ package com.mbrite.patrol.app;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -49,6 +50,16 @@ public class PointsFragment extends Fragment {
             if (pointRecord != null) {
                 memoView.setText(pointRecord.memo);
             }
+
+            TextView showGraphBtn = (TextView) view.findViewById(R.id.show_graph_btn);
+            showGraphBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Tracker.INSTANCE.targetPoint = point;
+                    Intent intent = new Intent(getActivity(), HistoricalDataGraphActivity.class);
+                    startActivity(intent);
+                }
+            });
             setBackground();
         } catch (Exception ex) {
             Toast.makeText(

@@ -44,6 +44,11 @@ public enum Tracker {
     public AssetGroup targetAsset;
 
     /**
+     * Keep track of current point being clicked
+     */
+    public PointGroup targetPoint;
+
+    /**
      * Keep track of current point ids to be shown on PointsActivity
      */
     public TreeSet<Integer> pointGroups;
