@@ -146,7 +146,7 @@ public enum Tracker {
                     }
                     pointDuplicates.get(pointGroup.id).add(pointGroup);
 
-                    if (StringUtils.isNoneBlank(pointGroup.barcode)) {
+                    if (StringUtils.isNotBlank(pointGroup.barcode)) {
                         pointBarcodeMap.put(pointGroup.barcode, pointGroup.id);
                     }
                 }
