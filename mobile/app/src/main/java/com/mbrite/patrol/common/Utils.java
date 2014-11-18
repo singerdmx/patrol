@@ -212,9 +212,6 @@ public class Utils {
 
     /**
      * @param activity
-     * @param type
-     * @param fileName
-     * @param param
      * @return true if any file is updated, otherwise false
      * @throws JSONException
      * @throws URISyntaxException
