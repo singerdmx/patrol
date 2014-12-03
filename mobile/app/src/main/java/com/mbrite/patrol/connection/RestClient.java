@@ -85,7 +85,7 @@ public enum RestClient {
     public HttpResponse post(Activity activity, String relativeURI, List<BasicNameValuePair> payload)
             throws IOException, URISyntaxException {
         HttpPost request = new HttpPost(getSiteURI(activity).resolve(relativeURI));
-        request.setEntity(new UrlEncodedFormEntity(payload));
+        request.setEntity(new UrlEncodedFormEntity(payload, HTTP.UTF_8));
         return executeRequest(request);
     }
 
