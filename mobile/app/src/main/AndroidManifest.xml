@@ -63,10 +63,6 @@
             android:name=".HistoricalDataGraphActivity"
             android:label="@string/historical_data_graph"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".WebViewActivity"
-            android:label="@string/historical_data_graph"
-            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
