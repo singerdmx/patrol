@@ -12,6 +12,8 @@ public class Point {
     public final int category;
     public final List<String> choice;
     public final String defaultValue;
+    public final String measureUnit;
+    public final String pointCode;
 
     public Point(int id,
                  String name,
@@ -21,7 +23,9 @@ public class Point {
                  String barcode,
                  int category,
                  List<String> choice,
-                 String defaultValue) {
+                 String defaultValue,
+                 String measureUnit,
+                 String pointCode) {
         this.id = id;
         this.description = description;
         this.name = name;
@@ -31,5 +35,11 @@ public class Point {
         this.category = category;
         this.choice = choice;
         this.defaultValue = defaultValue;
+        this.measureUnit = measureUnit;
+        this.pointCode = pointCode;
+    }
+
+    public String getMeasureUnit() {
+        return measureUnit == null ? "" : String.format(" %s", measureUnit);
     }
 }

@@ -285,7 +285,7 @@ public class Utils {
         if (FileMgr.exists(activity, fileName)) {
             JSONObject savedData = new JSONObject(FileMgr.read(activity, fileName));
             if (savedData.has(Constants.IF_MODIFIED_SINCE) && savedData.has(Constants.IF_NONE_MATCH)) {
-                headers = new HashMap<String, String>();
+                headers = new HashMap<>();
                 headers.put(Constants.IF_NONE_MATCH, savedData.getString(Constants.IF_NONE_MATCH));
                 headers.put(Constants.IF_MODIFIED_SINCE, savedData.getString(Constants.IF_MODIFIED_SINCE));
             }

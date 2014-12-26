@@ -113,11 +113,24 @@ public class MeasureEnterValueFragment extends PointsFragment {
             high = Utils.getDouble(point.choice.get(2));
             max = Utils.getDouble(point.choice.get(3));
             if (min != null && max != null) {
-                rangeDisplayValue = String.format("介于%1$,.2f和%2$,.2f之间", min, max);
+                rangeDisplayValue =
+                        String.format(
+                                "介于%1$,.2f和%2$,.2f%2$s之间",
+                                min,
+                                max,
+                                point.getMeasureUnit());
             } else if (min != null) {
-                rangeDisplayValue = String.format("大于%1$,.0f", min);
+                rangeDisplayValue =
+                        String.format(
+                                "大于%1$,.0f%2$s",
+                                min,
+                                point.getMeasureUnit());
             } else if (max != null) {
-                rangeDisplayValue = String.format("小于%1$,.0f", max);
+                rangeDisplayValue =
+                        String.format(
+                                "小于%1$,.0f%2$s",
+                                max,
+                                point.getMeasureUnit());
             }
         }
         rangeValue.setText(rangeDisplayValue);

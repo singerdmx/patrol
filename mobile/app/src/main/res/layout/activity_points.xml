@@ -12,7 +12,6 @@
     tools:context="com.mbrite.patrol.app.PointsActivity">
 
     <ScrollView
-        android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/footer">
