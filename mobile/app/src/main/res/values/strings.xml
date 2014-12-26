@@ -115,6 +115,7 @@
     <string name="enter_scan_in_secs">Enter scan page in %s seconds</string>
     <string name="title_activity_notifications">Notifications</string>
     <string name="action_settings">Settings</string>
+    <string name="point_code">Point Code</string>
 
     <!-- Strings related to graph -->
     <string name="graph_1_pareto________">Pareto</string>

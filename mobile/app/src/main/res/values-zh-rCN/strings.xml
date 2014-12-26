@@ -115,6 +115,7 @@
     <string name="result_in_fail_status">结果处于异常状态</string>
     <string name="continue_scan">继续扫描</string>
     <string name="enter_scan_in_secs">%s秒后将自动进入扫描界面</string>
+    <string name="point_code">对象编码</string>
 
     <!-- Strings related to graph -->
     <string name="graph_1_pareto________">帕累托图</string>

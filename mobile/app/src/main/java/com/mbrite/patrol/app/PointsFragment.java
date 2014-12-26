@@ -45,6 +45,9 @@ public class PointsFragment extends Fragment {
             nameView.setText(point.name);
             TextView descriptionView = (TextView) view.findViewById(R.id.description);
             descriptionView.setText(point.description);
+            if (point.pointCode != null) {
+                ((TextView) view.findViewById(R.id.pointCode)).setText(point.pointCode);
+            }
             TextView stateView = (TextView) view.findViewById(R.id.state);
             stateView.setText(point.state);
             memoView = (EditText) view.findViewById(R.id.memo_value);

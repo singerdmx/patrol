@@ -43,7 +43,9 @@ public enum PointProvider {
                     Utils.getString(pointJSON, Constants.BARCODE),
                     pointJSON.getInt(Constants.CATEGORY),
                     choice,
-                    pointJSON.getString(Constants.DEFAULT_VALUE));
+                    pointJSON.getString(Constants.DEFAULT_VALUE),
+                    pointJSON.has("measure_unit") ? pointJSON.getString("measure_unit") : null,
+                    pointJSON.has("point_code") ? pointJSON.getString("point_code") : null);
 
             points.add(point);
         }
