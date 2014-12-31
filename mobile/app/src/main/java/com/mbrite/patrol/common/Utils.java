@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.mbrite.patrol.app.LoginActivity;
 import com.mbrite.patrol.app.R;
 import com.mbrite.patrol.connection.RestClient;
+import com.mbrite.patrol.content.providers.NotificationProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.AssetGroup;
 import com.mbrite.patrol.model.PointGroup;
@@ -142,12 +143,35 @@ public class Utils {
                 }
             }).setIcon(R.drawable.warning).show();
         } catch (Exception ex) {
-            Toast.makeText(
-                    activity,
-                    String.format(activity.getString(R.string.error_of), ex.getLocalizedMessage()),
-                    Toast.LENGTH_LONG)
-                    .show();
+            showErrorPopupWindow(activity, ex);
         }
+    }
+
+    public static void clearLocalData(final Activity activity) {
+        try {
+            Utils.deleteDataFiles(activity);
+            RecordProvider.INSTANCE.resetAll(activity);
+            NotificationProvider.INSTANCE.reset(activity);
+        } catch (Exception ex) {
+            showErrorPopupWindow(activity, ex);
+        }
+    }
+
+    public static void showErrorPopupWindow(Activity activity, Exception ex) {
+        new AlertDialog.Builder(activity,
+                R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                .setMessage(String.format(
+                        activity.getString(R.string.error_of),
+                        ex.getLocalizedMessage()))
+                .setTitle(R.string.error)
+                .setCancelable(false)
+                .setPositiveButton(R.string.confirm,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // do nothing
+                            }
+                        }
+                ).setIcon(R.drawable.error).show();
     }
 
     /**

@@ -26,7 +26,6 @@ import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.connection.RestClient;
-import com.mbrite.patrol.content.providers.NotificationProvider;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.Record;
 
@@ -122,6 +121,14 @@ public class LoginActivity extends Activity {
             case R.id.settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            case R.id.clear_local_data:
+                Utils.clearLocalData(this);
+                Toast.makeText(
+                        this,
+                        getString(R.string.complete),
+                        Toast.LENGTH_LONG)
+                        .show();
+                return true;
             default:
                 return false;
         }
@@ -156,9 +163,7 @@ public class LoginActivity extends Activity {
                         Toast.LENGTH_LONG)
                         .show();
             }
-            Utils.deleteDataFiles(this);
-            RecordProvider.INSTANCE.reset(this);
-            NotificationProvider.INSTANCE.reset(this);
+            Utils.clearLocalData(this);
             FileMgr.write(this, Constants.APP_VERSION_FILE, Constants.APP_VERSION);
         }
     }

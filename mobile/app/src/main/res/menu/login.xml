@@ -7,4 +7,9 @@
         android:icon="@drawable/options"
         android:title="@string/settings" />
 
+    <item
+        android:id="@+id/clear_local_data"
+        android:icon="@drawable/options"
+        android:title="@string/clear_local_data" />
+
 </menu>
