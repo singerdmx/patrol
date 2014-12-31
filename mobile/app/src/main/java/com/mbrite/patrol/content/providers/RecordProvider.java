@@ -30,8 +30,18 @@ public enum RecordProvider {
         if (FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
             FileMgr.delete(activity, Constants.RECORD_FILE_NAME);
         }
+
         record = null;
         Tracker.INSTANCE.reset();
+    }
+
+    public void resetAll(Activity activity) throws IOException {
+        for (String file : FileMgr.fileList(activity)) {
+            if (file.startsWith(Constants.RECORD_FILE_NAME)) {
+                FileMgr.delete(activity, file);
+            }
+        }
+        reset(activity);
     }
 
     public Record parseRecordString(String recordContent) {
@@ -99,7 +109,7 @@ public enum RecordProvider {
 
     public void setRoutes(List<Route> routes, Activity activity)
             throws IOException {
-        record.routes = new ArrayList<Integer>(routes.size());
+        record.routes = new ArrayList<>(routes.size());
         for (Route route : routes) {
             record.routes.add(route.id);
         }
@@ -107,7 +117,7 @@ public enum RecordProvider {
     }
 
     public List<String> getRecordFiles(Activity activity) {
-        List<String> recordFiles = new ArrayList<String>();
+        List<String> recordFiles = new ArrayList<>();
         for (String file : FileMgr.fileList(activity)) {
             if (file.startsWith(Constants.RECORD_FILE_NAME)) {
                 recordFiles.add(file);

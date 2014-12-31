@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mbrite.patrol.common.Tracker;
+import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.PointGroup;
 import com.mbrite.patrol.model.PointRecord;
@@ -54,11 +55,7 @@ public class PointsFragment extends Fragment {
             }
             setBackground();
         } catch (Exception ex) {
-            Toast.makeText(
-                    getActivity(),
-                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                    Toast.LENGTH_LONG)
-                    .show();
+            Utils.showErrorPopupWindow(getActivity(), ex);
         }
         return view;
     }

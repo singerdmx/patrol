@@ -44,6 +44,7 @@
     <string name="error_site_url_missing">网址为空!请在设置菜单中填入网址。</string>
     <string name="error_site_url_invalid">无效网址 %s! 请在设置菜单中修改网址。</string>
     <string name="error_network_connection_failure">无法连接到网址 %s。</string>
+    <string name="clear_local_data">清空本地数据</string>
 
     <!-- Strings related to login -->
     <string name="username">用户名</string>
