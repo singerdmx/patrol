@@ -107,7 +107,7 @@
     <string name="selected_point">选定的点检： %s</string>
     <string name="enter_value">请输入</string>
     <string name="select_value">请选择</string>
-    <string name="normal_range">正常范围</string>
+    <string name="normal_range">标准值</string>
     <string name="asset_status">设备状态</string>
     <string name="error_not_a_number">"%s" 不是数字</string>
     <string name="memo">问题描述</string>
