@@ -27,7 +27,8 @@ public class PointsFragment extends Fragment {
     protected EditText memoView;
     protected InputMethodManager imm;
     protected int[] linearLayoutIds = new int[]{R.id.title,
-            R.id.secondLine, R.id.range,
+//            R.id.secondLine,
+            R.id.range,
             R.id.select_content, R.id.content, R.id.memo};
 
     protected String value = "";
@@ -47,8 +48,8 @@ public class PointsFragment extends Fragment {
             if (point.pointCode != null) {
                 ((TextView) view.findViewById(R.id.pointCode)).setText(point.pointCode);
             }
-            TextView stateView = (TextView) view.findViewById(R.id.state);
-            stateView.setText(point.state);
+//            TextView stateView = (TextView) view.findViewById(R.id.state);
+//            stateView.setText(point.state);
             memoView = (EditText) view.findViewById(R.id.memo_value);
             if (pointRecord != null) {
                 memoView.setText(pointRecord.memo);

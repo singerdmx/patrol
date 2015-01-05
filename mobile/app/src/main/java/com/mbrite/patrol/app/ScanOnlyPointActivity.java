@@ -76,8 +76,8 @@ public class ScanOnlyPointActivity extends ParentActivity {
         nameView.setText(point.name);
         TextView descriptionView = (TextView) findViewById(R.id.description);
         descriptionView.setText(point.description);
-        TextView stateView = (TextView) findViewById(R.id.state);
-        stateView.setText(point.state);
+//        TextView stateView = (TextView) findViewById(R.id.state);
+//        stateView.setText(point.state);
     }
 
     private void setupCancelButton() {
