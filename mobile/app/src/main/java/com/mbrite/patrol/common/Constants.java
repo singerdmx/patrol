@@ -116,4 +116,6 @@ public class Constants {
             R.string.graph_4_exploded_pie__, "exploded%20pie",
             R.string.graph_5_doughnut______, "doughnut"
     );
+
+    public static final String IMAGE_FILE_SUFFIX = ".img.jpg";
 }

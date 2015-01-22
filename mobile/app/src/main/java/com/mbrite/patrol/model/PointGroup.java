@@ -8,6 +8,8 @@ public class PointGroup extends Point {
 
     private int assetId;
 
+    private String image;
+
     public PointGroup(Point point, AssetGroup assetGroup) {
         super(point.id,
                 point.name,
@@ -39,6 +41,14 @@ public class PointGroup extends Point {
         }
 
         return pr.status;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

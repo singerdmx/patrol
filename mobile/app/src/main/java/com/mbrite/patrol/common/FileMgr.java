@@ -29,10 +29,15 @@ public class FileMgr {
 
     public static void write(Activity activity, String fileName, String string)
             throws IOException {
+        write(activity, fileName, string.getBytes());
+    }
+
+    public static void write(Activity activity, String fileName, byte[] content)
+            throws IOException {
         FileOutputStream outputStream = null;
         try {
             outputStream = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
-            outputStream.write(string.getBytes());
+            outputStream.write(content);
         } finally {
             if (outputStream != null) {
                 outputStream.close();
@@ -44,4 +49,5 @@ public class FileMgr {
             throws IOException {
         return Utils.convertStreamToString(activity.openFileInput(fileName));
     }
+
 }

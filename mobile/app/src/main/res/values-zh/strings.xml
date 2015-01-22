@@ -33,6 +33,8 @@
     <string name="synchronize_data">同步数据</string>
     <string name="start_patrol">开始巡检</string>
     <string name="comma">，</string>
+    <string name="description">描述</string>
+    <string name="remove">删除</string>
 
     <string name="confirm_logout">登出会造成正在进行巡检的数据丢失！是否登出？</string>
 
@@ -131,4 +133,13 @@
     <string name="end_date">结束时间</string>
     <string name="error_is_after_today">%s不得晚于今天</string>
     <string name="error_start_date_after_end_date">起始时间不得晚于结束时间</string>
+    <string name="upload">上传</string>
+    <string name="take_photo">拍照</string>
+    <string name="select_photo">选择照片</string>
+    <string name="no_image_selected">没有选中照片！</string>
+    <string name="error_no_camera_support">没有相机支持！</string>
+    <string name="error_fail_to_upload_image">上传照片失败！</string>
+    <string name="upload_image_success">上传照片成功！</string>
+    <string name="save_image_success">照片已经成功保存！</string>
+    <string name="delete_image_success">照片已经成功删除！</string>
 </resources>

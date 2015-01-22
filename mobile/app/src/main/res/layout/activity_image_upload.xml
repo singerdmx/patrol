@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_repeat"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.mbrite.patrol.app.ImageUploadActivity">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/footer"
+        android:layout_centerInParent="true" />
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/take_photo_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/camera"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/take_photo"
+            android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:id="@+id/select_photo_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/cameraplus"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/select_photo"
+            android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:id="@+id/complete_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@android:drawable/ic_menu_save"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/save"
+            android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:id="@+id/remove_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@android:drawable/ic_delete"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/remove"
+            android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:id="@+id/return_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@android:drawable/ic_menu_revert"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/_return"
+            android:textColor="@color/white"></TextView>
+
+    </LinearLayout>
+
+</RelativeLayout>

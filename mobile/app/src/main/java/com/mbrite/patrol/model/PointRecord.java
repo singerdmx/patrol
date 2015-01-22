@@ -10,8 +10,15 @@ public class PointRecord {
     public Set<Integer> routes;
     public int asset_id;
     public String memo;
+    public String image;
 
-    public PointRecord(String result, int status, String memo, int id, Set<Integer> routes, int asset_id) {
+    public PointRecord(String result,
+                       int status,
+                       String memo,
+                       int id,
+                       Set<Integer> routes,
+                       int asset_id,
+                       String image) {
         this.result = result;
         this.status = status;
         this.memo = memo;
@@ -19,5 +26,6 @@ public class PointRecord {
         this.check_time = System.currentTimeMillis() / 1000;
         this.routes = routes;
         this.asset_id = asset_id;
+        this.image = image;
     }
 }

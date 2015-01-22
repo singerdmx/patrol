@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -62,6 +64,10 @@
         <activity
             android:name=".HistoricalDataGraphActivity"
             android:label="@string/historical_data_graph"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ImageUploadActivity"
+            android:label="@string/take_photo"
             android:theme="@style/AppTheme" />
     </application>
 
