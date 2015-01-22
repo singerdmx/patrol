@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +21,7 @@
         android:label="@string/patrol"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mbrite.patrol.app.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/route"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -29,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mbrite.patrol.app.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/patrol"
             android:theme="@android:style/Theme.Holo.Light"
             android:windowSoftInputMode="adjustResize|stateVisible">
@@ -40,25 +42,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mbrite.patrol.app.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/settings"
-            android:theme="@android:style/Theme.Light"></activity>
+            android:theme="@android:style/Theme.Light" />
         <activity
-            android:name="com.mbrite.patrol.app.AssetsActivity"
+            android:name=".AssetsActivity"
             android:label="@string/asset"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
-            android:name="com.mbrite.patrol.app.PointsActivity"
+            android:name=".PointsActivity"
             android:label="@string/check_point"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
-            android:name="com.mbrite.patrol.app.ScanOnlyPointActivity"
+            android:name=".ScanOnlyPointActivity"
             android:label="@string/check_point"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
-            android:name="com.mbrite.patrol.app.NotificationsActivity"
+            android:name=".NotificationsActivity"
             android:label="@string/notification"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ImageUploadActivity"
+            android:label="@string/take_photo"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

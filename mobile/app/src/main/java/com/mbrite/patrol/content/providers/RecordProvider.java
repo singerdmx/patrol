@@ -36,12 +36,20 @@ public enum RecordProvider {
     }
 
     public void resetAll(Activity activity) throws IOException {
+        resetAll(activity, false);
+    }
+
+    public void resetAll(Activity activity, boolean fileOnly) throws IOException {
         for (String file : FileMgr.fileList(activity)) {
-            if (file.startsWith(Constants.RECORD_FILE_NAME)) {
+            if (file.startsWith(Constants.RECORD_FILE_NAME) ||
+                    file.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
                 FileMgr.delete(activity, file);
             }
         }
-        reset(activity);
+
+        if (!fileOnly) {
+            reset(activity);
+        }
     }
 
     public Record parseRecordString(String recordContent) {
@@ -94,7 +102,7 @@ public enum RecordProvider {
         return record;
     }
 
-    private void save(Activity activity)
+    public void save(Activity activity)
             throws IOException {
         FileMgr.write(activity, Constants.RECORD_FILE_NAME, toString(record));
     }
@@ -141,10 +149,6 @@ public enum RecordProvider {
     }
 
     /**
-     * @param pointGroup
-     * @param value
-     * @param result
-     * @param activity
      * @return true if added, false if updated
      * @throws IOException
      */
@@ -166,12 +170,23 @@ public enum RecordProvider {
         return null;
     }
 
+    public void removePointRecordImage(Activity activity, int id)
+            throws IOException {
+        PointRecord pointRecord = getPointRecord(id);
+        if (pointRecord != null) {
+            pointRecord.image = null;
+        }
+
+        save(activity);
+    }
+
     private PointRecord convertToPointRecord(PointGroup pointGroup, String result, int status, String memo) {
         Set<Integer> routes = new TreeSet<>();
         for (PointGroup p : Tracker.INSTANCE.getPointDuplicates().get(pointGroup.id)) {
             routes.add(p.getRouteId());
         }
-        return new PointRecord(result, status, memo, pointGroup.id, routes, pointGroup.getAssetId());
+        return new PointRecord(result, status, memo,
+                pointGroup.id, routes, pointGroup.getAssetId(), pointGroup.getImage());
     }
 
     /**

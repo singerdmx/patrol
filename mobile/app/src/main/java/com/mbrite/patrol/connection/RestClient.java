@@ -8,6 +8,7 @@ import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Utils;
 
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -75,17 +76,20 @@ public enum RestClient {
 
     public HttpResponse post(Activity activity, String relativeURI, String payload, String contentType)
             throws IOException, URISyntaxException {
-        HttpPost request = new HttpPost(getSiteURI(activity).resolve(relativeURI));
         StringEntity input = new StringEntity(payload, HTTP.UTF_8);
         input.setContentType(contentType);
-        request.setEntity(input);
-        return executeRequest(request);
+        return post(activity, relativeURI, input);
     }
 
     public HttpResponse post(Activity activity, String relativeURI, List<BasicNameValuePair> payload)
             throws IOException, URISyntaxException {
+        return post(activity, relativeURI, new UrlEncodedFormEntity(payload, HTTP.UTF_8));
+    }
+
+    public HttpResponse post(Activity activity, String relativeURI, HttpEntity entity)
+            throws IOException, URISyntaxException {
         HttpPost request = new HttpPost(getSiteURI(activity).resolve(relativeURI));
-        request.setEntity(new UrlEncodedFormEntity(payload, HTTP.UTF_8));
+        request.setEntity(entity);
         return executeRequest(request);
     }
 

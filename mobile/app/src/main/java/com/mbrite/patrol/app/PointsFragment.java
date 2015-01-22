@@ -2,13 +2,13 @@ package com.mbrite.patrol.app;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
@@ -26,10 +26,15 @@ public class PointsFragment extends Fragment {
     protected String message;
     protected EditText memoView;
     protected InputMethodManager imm;
-    protected int[] linearLayoutIds = new int[]{R.id.title,
+    protected int[] layoutIds = new int[]{
+            R.id.title,
+            R.id.pointCodeLine,
 //            R.id.secondLine,
             R.id.range,
-            R.id.select_content, R.id.content, R.id.memo};
+            R.id.select_content,
+            R.id.content,
+            R.id.memo
+    };
 
     protected String value = "";
     protected int status = RecordStatus.PASS; // Default to Pass
@@ -54,6 +59,7 @@ public class PointsFragment extends Fragment {
             if (pointRecord != null) {
                 memoView.setText(pointRecord.memo);
             }
+            setupAddPhotoButton(view);
             setBackground();
         } catch (Exception ex) {
             Utils.showErrorPopupWindow(getActivity(), ex);
@@ -87,6 +93,28 @@ public class PointsFragment extends Fragment {
         return null;
     }
 
+    private void setupAddPhotoButton(View view) {
+        Button button = (Button) view.findViewById(R.id.add_memo_photo);
+        if (point.getImage() != null ||
+                (pointRecord != null && pointRecord.image != null)) {
+            if (point.getImage() == null) {
+                point.setImage(pointRecord.image);
+            }
+            button.setBackground(getResources().getDrawable(R.drawable.background_green));
+        } else {
+            button.setBackground(getResources().getDrawable(R.drawable.background_cyan));
+        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tracker.INSTANCE.targetPoint = point;
+                Intent intent = new Intent(getActivity(), ImageUploadActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+    }
+
     private void setBackground() {
         if (pointRecord != null) {
             // set background color
@@ -108,10 +136,10 @@ public class PointsFragment extends Fragment {
                     throw new IllegalArgumentException(String.format("Invalid point status: %d", pointRecord.status));
             }
 
-            for (int id : linearLayoutIds) {
-                LinearLayout layout = (LinearLayout) view.findViewById(id);
-                if (layout != null) {
-                    layout.setBackgroundResource(resId);
+            for (int id : layoutIds) {
+                View v = view.findViewById(id);
+                if (v != null) {
+                    v.setBackgroundResource(resId);
                 }
             }
         }

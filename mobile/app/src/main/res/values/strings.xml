@@ -34,6 +34,8 @@
     <string name="start_patrol">Start Patrol</string>
     <string name="comma">, </string>
     <string name="confirm_logout">You will lose call data when logging out. Do you still want to continue?</string>
+    <string name="description">Description</string>
+    <string name="remove">Remove</string>
 
     <!-- Strings related to settings -->
     <string name="server">Server</string>
@@ -118,5 +120,14 @@
     <string name="title_activity_notifications">Notifications</string>
     <string name="action_settings">Settings</string>
     <string name="point_code">Point Code</string>
+    <string name="upload">Upload</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="select_photo">Select Photo</string>
+    <string name="no_image_selected">No image selected</string>
+    <string name="error_no_camera_support">No camera support</string>
+    <string name="error_fail_to_upload_image">Fail to upload photo</string>
+    <string name="upload_image_success">Image upload is successful!</string>
+    <string name="save_image_success">Image is successfully saved!</string>
+    <string name="delete_image_success">Image is successfully deleted!</string>
 
 </resources>

@@ -106,4 +106,6 @@ public class Constants {
         CATEGORY_SCAN_ONLY.add(10);
     }
 
+    public static final String IMAGE_FILE_SUFFIX = ".img.jpg";
+
 }
