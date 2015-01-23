@@ -35,11 +35,16 @@ public enum RecordProvider {
         Tracker.INSTANCE.reset();
     }
 
-    public void resetAll(Activity activity) throws IOException {
-        resetAll(activity, false);
+    public void removeSavedRecordAndImageFiles(Activity activity) throws IOException {
+        for (String file : FileMgr.fileList(activity)) {
+            if ((!Constants.RECORD_FILE_NAME.equals(file) && file.startsWith(Constants.RECORD_FILE_NAME))
+                    || file.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
+                FileMgr.delete(activity, file);
+            }
+        }
     }
 
-    public void resetAll(Activity activity, boolean fileOnly) throws IOException {
+    public void resetAll(Activity activity) throws IOException {
         for (String file : FileMgr.fileList(activity)) {
             if (file.startsWith(Constants.RECORD_FILE_NAME) ||
                     file.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
@@ -47,9 +52,7 @@ public enum RecordProvider {
             }
         }
 
-        if (!fileOnly) {
-            reset(activity);
-        }
+        reset(activity);
     }
 
     public Record parseRecordString(String recordContent) {

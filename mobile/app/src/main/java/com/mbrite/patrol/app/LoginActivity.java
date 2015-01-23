@@ -185,7 +185,6 @@ public class LoginActivity extends Activity {
         if (isSiteURLEmpty()) {
             return;
         }
-        ;
 
         if (mAuthTask != null) {
             return;
