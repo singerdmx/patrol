@@ -1,5 +1,7 @@
 package com.mbrite.patrol.common;
 
+import com.google.common.collect.ImmutableSortedSet;
+
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -99,12 +101,7 @@ public class Constants {
     public static final String CATEGORY = "category";
     public static final String CHOICE = "choice";
     public static final String DEFAULT_VALUE = "default_value";
-    public static final Set<Integer> CATEGORY_SCAN_ONLY;
-
-    static {
-        CATEGORY_SCAN_ONLY = new TreeSet<>();
-        CATEGORY_SCAN_ONLY.add(10);
-    }
+    public static final Set<Integer> CATEGORY_SCAN_ONLY = ImmutableSortedSet.of(10);
 
     public static final String IMAGE_FILE_SUFFIX = ".img.jpg";
 
