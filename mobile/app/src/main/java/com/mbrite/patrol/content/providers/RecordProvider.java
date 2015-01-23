@@ -36,9 +36,12 @@ public enum RecordProvider {
     }
 
     public void removeSavedRecordAndImageFiles(Activity activity) throws IOException {
+        if (FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
+            return;
+        }
         for (String file : FileMgr.fileList(activity)) {
-            if ((!Constants.RECORD_FILE_NAME.equals(file) && file.startsWith(Constants.RECORD_FILE_NAME))
-                    || file.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
+            if (file.startsWith(Constants.RECORD_FILE_NAME) ||
+                    file.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
                 FileMgr.delete(activity, file);
             }
         }
