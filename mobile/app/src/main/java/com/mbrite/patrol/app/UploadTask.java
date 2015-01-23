@@ -115,8 +115,9 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
     private int uploadImagesInRecord(Record record) throws IOException {
         try {
             for (final PointRecord pointRecord : record.points) {
-                if (!pointRecord.image.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
-                    // image is already uploaded. Now image is set to id in DB.
+                if (pointRecord.image == null ||
+                        !pointRecord.image.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
+                    // no image or image is already uploaded (image is set to id in DB)
                     continue;
                 }
                 String imgFilePath = activity.getFileStreamPath(pointRecord.image).getAbsolutePath();
