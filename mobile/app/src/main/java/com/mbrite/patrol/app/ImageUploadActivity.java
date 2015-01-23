@@ -31,6 +31,7 @@ public class ImageUploadActivity extends ParentActivity {
 
     private ImageView image;
     private Bitmap bitmap;
+    private TextView returnBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class ImageUploadActivity extends ParentActivity {
 
         setupTakePhotoBtn();
         setupSelectPhotoBtn();
-        setupCompleteBtn();
         setupReturnBtn();
+        setupCompleteBtn();
         setupRemoveBtn();
     }
 
@@ -208,8 +209,8 @@ public class ImageUploadActivity extends ParentActivity {
     }
 
     private void setupReturnBtn() {
-        TextView button = (TextView) findViewById(R.id.return_btn);
-        button.setOnClickListener(new View.OnClickListener() {
+        returnBtn = (TextView) findViewById(R.id.return_btn);
+        returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ImageUploadActivity.this, PointsActivity.class);
@@ -256,6 +257,7 @@ public class ImageUploadActivity extends ParentActivity {
                             R.string.save_image_success,
                             Toast.LENGTH_LONG)
                             .show();
+                    returnBtn.performClick();
                 } catch (Exception ex) {
                     Utils.showErrorPopupWindow(ImageUploadActivity.this, ex);
                 }
