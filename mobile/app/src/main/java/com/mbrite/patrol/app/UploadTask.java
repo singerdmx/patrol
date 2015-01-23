@@ -27,10 +27,8 @@ import java.util.List;
 
 public class UploadTask extends AsyncTask<Void, Void, Integer> {
     private static final String TAG = UploadTask.class.getSimpleName();
-    private int total = 0;
-    private int fails = 0;
-    private int statusCode = Constants.STATUS_CODE_CREATED;
     private Activity activity;
+    private int total;
     private ProgressDialog progressDialog;
 
     public UploadTask(Activity activity) {
@@ -45,14 +43,16 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
     protected Integer doInBackground(Void... unused) {
         try {
             List<String> recordFiles = RecordProvider.INSTANCE.getRecordFiles(activity);
-            total = recordFiles.size();
+            total = 0;
+            int fails = 0;
             for (String recordFile : recordFiles) {
                 if (!Constants.RECORD_FILE_NAME.equals(recordFile)) {
-                    uploadFile(recordFile);
+                    total++;
+                    fails += uploadFile(recordFile);
                 }
             }
 
-            return statusCode;
+            return fails;
         } catch (final Exception e) {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
@@ -75,25 +75,12 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer statusCode) {
+    protected void onPostExecute(final Integer fails) {
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
 
-        if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(activity.getApplicationContext(),
-                            String.format("%s\n" +
-                                            "%s",
-                                    String.format(activity.getString(R.string.error_upload), fails),
-                                    String.format(activity.getString(R.string.upload_success), total - fails)
-                            ),
-                            Toast.LENGTH_LONG
-                    ).show();
-                }
-            });
-        } else {
+        if (fails == 0) {
             activity.runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(activity,
@@ -111,7 +98,18 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                     }
                 });
             }
+            return;
         }
+
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(activity,
+                        String.format(activity.getString(R.string.error_upload), fails) + "\n" +
+                                String.format(activity.getString(R.string.upload_success), total - fails),
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        });
     }
 
     private int uploadImagesInRecord(Record record) throws IOException {
@@ -164,39 +162,37 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
         return Constants.STATUS_CODE_CREATED;
     }
 
-    private void uploadFile(String file) {
+    /**
+     * @param file
+     * @return 0 means success, otherwise 1
+     */
+    private int uploadFile(String file) {
         Log.i(TAG, String.format("Uploading record %s", file));
         try {
             String recordContent = FileMgr.read(activity, file);
             Record record = RecordProvider.INSTANCE.parseRecordString(recordContent);
-            int responseStatusCode = uploadImagesInRecord(record);
-            if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(responseStatusCode)) {
-                statusCode = responseStatusCode;
+            int statusCode = uploadImagesInRecord(record);
+            if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
                 throw new IllegalStateException();
             }
             record.setSubmitter(Utils.getSavedUsernameAndPassword(activity)[0]);
             recordContent = RecordProvider.INSTANCE.toString(record);
             HttpResponse response = RestClient.INSTANCE.post(activity, Constants.RESULTS, recordContent, Constants.CONTENT_TYPE_JSON);
-            responseStatusCode = response.getStatusLine().getStatusCode();
-            if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(responseStatusCode)) {
-                statusCode = responseStatusCode;
+            statusCode = response.getStatusLine().getStatusCode();
+            if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
                 throw new IllegalStateException();
             }
             FileMgr.delete(activity, file);
-            if (Constants.RECORD_FILE_NAME.equals(file)) {
-                RecordProvider.INSTANCE.reset(activity);
-            }
         } catch (Exception ex) {
-            fails++;
-            if (Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
-                statusCode = -1;
-            }
             Log.e(TAG,
                     String.format("Fail to upload file %s:\n%s\n%s",
                             file,
                             ex.getMessage(),
                             ex.getStackTrace())
             );
+            return 1;
         }
+
+        return 0;
     }
 }
