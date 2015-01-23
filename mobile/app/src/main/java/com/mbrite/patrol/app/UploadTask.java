@@ -103,7 +103,7 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             });
             try {
                 // clear all record files (should be non) and image files
-                RecordProvider.INSTANCE.resetAll(activity, true);
+                RecordProvider.INSTANCE.removeSavedRecordAndImageFiles(activity);
             } catch (final Exception ex) {
                 activity.runOnUiThread(new Runnable() {
                     public void run() {
