@@ -61,10 +61,6 @@
             android:name=".NotificationsActivity"
             android:label="@string/notification"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ImageUploadActivity"
-            android:label="@string/take_photo"
-            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
