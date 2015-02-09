@@ -108,9 +108,14 @@ public enum RecordProvider {
         return record;
     }
 
+    public void save(Activity activity, String file, Record record)
+            throws IOException {
+        FileMgr.write(activity, file, toString(record));
+    }
+
     public void save(Activity activity)
             throws IOException {
-        FileMgr.write(activity, Constants.RECORD_FILE_NAME, toString(record));
+        save(activity, Constants.RECORD_FILE_NAME, this.record);
     }
 
     public int[] getRoutes() {
