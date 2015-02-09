@@ -47,7 +47,6 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             int fails = 0;
             for (String recordFile : recordFiles) {
                 if (!Constants.RECORD_FILE_NAME.equals(recordFile)) {
-                    total++;
                     fails += uploadFile(recordFile);
                 }
             }
@@ -112,13 +111,17 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
         });
     }
 
-    private int uploadImagesInRecord(Record record) throws IOException {
+    private int uploadImagesInRecord(Record record, String file) throws IOException {
         try {
             for (final PointRecord pointRecord : record.points) {
                 if (pointRecord.image == null ||
                         !pointRecord.image.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
                     // no image or image is already uploaded (image is set to id in DB)
                     continue;
+                }
+                if (!FileMgr.exists(activity, pointRecord.image)) {
+                    throw new IllegalStateException(
+                            String.format("Image %s does not exist", pointRecord.image));
                 }
                 String imgFilePath = activity.getFileStreamPath(pointRecord.image).getAbsolutePath();
                 Bitmap bitmap = Utils.decodeFile(imgFilePath);
@@ -148,6 +151,8 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                 String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
                 String imageId = new JSONObject(responseContent).getString("id");
                 pointRecord.image = imageId;
+                // save image field change
+                RecordProvider.INSTANCE.save(activity, file, record);
             }
         } catch (final Exception ex) {
             activity.runOnUiThread(new Runnable() {
@@ -159,7 +164,6 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             return -1;
         }
 
-        RecordProvider.INSTANCE.save(activity);
         return Constants.STATUS_CODE_CREATED;
     }
 
@@ -172,7 +176,12 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
         try {
             String recordContent = FileMgr.read(activity, file);
             Record record = RecordProvider.INSTANCE.parseRecordString(recordContent);
-            int statusCode = uploadImagesInRecord(record);
+            if (record.points.isEmpty()) {
+                FileMgr.delete(activity, file);
+                return 0;
+            }
+            total++;
+            int statusCode = uploadImagesInRecord(record, file);
             if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
                 throw new IllegalStateException();
             }
