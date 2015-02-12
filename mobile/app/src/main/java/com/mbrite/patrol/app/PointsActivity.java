@@ -115,6 +115,39 @@ public class PointsActivity extends ParentActivity {
         }
     }
 
+    public void save(boolean prompt) {
+        try {
+            Tracker.INSTANCE.targetPoint = null;
+            List<String> messages = new ArrayList<String>();
+            for (PointsFragment fragment : fragments) {
+                if (!fragment.validate() && StringUtils.isNoneBlank(fragment.message)) {
+                    messages.add(fragment.message);
+                }
+            }
+
+            if (!messages.isEmpty()) {
+                // pop up Dialog showing error occurred and stay on current page
+                Toast.makeText(
+                        PointsActivity.this,
+                        String.format(StringUtils.join(messages, '\n')),
+                        Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+
+            if (!prompt) {
+                for (PointsFragment fragment : fragments) {
+                    fragment.save();
+                }
+                return;
+            }
+
+            promptWarning();
+        } catch (Exception ex) {
+            Utils.showErrorPopupWindow(PointsActivity.this, ex);
+        }
+    }
+
     private void setupCancelButton() {
         TextView button = (TextView) findViewById(R.id.cancel);
         button.setOnClickListener(new View.OnClickListener() {
@@ -133,37 +166,7 @@ public class PointsActivity extends ParentActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Tracker.INSTANCE.targetPoint = null;
-                    List<String> messages = new ArrayList<String>();
-                    for (PointsFragment fragment : fragments) {
-                        if (!fragment.validate() && StringUtils.isNoneBlank(fragment.message)) {
-                            messages.add(fragment.message);
-                        }
-                    }
-
-                    if (!messages.isEmpty()) {
-                        // pop up Dialog showing error occurred and stay on current page
-                        new AlertDialog.Builder(PointsActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                                .setTitle(R.string.error)
-                                .setMessage(StringUtils.join(messages, '\n'))
-                                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // Do nothing
-                                    }
-                                }).setIcon(R.drawable.error).show();
-                        return;
-                    }
-
-                    promptWarning();
-                } catch (Exception ex) {
-                    Toast.makeText(
-                            PointsActivity.this,
-                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
+                save(true);
             }
         });
     }

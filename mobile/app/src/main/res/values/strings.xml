@@ -112,6 +112,7 @@
     <string name="error_not_a_number">"%s" is not a number</string>
     <string name="memo">Memo</string>
     <string name="add_photo">Add Photo</string>
+    <string name="change_photo">Change Photo</string>
     <string name="error_no_data">No data</string>
     <string name="result_in_warning_status">Result in WARNING status</string>
     <string name="result_in_fail_status">Result in FAIL status</string>
