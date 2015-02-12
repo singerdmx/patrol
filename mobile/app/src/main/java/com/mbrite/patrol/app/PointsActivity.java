@@ -117,6 +117,7 @@ public class PointsActivity extends ParentActivity {
 
     public void save(boolean prompt) {
         try {
+            Tracker.INSTANCE.targetPoint = null;
             List<String> messages = new ArrayList<String>();
             for (PointsFragment fragment : fragments) {
                 if (!fragment.validate() && StringUtils.isNoneBlank(fragment.message)) {
