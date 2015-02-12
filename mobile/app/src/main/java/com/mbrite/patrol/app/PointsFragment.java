@@ -101,12 +101,15 @@ public class PointsFragment extends Fragment {
                 point.setImage(pointRecord.image);
             }
             button.setBackground(getResources().getDrawable(R.drawable.background_green));
+            button.setText(R.string.change_photo);
         } else {
             button.setBackground(getResources().getDrawable(R.drawable.background_cyan));
+            button.setText(R.string.add_photo);
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((PointsActivity) getActivity()).save(false);
                 Tracker.INSTANCE.targetPoint = point;
                 Intent intent = new Intent(getActivity(), ImageUploadActivity.class);
                 startActivity(intent);

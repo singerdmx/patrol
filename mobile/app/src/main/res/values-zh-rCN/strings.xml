@@ -114,6 +114,7 @@
     <string name="error_not_a_number">"%s" 不是数字</string>
     <string name="memo">问题描述</string>
     <string name="add_photo">添加照片</string>
+    <string name="change_photo">更改照片</string>
     <string name="error_no_data">没有输入数据</string>
     <string name="result_in_warning_status">结果处于警告状态</string>
     <string name="result_in_fail_status">结果处于异常状态</string>
