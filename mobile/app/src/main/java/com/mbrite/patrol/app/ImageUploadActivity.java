@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -24,14 +25,18 @@ import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.PointGroup;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.UUID;
 
 
 public class ImageUploadActivity extends ParentActivity {
 
+    private static File picDir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
     private ImageView image;
     private Bitmap bitmap;
     private TextView returnBtn;
+    private File imageInPicDir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +58,7 @@ public class ImageUploadActivity extends ParentActivity {
         super.onResume();
         try {
             if (bitmap == null && Tracker.INSTANCE.targetPoint.getImage() != null) {
-                bitmap = Utils.decodeFile(
-                        this.getFileStreamPath(Tracker.INSTANCE.targetPoint.getImage()).getAbsolutePath());
+                bitmap = Utils.decodeFile(getImageFileFullPath());
                 image.setImageBitmap(bitmap);
             }
         } catch (Exception ex) {
@@ -90,9 +94,16 @@ public class ImageUploadActivity extends ParentActivity {
         if (resultCode == RESULT_OK) {
             bitmap = null;
             if (requestCode == 0) {
-                Bundle extras = data.getExtras();
-                bitmap = (Bitmap) extras.get("data");
-                image.setImageBitmap(bitmap);
+                try {
+                    addPicToGallery();
+                    FileMgr.copy(this,
+                            imageInPicDir,
+                            new File(getImageFileFullPath()));
+                    bitmap = Utils.decodeFile(getImageFileFullPath());
+                    image.setImageBitmap(bitmap);
+                } catch (Exception ex) {
+                    Utils.showErrorPopupWindow(this, ex);
+                }
             } else if (requestCode == 1) {
                 try {
                     Uri selectedImageUri = data.getData();
@@ -160,10 +171,33 @@ public class ImageUploadActivity extends ParentActivity {
                     return;
                 }
 
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                startActivityForResult(intent, 0);
+                // http://developer.android.com/training/camera/photobasics.html
+                try {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    String imageFileName = UUID.randomUUID().toString();
+                    imageInPicDir = File.createTempFile(
+                            imageFileName,  /* prefix */
+                            Constants.IMAGE_FILE_SUFFIX,         /* suffix */
+                            picDir      /* directory */
+                    );
+
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageInPicDir));
+                    Tracker.INSTANCE.targetPoint.setImage(
+                            imageFileName + Constants.IMAGE_FILE_SUFFIX);
+                    startActivityForResult(intent, 0);
+                } catch (Exception e) {
+                    Utils.showErrorPopupWindow(ImageUploadActivity.this, e);
+                }
             }
         });
+    }
+
+    private void addPicToGallery() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(imageInPicDir.getAbsolutePath());
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 
     private void setupSelectPhotoBtn() {
@@ -263,6 +297,10 @@ public class ImageUploadActivity extends ParentActivity {
                 }
             }
         });
+    }
+
+    private String getImageFileFullPath() {
+        return FileMgr.getFullPath(this, Tracker.INSTANCE.targetPoint.getImage());
     }
 
 }

@@ -123,7 +123,7 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                     throw new IllegalStateException(
                             String.format("Image %s does not exist", pointRecord.image));
                 }
-                String imgFilePath = activity.getFileStreamPath(pointRecord.image).getAbsolutePath();
+                String imgFilePath = FileMgr.getFullPath(activity, pointRecord.image);
                 Bitmap bitmap = Utils.decodeFile(imgFilePath);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // convert Bitmap to ByteArrayOutputStream
