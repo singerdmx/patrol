@@ -21,15 +21,9 @@ public enum AssetProvider {
 
     INSTANCE;
 
-    private ArrayList<Asset> assets;
-
     public ArrayList<Asset> getAssets(Activity activity)
             throws JSONException, IOException {
-        if (assets != null) {
-            return assets;
-        }
-
-        assets = new ArrayList<>();
+        ArrayList<Asset> assets = new ArrayList<>();
         if (!FileMgr.exists(activity, Constants.ASSETS_FILE_NAME)) {
             return assets;
         }
