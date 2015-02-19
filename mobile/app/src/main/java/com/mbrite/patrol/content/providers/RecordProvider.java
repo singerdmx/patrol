@@ -108,6 +108,17 @@ public enum RecordProvider {
         return record;
     }
 
+    public boolean isRecordAvailableForUpload(Activity activity) {
+        List<String> recordFiles = getRecordFiles(activity);
+        for (String recordFile : recordFiles) {
+            if (!Constants.RECORD_FILE_NAME.equals(recordFile)) {
+               return true;
+            }
+        }
+
+        return false;
+    }
+
     public void save(Activity activity, String file, Record record)
             throws IOException {
         FileMgr.write(activity, file, toString(record));

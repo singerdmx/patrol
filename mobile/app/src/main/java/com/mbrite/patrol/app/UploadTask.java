@@ -41,10 +41,10 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
 
     @Override
     protected Integer doInBackground(Void... unused) {
+        int fails = 0;
         try {
             List<String> recordFiles = RecordProvider.INSTANCE.getRecordFiles(activity);
             total = 0;
-            int fails = 0;
             for (String recordFile : recordFiles) {
                 if (!Constants.RECORD_FILE_NAME.equals(recordFile)) {
                     fails += uploadFile(recordFile);
@@ -53,9 +53,6 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
 
             return fails;
         } catch (final Exception e) {
-            if (progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
             activity.runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(activity,
@@ -65,7 +62,7 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             });
         }
 
-        return -1;
+        return fails + 1;
     }
 
     @Override
@@ -75,6 +72,13 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
 
     @Override
     protected void onPostExecute(final Integer fails) {
+        if (total - fails > 0) {
+            Utils.updateDataFiles(activity);
+            if (activity instanceof ParentActivity) {
+                ((ParentActivity) activity).onResume();
+            }
+        }
+
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
