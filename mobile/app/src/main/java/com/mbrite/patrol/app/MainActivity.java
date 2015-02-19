@@ -37,6 +37,8 @@ import java.util.concurrent.Semaphore;
 public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final Semaphore NOTIFICATION_SYNC_LOCK = new Semaphore(1);
+    private RoutesFragment fragment;
+    private TextView refresh;
 
     // UI references.
     private TextView notificationView;
@@ -50,11 +52,15 @@ public class MainActivity extends ParentActivity {
         setupNotification();
         setupSynchronizeData();
         setupStartPatrol();
+        fragment = (RoutesFragment) getFragmentManager().findFragmentById(R.id.routes);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (RecordProvider.INSTANCE.isRecordAvailableForUpload(this)) {
+            refresh.setBackground(getResources().getDrawable(R.drawable.background_darkblue));
+        }
         new UserNotificationTask().execute((Void) null);
     }
 
@@ -101,7 +107,7 @@ public class MainActivity extends ParentActivity {
     }
 
     private void setupSynchronizeData() {
-        final TextView refresh = (TextView) findViewById(R.id.refresh);
+        refresh = (TextView) findViewById(R.id.refresh);
         refresh.setTextColor(Utils.getColorStateList(this, R.drawable.textview_alter_selector));
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,36 +127,33 @@ public class MainActivity extends ParentActivity {
                                     // do nothing
                                 }
                             }).setIcon(R.drawable.question).show();
-                } else {
-                    try {
-                        String[] usernameAndPassword = Utils.getSavedUsernameAndPassword(MainActivity.this);
-                        // Log in case token is expired
-                        if (usernameAndPassword == null ||
-                                !Utils.isValidUsernameAndPassword(MainActivity.this, usernameAndPassword[0], usernameAndPassword[1])) {
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    R.string.error_incorrect_password,
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        } else {
-                            synchronizeData(refresh);
-                        }
-                    } catch (Exception ex) {
+                    return;
+                }
+                try {
+                    String[] usernameAndPassword = Utils.getSavedUsernameAndPassword(MainActivity.this);
+                    // Log in case token is expired
+                    if (usernameAndPassword == null ||
+                            !Utils.isValidUsernameAndPassword(MainActivity.this, usernameAndPassword[0], usernameAndPassword[1])) {
                         Toast.makeText(
                                 MainActivity.this,
-                                String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                R.string.error_incorrect_password,
                                 Toast.LENGTH_LONG)
                                 .show();
+                    } else {
+                        synchronizeData(refresh);
                     }
+                } catch (Exception ex) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG)
+                            .show();
                 }
             }
-
-            ;
         });
     }
 
     private void synchronizeData(TextView refresh) {
-        refresh.setBackground(getResources().getDrawable(R.drawable.background_darkblue));
         if (!Tracker.INSTANCE.isRecordComplete()) {
             new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
                     .setMessage(R.string.error_incomplete_assets)
@@ -177,8 +180,12 @@ public class MainActivity extends ParentActivity {
             return;
         }
 
-        Utils.updateDataFiles(MainActivity.this);
+        if (Utils.updateDataFiles(MainActivity.this)) {
+            fragment.onResume();
+        }
         new UploadTask(MainActivity.this).execute();
+        refresh.setBackground(getResources().getDrawable(R.drawable.background_cyan));
+
     }
 
     private void setupStartPatrol() {
@@ -188,7 +195,6 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize);
-                RoutesFragment fragment = (RoutesFragment) getFragmentManager().findFragmentById(R.id.routes);
                 final ArrayList<Route> selectedRoutes = new ArrayList<Route>();
                 List<String> selectedRoutesString = new ArrayList<String>();
                 for (Route route : fragment.getRoutes()) {
