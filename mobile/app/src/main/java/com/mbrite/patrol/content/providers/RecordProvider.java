@@ -109,14 +109,7 @@ public enum RecordProvider {
     }
 
     public boolean isRecordAvailableForUpload(Activity activity) {
-        List<String> recordFiles = getRecordFiles(activity);
-        for (String recordFile : recordFiles) {
-            if (!Constants.RECORD_FILE_NAME.equals(recordFile)) {
-               return true;
-            }
-        }
-
-        return false;
+        return !getRecordsFilesNotUploaded(activity).isEmpty();
     }
 
     public void save(Activity activity, String file, Record record)
@@ -146,10 +139,11 @@ public enum RecordProvider {
         save(activity);
     }
 
-    public List<String> getRecordFiles(Activity activity) {
+    public List<String> getRecordsFilesNotUploaded(Activity activity) {
         List<String> recordFiles = new ArrayList<>();
         for (String file : FileMgr.fileList(activity)) {
-            if (file.startsWith(Constants.RECORD_FILE_NAME)) {
+            if (file.startsWith(Constants.RECORD_FILE_NAME) &&
+                    !Constants.RECORD_FILE_NAME.equals(file)) {
                 recordFiles.add(file);
             }
         }

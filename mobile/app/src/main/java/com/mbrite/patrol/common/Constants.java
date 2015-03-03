@@ -1,5 +1,6 @@
 package com.mbrite.patrol.common;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
 import org.apache.http.params.BasicHttpParams;
@@ -7,7 +8,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Shared Constants
@@ -69,16 +69,14 @@ public class Constants {
     public static final int STATUS_CODE_OK = 200;
     public static final int STATUS_CODE_CREATED = 201;
     public static final int STATUS_CODE_ACCEPTED = 202;
+    public static final Set<Integer> STATUS_CODE_UPLOAD_SUCCESS =
+            ImmutableSet.of(STATUS_CODE_CREATED, STATUS_CODE_ACCEPTED);
     public static final int STATUS_CODE_NOT_MODIFIED = 304;
     public static final int STATUS_CODE_UNAUTHORIZED = 401;
-
-    public static final Set<Integer> STATUS_CODE_UPLOAD_SUCCESS;
-
-    static {
-        STATUS_CODE_UPLOAD_SUCCESS = new TreeSet<>();
-        STATUS_CODE_UPLOAD_SUCCESS.add(STATUS_CODE_CREATED);
-        STATUS_CODE_UPLOAD_SUCCESS.add(STATUS_CODE_ACCEPTED);
-    }
+    public static final String[] DAY_OF_WEEK = new String[]{
+            "", "星期天", "星期一", "星期二", "星期三",
+            "星期四", "星期五", "星期六"
+    };
 
     // File name related constants
     public static final String ROUTES = "routes";

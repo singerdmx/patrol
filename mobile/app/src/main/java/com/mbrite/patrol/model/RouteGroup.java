@@ -23,13 +23,24 @@ public class RouteGroup extends Route {
     }
 
     public double getCompleteness() {
-        double sum = 0;
+        return (double) getStarted() / getTotal();
+    }
+
+    public int getStarted() {
+        int started = 0;
         for (AssetGroup a : assetList) {
-            if (a.getStatus() != RecordStatus.NOT_STARTED) {
-                sum += a.getCompleteness();
-            }
+            started += a.getStarted();
         }
 
-        return sum / assetList.size();
+        return started;
+    }
+
+    public int getTotal() {
+        int total = 0;
+        for (AssetGroup a : assetList) {
+            total += a.getTotal();
+        }
+
+        return total;
     }
 }

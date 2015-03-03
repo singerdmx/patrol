@@ -23,13 +23,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/route"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="com.mbrite.patrol.app.action.main" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/patrol"
@@ -45,6 +39,16 @@
             android:name=".SettingsActivity"
             android:label="@string/settings"
             android:theme="@android:style/Theme.Light" />
+        <activity
+            android:name=".SummaryActivity"
+            android:label="@string/summary"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="com.mbrite.patrol.app.action.main" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".AssetsActivity"
             android:label="@string/asset"

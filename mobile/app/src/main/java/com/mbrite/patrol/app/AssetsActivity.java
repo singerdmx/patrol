@@ -19,7 +19,6 @@ import com.mbrite.patrol.common.BarcodeNotMatchException;
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
-import com.mbrite.patrol.content.providers.RecordProvider;
 import com.mbrite.patrol.model.AssetGroup;
 import com.mbrite.patrol.model.PointGroup;
 import com.mbrite.patrol.widget.AssetAdapter;
@@ -186,49 +185,12 @@ public class AssetsActivity extends ParentActivity {
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                completeRecord();
+                completeRecord(AssetsActivity.this);
             }
         });
         if (Tracker.INSTANCE.isRecordComplete()) {
             completeButton.performClick();
         }
-    }
-
-    private void completeRecord() {
-        int msgId = R.string.whether_save_record;
-
-        if (!Tracker.INSTANCE.isRecordComplete()) {
-            msgId = R.string.whether_save_incomplete_data;
-        }
-
-        new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                .setMessage(msgId)
-                .setTitle(R.string.complete_patrol)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        try {
-                            Intent intent = new Intent(AssetsActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra(Constants.ROUTES, RecordProvider.INSTANCE.getRoutes());
-                            // completeCurrentRecord will reset record, so run it after getRoutes
-                            RecordProvider.INSTANCE.completeCurrentRecord(AssetsActivity.this);
-                            startActivity(intent);
-                            finish();
-                        } catch (Exception ex) {
-                            Toast.makeText(
-                                    AssetsActivity.this,
-                                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // do nothing
-                    }
-                }).setIcon(R.drawable.question).show();
     }
 
     private void checkBarcode(String barcode)

@@ -18,6 +18,7 @@
     <string name="warning">Warning</string>
     <string name="confirm">Confirm</string>
     <string name="_continue">Continue</string>
+    <string name="summary">Summary</string>
     <string name="_notice">Notice</string>
     <string name="content">Content</string>
     <string name="project">Project</string>
@@ -36,6 +37,14 @@
     <string name="confirm_logout">You will lose call data when logging out. Do you still want to continue?</string>
     <string name="description">Description</string>
     <string name="remove">Remove</string>
+    <string name="network_connected">Network connected</string>
+    <string name="network_not_connected">Network not connected</string>
+    <string name="new_task">New Task</string>
+    <string name="not_uploaded">Not uploaded: %d</string>
+    <string name="current_task">Current Task</string>
+    <string name="no_current_task">No Current Task</string>
+    <string name="continue_task">Continue Task</string>
+    <string name="complete_task">Complete Task</string>
 
     <!-- Strings related to settings -->
     <string name="server">Server</string>
