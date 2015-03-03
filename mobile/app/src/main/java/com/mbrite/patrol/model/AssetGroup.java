@@ -56,13 +56,21 @@ public class AssetGroup extends Asset {
     }
 
     public double getCompleteness() {
-        double started = 0;
+        return (double) getStarted() / getTotal();
+    }
+
+    public int getStarted() {
+        int started = 0;
         for (PointGroup p : pointList) {
             if (p.getStatus() != RecordStatus.NOT_STARTED) {
                 started++;
             }
         }
 
-        return started / pointList.size();
+        return started;
+    }
+
+    public int getTotal() {
+        return pointList.size();
     }
 }

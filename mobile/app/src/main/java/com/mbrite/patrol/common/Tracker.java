@@ -9,6 +9,7 @@ import com.mbrite.patrol.model.Asset;
 import com.mbrite.patrol.model.AssetGroup;
 import com.mbrite.patrol.model.Point;
 import com.mbrite.patrol.model.PointGroup;
+import com.mbrite.patrol.model.Record;
 import com.mbrite.patrol.model.Route;
 import com.mbrite.patrol.model.RouteGroup;
 
@@ -84,6 +85,18 @@ public enum Tracker {
 
     public Map<String, Integer> getPointBarcodeMap() {
         return pointBarcodeMap;
+    }
+
+    public void createRouteGroups(List<Route> totalRoutes, Record record, Activity activity)
+            throws JSONException, IOException {
+        ArrayList<Route> selectedRoutes = new ArrayList<>();
+        for (Route route : totalRoutes) {
+            if (record.routes.indexOf(route.id) != -1) {
+                selectedRoutes.add(route);
+            }
+        }
+
+        Tracker.INSTANCE.createRouteGroups(selectedRoutes, activity);
     }
 
     public void createRouteGroups(ArrayList<Route> selectedRoutes, Activity activity)

@@ -18,6 +18,7 @@
     <string name="warning">警告</string>
     <string name="confirm">确认</string>
     <string name="_continue">继续</string>
+    <string name="summary">小结</string>
     <string name="_notice">提示</string>
     <string name="content">内容</string>
     <string name="project">项目</string>
@@ -35,6 +36,14 @@
     <string name="comma">，</string>
     <string name="description">描述</string>
     <string name="remove">删除</string>
+    <string name="network_connected">网络已连接</string>
+    <string name="network_not_connected">网络未连接</string>
+    <string name="new_task">新任务</string>
+    <string name="not_uploaded">未上传任务： %d</string>
+    <string name="current_task">当前任务</string>
+    <string name="no_current_task">没有当前任务</string>
+    <string name="continue_task">继续任务</string>
+    <string name="complete_task">结束任务</string>
 
     <string name="confirm_logout">登出会造成正在进行巡检的数据丢失！是否登出？</string>
 

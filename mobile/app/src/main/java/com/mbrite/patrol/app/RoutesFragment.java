@@ -50,16 +50,7 @@ public class RoutesFragment extends ParentFragment {
             routes = RouteProvider.INSTANCE.getRoutes(getActivity());
             Record record = RecordProvider.INSTANCE.get(getActivity());
             if (record != null) {
-                ArrayList<Route> selectedRoutes = new ArrayList<>();
-                if (record != null) {
-                    for (Route route : routes) {
-                        if (record.routes.indexOf(route.id) != -1) {
-                            selectedRoutes.add(route);
-                        }
-                    }
-                }
-
-                Tracker.INSTANCE.createRouteGroups(selectedRoutes, getActivity());
+                Tracker.INSTANCE.createRouteGroups(routes, record, getActivity());
                 Intent intent = new Intent(getActivity(), AssetsActivity.class);
                 startActivity(intent);
                 getActivity().finish();

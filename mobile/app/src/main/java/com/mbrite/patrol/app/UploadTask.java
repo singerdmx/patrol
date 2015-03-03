@@ -43,12 +43,10 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
     protected Integer doInBackground(Void... unused) {
         int fails = 0;
         try {
-            List<String> recordFiles = RecordProvider.INSTANCE.getRecordFiles(activity);
+            List<String> recordFiles = RecordProvider.INSTANCE.getRecordsFilesNotUploaded(activity);
             total = 0;
             for (String recordFile : recordFiles) {
-                if (!Constants.RECORD_FILE_NAME.equals(recordFile)) {
-                    fails += uploadFile(recordFile);
-                }
+                fails += uploadFile(recordFile);
             }
 
             return fails;
