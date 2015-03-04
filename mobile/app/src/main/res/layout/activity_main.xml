@@ -63,5 +63,18 @@
             android:orientation="vertical"
             android:text="@string/start_patrol"
             android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/article"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/summary"
+            android:textColor="@color/white"></TextView>
     </LinearLayout>
 </RelativeLayout>

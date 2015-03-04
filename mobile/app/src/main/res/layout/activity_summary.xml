@@ -13,9 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/footer">
+
         <RelativeLayout
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
             <RelativeLayout
                 android:id="@+id/usernameLine"
                 android:layout_width="fill_parent"
@@ -38,12 +40,12 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/icon"
                     android:ellipsize="marquee"
                     android:text="USER"
-                    android:textSize="21sp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="10dp" />
+                    android:textSize="21sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -53,6 +55,7 @@
                 android:layout_below="@id/usernameLine"
                 android:background="@drawable/background_green"
                 android:orientation="vertical">
+
                 <ImageView
                     android:id="@+id/calendarIcon"
                     android:layout_width="60dp"
@@ -130,17 +133,17 @@
 
                 <RelativeLayout
                     android:id="@+id/currentRoutesLine"
-                    android:layout_below="@+id/taskTitleLine"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/taskTitleLine">
 
                     <TextView
                         android:id="@+id/currentRoutes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
                         android:ellipsize="marquee"
                         android:gravity="left"
-                        android:layout_marginLeft="6dp"
                         android:textSize="18sp" />
                 </RelativeLayout>
             </RelativeLayout>
