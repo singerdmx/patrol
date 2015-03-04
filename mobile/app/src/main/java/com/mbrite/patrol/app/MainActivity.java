@@ -52,6 +52,7 @@ public class MainActivity extends ParentActivity {
         setupNotification();
         setupSynchronizeData();
         setupStartPatrol();
+        setupSummaryButton();
         fragment = (RoutesFragment) getFragmentManager().findFragmentById(R.id.routes);
     }
 
@@ -251,6 +252,18 @@ public class MainActivity extends ParentActivity {
             }
 
             ;
+        });
+    }
+
+    private void setupSummaryButton() {
+        TextView start = (TextView) findViewById(R.id.summary);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
     }
 

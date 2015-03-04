@@ -10,5 +10,9 @@
         android:id="@+id/settings"
         android:icon="@drawable/options"
         android:title="@string/settings" />
+    <item
+        android:id="@+id/summary"
+        android:icon="@drawable/article"
+        android:title="@string/summary" />
 
 </menu>

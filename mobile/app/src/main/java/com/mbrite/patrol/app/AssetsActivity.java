@@ -90,6 +90,9 @@ public class AssetsActivity extends ParentActivity {
             case R.id.settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            case R.id.summary:
+                startActivity(new Intent(this, SummaryActivity.class));
+                return true;
             default:
                 return false;
         }
