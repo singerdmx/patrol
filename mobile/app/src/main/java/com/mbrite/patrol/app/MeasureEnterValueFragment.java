@@ -115,7 +115,7 @@ public class MeasureEnterValueFragment extends PointsFragment {
             if (min != null && max != null) {
                 rangeDisplayValue =
                         String.format(
-                                "介于%1$,.2f和%2$,.2f%3$s之间",
+                                "%1$,.2f - %2$,.2f%3$s",
                                 min,
                                 max,
                                 point.getMeasureUnit());
