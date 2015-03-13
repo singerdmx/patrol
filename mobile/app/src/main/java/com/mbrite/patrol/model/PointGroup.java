@@ -10,6 +10,8 @@ public class PointGroup extends Point {
 
     private String image;
 
+    private String audio;
+
     public PointGroup(Point point, AssetGroup assetGroup) {
         super(point.id,
                 point.name,
@@ -49,6 +51,14 @@ public class PointGroup extends Point {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
     }
 
     @Override

@@ -1,16 +1,22 @@
 package com.mbrite.patrol.app;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mbrite.patrol.common.Constants;
+import com.mbrite.patrol.common.AudioMgr;
+import com.mbrite.patrol.common.FileMgr;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.content.providers.RecordProvider;
@@ -18,9 +24,10 @@ import com.mbrite.patrol.model.PointGroup;
 import com.mbrite.patrol.model.PointRecord;
 import com.mbrite.patrol.model.RecordStatus;
 
+import java.util.UUID;
+
 public class PointsFragment extends Fragment {
     private static final String TAG = PointsFragment.class.getSimpleName();
-
     protected PointGroup point;
     protected PointRecord pointRecord;
     protected View view;
@@ -34,11 +41,15 @@ public class PointsFragment extends Fragment {
             R.id.range,
             R.id.select_content,
             R.id.content,
-            R.id.memo
+            R.id.memo,
+            R.id.recordLine
     };
-
     protected String value = "";
     protected int status = RecordStatus.PASS; // Default to Pass
+    private TextView recordBtn;
+    private TextView playRecordingBtn;
+    private TextView deleteRecordingBtn;
+    private AudioMgr audioMgr = new AudioMgr();
 
     protected View renderView(LayoutInflater inflater, int resource) {
         int pointId = Integer.parseInt(this.getTag());
@@ -76,6 +87,9 @@ public class PointsFragment extends Fragment {
             }
 
             setupAddPhotoButton(view);
+            setupRecordButton(view);
+            setupPlayButton(view);
+            setupDeleteRecordingBtn(view);
             setBackground();
         } catch (Exception ex) {
             Utils.showErrorPopupWindow(getActivity(), ex);
@@ -132,6 +146,161 @@ public class PointsFragment extends Fragment {
                 getActivity().finish();
             }
         });
+    }
+
+    private void setupRecordButton(View view) {
+        recordBtn = (TextView) view.findViewById(R.id.record);
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPlaying()) {
+                    return;
+                }
+                if (isRecording()) {
+                    recordBtn.setText(R.string.record_voice);
+                    recordBtn.setCompoundDrawablesWithIntrinsicBounds(null,
+                            getResources().getDrawable(R.drawable.ic_btn_speak_now),
+                            null,
+                            null);
+
+                    audioMgr.stopRecording();
+                    playRecordingBtn.setBackground(getResources().getDrawable(R.drawable.background_green));
+                } else {
+                    recordBtn.setText(R.string.stop);
+                    recordBtn.setCompoundDrawablesWithIntrinsicBounds(null,
+                            getResources().getDrawable(R.drawable.stop_icon),
+                            null,
+                            null);
+
+                    try {
+                        if (point.getAudio() != null) {
+                            FileMgr.delete(getActivity(), point.getAudio());
+                        }
+                        point.setAudio(UUID.randomUUID() + Constants.AUDIO_FILE_SUFFIX);
+                        audioMgr.startRecording(
+                                FileMgr.getFullPath(getActivity(), point.getAudio()));
+                    } catch (Exception ex) {
+                        Utils.showErrorPopupWindow(getActivity(), ex);
+                    }
+                }
+            }
+        };
+        recordBtn.setOnClickListener(clickListener);
+    }
+
+    private void setupPlayButton(View view) {
+        playRecordingBtn = (TextView) view.findViewById(R.id.play);
+        if (point.getAudio() != null ||
+                (pointRecord != null && pointRecord.audio != null)) {
+            if (point.getAudio() == null) {
+                point.setAudio(pointRecord.audio);
+            }
+            playRecordingBtn.setBackground(getResources().getDrawable(R.drawable.background_green));
+        } else {
+            playRecordingBtn.setBackground(getResources().getDrawable(R.drawable.background_cyan));
+        }
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isRecording()) {
+                    return;
+                }
+                if (isPlaying()) {
+                    setPlayButtonOff();
+                    audioMgr.stopPlaying();
+                } else {
+                    if (point.getAudio() == null) {
+                        new AlertDialog.Builder(getActivity(),
+                                R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                                .setMessage(R.string.no_recording)
+                                .setTitle(R.string._notice)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.confirm,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // do nothing
+                                            }
+                                        }
+                                ).setIcon(android.R.drawable.ic_dialog_info).show();
+                        return;
+                    }
+
+                    playRecordingBtn.setText(R.string.stop);
+                    playRecordingBtn.setCompoundDrawablesWithIntrinsicBounds(null,
+                            getResources().getDrawable(R.drawable.stop_icon),
+                            null,
+                            null);
+
+                    try {
+                        MediaPlayer.OnCompletionListener listener =
+                                new MediaPlayer.OnCompletionListener() {
+                                    @Override
+                                    public void onCompletion(MediaPlayer mp) {
+                                        setPlayButtonOff();
+                                    }
+                                };
+                        audioMgr.startPlaying(
+                                FileMgr.getFullPath(getActivity(), point.getAudio()), listener);
+                    } catch (Exception ex) {
+                        Utils.showErrorPopupWindow(getActivity(), ex);
+                    }
+                }
+            }
+        };
+        playRecordingBtn.setOnClickListener(clickListener);
+    }
+
+    private void setupDeleteRecordingBtn(View view) {
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isRecording() || isPlaying()) {
+                    return;
+                }
+                try {
+                    playRecordingBtn.setBackground(getResources().getDrawable(R.drawable.background_cyan));
+
+                    if (point.getAudio() != null) {
+                        FileMgr.delete(getActivity(), point.getAudio());
+                        RecordProvider.INSTANCE.removePointRecordAudio(
+                                getActivity(), point.id);
+                        point.setAudio(null);
+
+                        Toast.makeText(
+                                getActivity(),
+                                R.string.delete_recording_success,
+                                Toast.LENGTH_LONG)
+                                .show();
+                    } else {
+                        Toast.makeText(
+                                getActivity(),
+                                R.string.no_recording,
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                } catch (Exception ex) {
+                    Utils.showErrorPopupWindow(getActivity(), ex);
+                }
+            }
+        };
+        deleteRecordingBtn = (TextView) view.findViewById(R.id.delete_recording);
+        deleteRecordingBtn.setOnClickListener(clickListener);
+    }
+
+    private boolean isRecording() {
+        return getActivity().getString(R.string.stop).equals(recordBtn.getText());
+    }
+
+    private boolean isPlaying() {
+        return getActivity().getString(R.string.stop).equals(playRecordingBtn.getText());
+    }
+
+    private void setPlayButtonOff() {
+        playRecordingBtn.setText(R.string.play);
+        playRecordingBtn.setCompoundDrawablesWithIntrinsicBounds(null,
+                getResources().getDrawable(R.drawable.ic_media_play),
+                null,
+                null);
     }
 
     private void setBackground() {

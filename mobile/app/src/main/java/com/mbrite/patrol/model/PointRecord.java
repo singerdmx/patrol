@@ -11,6 +11,7 @@ public class PointRecord {
     public int asset_id;
     public String memo;
     public String image;
+    public String audio;
 
     public PointRecord(String result,
                        int status,
@@ -18,7 +19,8 @@ public class PointRecord {
                        int id,
                        Set<Integer> routes,
                        int asset_id,
-                       String image) {
+                       String image,
+                       String audio) {
         this.result = result;
         this.status = status;
         this.memo = memo;
@@ -27,5 +29,6 @@ public class PointRecord {
         this.routes = routes;
         this.asset_id = asset_id;
         this.image = image;
+        this.audio = audio;
     }
 }

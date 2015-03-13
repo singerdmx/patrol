@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -90,8 +92,8 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                 }
             });
             try {
-                // clear all record files (should be non) and image files
-                RecordProvider.INSTANCE.removeSavedRecordAndImageFiles(activity);
+                // clear all record files (should be non) and image/audio files
+                RecordProvider.INSTANCE.removeSavedRecordAndMediaFiles(activity);
             } catch (final Exception ex) {
                 activity.runOnUiThread(new Runnable() {
                     public void run() {
@@ -111,6 +113,56 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                 ).show();
             }
         });
+    }
+
+    private int uploadAudiosInRecord(Record record, String file) throws IOException {
+        try {
+            for (final PointRecord pointRecord : record.points) {
+                if (pointRecord.audio == null ||
+                        !pointRecord.audio.endsWith(Constants.AUDIO_FILE_SUFFIX)) {
+                    // no audio or audio is already uploaded (audio is set to id in DB)
+                    continue;
+                }
+                if (!FileMgr.exists(activity, pointRecord.audio)) {
+                    throw new IllegalStateException(
+                            String.format("Audio %s does not exist", pointRecord.audio));
+                }
+                String audioFilePath = FileMgr.getFullPath(activity, pointRecord.audio);
+                FileInputStream in = new FileInputStream(new File(audioFilePath));
+                MultipartEntity entity = new MultipartEntity();
+                entity.addPart("file", pointRecord.audio, in);
+                HttpResponse response =
+                        RestClient.INSTANCE.post(activity, "file", entity);
+                int statusCode = response.getStatusLine().getStatusCode();
+                if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
+                    activity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(activity,
+                                    "Fail to upload image " + pointRecord.audio,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return statusCode;
+                }
+
+                FileMgr.delete(activity, pointRecord.audio);
+                String responseContent = Utils.convertStreamToString(response.getEntity().getContent());
+                String audioId = new JSONObject(responseContent).getString("id");
+                pointRecord.audio = audioId;
+                // save audio field change
+                RecordProvider.INSTANCE.save(activity, file, record);
+            }
+        } catch (final Exception ex) {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    Utils.showErrorPopupWindow(activity, ex);
+                }
+            });
+
+            return -1;
+        }
+
+        return Constants.STATUS_CODE_CREATED;
     }
 
     private int uploadImagesInRecord(Record record, String file) throws IOException {
@@ -183,7 +235,11 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
                 return 0;
             }
             total++;
-            int statusCode = uploadImagesInRecord(record, file);
+            int statusCode = uploadAudiosInRecord(record, file);
+            if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
+                throw new IllegalStateException();
+            }
+            statusCode = uploadImagesInRecord(record, file);
             if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
                 throw new IllegalStateException();
             }
