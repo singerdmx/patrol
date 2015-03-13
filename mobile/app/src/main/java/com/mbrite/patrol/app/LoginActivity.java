@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.mbrite.patrol.common.Constants;
 import com.mbrite.patrol.common.FileMgr;
+import com.mbrite.patrol.common.Settings;
 import com.mbrite.patrol.common.Tracker;
 import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.connection.RestClient;
@@ -264,6 +265,11 @@ public class LoginActivity extends Activity {
 
     private void setupOffLineButton() {
         TextView offLineButton = (TextView) findViewById(R.id.off_line_button);
+
+        if (Settings.DISABLE_OFFLINE_MODE) {
+            offLineButton.setVisibility(View.INVISIBLE);
+            return;
+        }
         offLineButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -273,6 +279,24 @@ public class LoginActivity extends Activity {
     }
 
     private void attemptOffline(String message) {
+        if (Settings.DISABLE_OFFLINE_MODE) {
+            if (StringUtils.isNoneBlank(message)) {
+                new AlertDialog.Builder(this,
+                        R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                        .setMessage(message)
+                        .setTitle(R.string.error)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.confirm,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // do nothing
+                                    }
+                                }
+                        ).setIcon(R.drawable.error).show();
+            }
+            return;
+        }
+
         Tracker.INSTANCE.offLine = false;
         AlertDialog.Builder builder = (new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
                 .setTitle(R.string.use_offline_mode)
