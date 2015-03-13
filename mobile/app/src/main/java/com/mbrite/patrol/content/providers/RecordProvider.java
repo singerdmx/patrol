@@ -35,13 +35,14 @@ public enum RecordProvider {
         Tracker.INSTANCE.reset();
     }
 
-    public void removeSavedRecordAndImageFiles(Activity activity) throws IOException {
+    public void removeSavedRecordAndMediaFiles(Activity activity) throws IOException {
         if (FileMgr.exists(activity, Constants.RECORD_FILE_NAME)) {
             return;
         }
         for (String file : FileMgr.fileList(activity)) {
             if (file.startsWith(Constants.RECORD_FILE_NAME) ||
-                    file.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
+                    file.endsWith(Constants.IMAGE_FILE_SUFFIX) ||
+                    file.endsWith(Constants.AUDIO_FILE_SUFFIX)) {
                 FileMgr.delete(activity, file);
             }
         }
@@ -50,7 +51,8 @@ public enum RecordProvider {
     public void resetAll(Activity activity) throws IOException {
         for (String file : FileMgr.fileList(activity)) {
             if (file.startsWith(Constants.RECORD_FILE_NAME) ||
-                    file.endsWith(Constants.IMAGE_FILE_SUFFIX)) {
+                    file.endsWith(Constants.IMAGE_FILE_SUFFIX) ||
+                    file.endsWith(Constants.AUDIO_FILE_SUFFIX)) {
                 FileMgr.delete(activity, file);
             }
         }
@@ -196,13 +198,24 @@ public enum RecordProvider {
         save(activity);
     }
 
+    public void removePointRecordAudio(Activity activity, int id)
+            throws IOException {
+        PointRecord pointRecord = getPointRecord(id);
+        if (pointRecord != null) {
+            pointRecord.audio = null;
+        }
+
+        save(activity);
+    }
+
     private PointRecord convertToPointRecord(PointGroup pointGroup, String result, int status, String memo) {
         Set<Integer> routes = new TreeSet<>();
         for (PointGroup p : Tracker.INSTANCE.getPointDuplicates().get(pointGroup.id)) {
             routes.add(p.getRouteId());
         }
         return new PointRecord(result, status, memo,
-                pointGroup.id, routes, pointGroup.getAssetId(), pointGroup.getImage());
+                pointGroup.id, routes, pointGroup.getAssetId(),
+                pointGroup.getImage(), pointGroup.getAudio());
     }
 
     /**

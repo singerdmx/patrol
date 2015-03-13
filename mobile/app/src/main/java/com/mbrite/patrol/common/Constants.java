@@ -102,5 +102,6 @@ public class Constants {
     public static final Set<Integer> CATEGORY_SCAN_ONLY = ImmutableSortedSet.of(10);
 
     public static final String IMAGE_FILE_SUFFIX = ".img.jpg";
+    public static final String AUDIO_FILE_SUFFIX = ".audio.3gp";
 
 }

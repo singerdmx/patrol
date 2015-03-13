@@ -120,7 +120,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/pointCodeLine"
         android:background="@color/FloralWhite"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/label"
@@ -150,7 +151,7 @@
         android:layout_below="@+id/content"
         android:background="@color/FloralWhite"
         android:orientation="horizontal"
-        android:paddingBottom="15dp">
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/memo_label"
@@ -199,4 +200,55 @@
             android:singleLine="true" />
 
     </RelativeLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/recordLine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/memo"
+        android:background="@color/FloralWhite"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/record"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/ic_btn_speak_now"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/record_voice"
+            android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/ic_media_play"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/play"
+            android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:id="@+id/delete_recording"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:background="@drawable/background_cyan"
+            android:clickable="true"
+            android:drawableTop="@drawable/ic_menu_delete"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/delete_recording"
+            android:textColor="@color/white"></TextView>
+
+    </LinearLayout>
 </RelativeLayout>
