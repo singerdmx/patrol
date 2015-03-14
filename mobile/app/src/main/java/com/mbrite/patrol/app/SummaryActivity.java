@@ -67,7 +67,7 @@ public class SummaryActivity extends ParentActivity {
 
     private void setupUsername() {
         TextView username = (TextView) findViewById(R.id.username);
-        username.setText(Utils.getSavedUsernameAndPassword(this)[0]);
+        username.setText(Utils.getUserName(this));
     }
 
     private void setupStatus() {

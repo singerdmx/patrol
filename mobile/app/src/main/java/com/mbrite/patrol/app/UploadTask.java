@@ -243,7 +243,7 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
             if (!Constants.STATUS_CODE_UPLOAD_SUCCESS.contains(statusCode)) {
                 throw new IllegalStateException();
             }
-            record.setSubmitter(Utils.getSavedUsernameAndPassword(activity)[0]);
+            record.setSubmitter(Utils.getSavedUserEmailAndPassword(activity)[0]);
             recordContent = RecordProvider.INSTANCE.toString(record);
             HttpResponse response = RestClient.INSTANCE.post(activity, Constants.RESULTS, recordContent, Constants.CONTENT_TYPE_JSON);
             statusCode = response.getStatusLine().getStatusCode();

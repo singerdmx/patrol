@@ -11,12 +11,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,17 +62,6 @@ public class LoginActivity extends Activity {
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
-
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         mSignInButton = (TextView) findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(new OnClickListener() {
@@ -170,7 +157,7 @@ public class LoginActivity extends Activity {
     }
 
     private void signInWithSavedUsernameAndPassword() {
-        String[] savedUsernameAndPassword = Utils.getSavedUsernameAndPassword(this);
+        String[] savedUsernameAndPassword = Utils.getSavedUserEmailAndPassword(this);
         if (savedUsernameAndPassword != null && !Constants.OFFLINE.equals(savedUsernameAndPassword[0])) {
             mUsernameView.setText(savedUsernameAndPassword[0]);
             mPasswordView.setText(savedUsernameAndPassword[1]);
@@ -333,19 +320,19 @@ public class LoginActivity extends Activity {
      */
     private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mUsername;
+        private final String mUserEmail;
         private final String mPassword;
         private String errorMsg;
 
         UserLoginTask(String username, String password) {
-            mUsername = username;
+            mUserEmail = username;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                if (!Utils.isValidUsernameAndPassword(LoginActivity.this, mUsername, mPassword)) {
+                if (!Utils.isValidUserEmailAndPassword(LoginActivity.this, mUserEmail, mPassword)) {
                     errorMsg = getString(R.string.error_incorrect_password);
                     return false;
                 }
@@ -377,7 +364,7 @@ public class LoginActivity extends Activity {
 
             if (success) {
                 try {
-                    Utils.saveUsernameAndPassword(LoginActivity.this, mUsername, mPassword);
+                    Utils.saveUsernameAndPassword(LoginActivity.this, mUserEmail, mPassword);
                     Utils.updateDataFiles(LoginActivity.this);
                     new UploadTask(LoginActivity.this).execute();
                     startActivity(new Intent(Constants.MAIN_ACTIVITY));

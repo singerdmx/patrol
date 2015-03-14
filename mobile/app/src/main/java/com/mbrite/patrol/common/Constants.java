@@ -25,6 +25,8 @@ public class Constants {
 
     public static final String ID = "id";
     public static final String DESCRIPTION = "description";
+    public static final String USER_EMAIL = "userEmail";
+    public static final String USER_ID = "userId";
     public static final String USER_NAME = "username";
     public static final String PASSWORD = "password";
     public static final String MAIN_ACTIVITY = "com.mbrite.patrol.app.action.main";
@@ -48,8 +50,6 @@ public class Constants {
     public static final String COOKIES_HEADER = "Set-Cookie";
     public static final String COOKIE = "Cookie";
     public static final String X_CSRF_TOKEN = "X-CSRF-Token";
-    public static final String USER_EMAIL = "user[email]";
-    public static final String USER_PASSWORD = "user[password]";
 
     // Network related constants
     public static final HttpParams HTTP_PARAMS;
