@@ -74,7 +74,7 @@ public class Utils {
         return cm.getActiveNetworkInfo() != null;
     }
 
-    public static boolean isValidUsernameAndPassword(Activity activity, String username, String password)
+    public static boolean isValidUserEmailAndPassword(Activity activity, String userEmail, String password)
             throws URISyntaxException, JSONException, IOException {
         if (StringUtils.isBlank(password)) {
             return false;
@@ -82,16 +82,32 @@ public class Utils {
 
         RestClient.INSTANCE.getAuthenticityToken(activity);
         List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>(3);
-        payload.add(new BasicNameValuePair(Constants.USER_EMAIL, username));
-        payload.add(new BasicNameValuePair(Constants.USER_PASSWORD, password));
+        payload.add(new BasicNameValuePair("user[email]", userEmail));
+        payload.add(new BasicNameValuePair("user[password]", password));
         payload.add(new BasicNameValuePair("user[remember_me]", "1"));
         HttpResponse response = RestClient.INSTANCE.post(activity, Constants.LOGIN + ".json", payload);
         int statusCode = response.getStatusLine().getStatusCode();
         switch (statusCode) {
             case Constants.STATUS_CODE_OK:
-                return true;
             case Constants.STATUS_CODE_CREATED:
-                return true;
+                String responseContent =
+                        Utils.convertStreamToString(response.getEntity().getContent());
+                try {
+                    JSONObject content = new JSONObject(responseContent);
+                    if (!userEmail.equals(content.getString("email"))) {
+                        throw new RuntimeException("Incorrect user email " +
+                                content.getString("email"));
+                    }
+                    Utils.saveUserIdAndName(activity,
+                            content.getString("id"), content.getString("name"));
+                    return true;
+                } catch (Exception e) {
+                    String errorMsg =
+                            String.format(
+                                    activity.getString(R.string.error_network_connection_failure),
+                                    RestClient.INSTANCE.getSite());
+                    throw new IllegalStateException(errorMsg);
+                }
             case Constants.STATUS_CODE_UNAUTHORIZED:
                 return false;
             default:
@@ -101,20 +117,26 @@ public class Utils {
     }
 
     public static void saveUsernameAndPassword(Activity activity, String username, String password) {
-        SharedPreferences sharedPref = activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = activity.getSharedPreferences(
+                Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor
-                .putString(Constants.USER_NAME, username)
-                .putString(Constants.PASSWORD, password);
+        editor.putString(Constants.USER_EMAIL, username).putString(Constants.PASSWORD, password);
+        editor.commit();
+    }
+
+    public static void saveUserIdAndName(Activity activity, String userId, String userName) {
+        SharedPreferences sharedPref = activity.getSharedPreferences(
+                Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Constants.USER_ID, userId).putString(Constants.USER_NAME, userName);
         editor.commit();
     }
 
     public static void clearUsernameAndPassword(Activity activity) {
-        SharedPreferences sharedPref = activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences sharedPref =
+                activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor
-                .remove(Constants.USER_NAME)
-                .remove(Constants.PASSWORD);
+        editor.remove(Constants.USER_EMAIL).remove(Constants.PASSWORD);
         editor.commit();
     }
 
@@ -178,18 +200,25 @@ public class Utils {
     }
 
     /**
-     * @return String array of two elements representing username and password.
-     * If either username or password is not found, null is returned.
+     * @return String array of two elements representing userEmail and password.
+     * If either userEmail or password is not found, null is returned.
      */
-    public static String[] getSavedUsernameAndPassword(Activity activity) {
-        SharedPreferences sharedPref = activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
-        String username = sharedPref.getString(Constants.USER_NAME, null);
+    public static String[] getSavedUserEmailAndPassword(Activity activity) {
+        SharedPreferences sharedPref =
+                activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+        String userEmail = sharedPref.getString(Constants.USER_EMAIL, null);
         String password = sharedPref.getString(Constants.PASSWORD, null);
-        if (username == null || password == null) {
+        if (userEmail == null || password == null) {
             return null;
         }
 
-        return new String[]{username, password};
+        return new String[]{userEmail, password};
+    }
+
+    public static String getUserName(Activity activity) {
+        SharedPreferences sharedPref =
+                activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+        return sharedPref.getString(Constants.USER_NAME, null);
     }
 
     public static boolean getContinuousScanMode(Activity activity) {

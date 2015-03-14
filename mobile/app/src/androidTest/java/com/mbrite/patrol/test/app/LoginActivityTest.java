@@ -73,7 +73,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
             return;
         }
 
-        String[] credential = Utils.getSavedUsernameAndPassword(activity);
+        String[] credential = Utils.getSavedUserEmailAndPassword(activity);
         Assert.assertArrayEquals(credential, new String[]{test_username, test_password});
         // Close the activity
         activity.finish();

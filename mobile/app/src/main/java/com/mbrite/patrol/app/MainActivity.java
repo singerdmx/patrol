@@ -113,7 +113,7 @@ public class MainActivity extends ParentActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Tracker.INSTANCE.offLine || Constants.OFFLINE.equals(Utils.getSavedUsernameAndPassword(MainActivity.this)[0])) {
+                if (Tracker.INSTANCE.offLine || Constants.OFFLINE.equals(Utils.getSavedUserEmailAndPassword(MainActivity.this)[0])) {
                     new AlertDialog.Builder(MainActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
                             .setMessage(R.string.not_logged_in)
                             .setTitle(R.string._notice)
@@ -131,10 +131,14 @@ public class MainActivity extends ParentActivity {
                     return;
                 }
                 try {
-                    String[] usernameAndPassword = Utils.getSavedUsernameAndPassword(MainActivity.this);
+                    String[] userEmailAndPassword =
+                            Utils.getSavedUserEmailAndPassword(MainActivity.this);
                     // Log in case token is expired
-                    if (usernameAndPassword == null ||
-                            !Utils.isValidUsernameAndPassword(MainActivity.this, usernameAndPassword[0], usernameAndPassword[1])) {
+                    if (userEmailAndPassword == null ||
+                            !Utils.isValidUserEmailAndPassword(
+                                    MainActivity.this,
+                                    userEmailAndPassword[0],
+                                    userEmailAndPassword[1])) {
                         Toast.makeText(
                                 MainActivity.this,
                                 R.string.error_incorrect_password,
@@ -225,7 +229,7 @@ public class MainActivity extends ParentActivity {
                                 try {
                                     Record record = RecordProvider.INSTANCE.get(MainActivity.this);
                                     if (record == null) {
-                                        RecordProvider.INSTANCE.create(MainActivity.this, Utils.getSavedUsernameAndPassword(MainActivity.this)[0]);
+                                        RecordProvider.INSTANCE.create(MainActivity.this, Utils.getSavedUserEmailAndPassword(MainActivity.this)[0]);
                                     }
                                     RecordProvider.INSTANCE.setRoutes(selectedRoutes, MainActivity.this);
                                     Tracker.INSTANCE.createRouteGroups(selectedRoutes, MainActivity.this);
@@ -275,7 +279,7 @@ public class MainActivity extends ParentActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             if (Tracker.INSTANCE.offLine ||
-                    Constants.OFFLINE.equals(Utils.getSavedUsernameAndPassword(MainActivity.this)[0]) ||
+                    Constants.OFFLINE.equals(Utils.getSavedUserEmailAndPassword(MainActivity.this)[0]) ||
                     !Utils.isNetworkConnected(MainActivity.this)) {
                 return false;
             }
