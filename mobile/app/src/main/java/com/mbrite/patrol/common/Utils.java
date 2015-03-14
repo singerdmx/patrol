@@ -116,11 +116,11 @@ public class Utils {
         }
     }
 
-    public static void saveUsernameAndPassword(Activity activity, String username, String password) {
+    public static void saveUserEmailAndPassword(Activity activity, String userEmail, String password) {
         SharedPreferences sharedPref = activity.getSharedPreferences(
                 Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(Constants.USER_EMAIL, username).putString(Constants.PASSWORD, password);
+        editor.putString(Constants.USER_EMAIL, userEmail).putString(Constants.PASSWORD, password);
         editor.commit();
     }
 
@@ -132,11 +132,12 @@ public class Utils {
         editor.commit();
     }
 
-    public static void clearUsernameAndPassword(Activity activity) {
+    public static void clearUserEmailAndPassword(Activity activity) {
         SharedPreferences sharedPref =
                 activity.getSharedPreferences(Constants.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove(Constants.USER_EMAIL).remove(Constants.PASSWORD);
+        editor.remove(Constants.USER_EMAIL).remove(Constants.PASSWORD)
+                .remove(Constants.USER_NAME).remove(Constants.USER_ID);
         editor.commit();
     }
 
@@ -544,7 +545,7 @@ public class Utils {
     private static void logoutUser(Activity activity)
             throws IOException {
         RecordProvider.INSTANCE.completeCurrentRecord(activity);
-        Utils.clearUsernameAndPassword(activity);
+        Utils.clearUserEmailAndPassword(activity);
         RestClient.INSTANCE.clearSession();
         Intent intent = new Intent(activity, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

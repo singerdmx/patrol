@@ -291,7 +291,7 @@ public class LoginActivity extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
                             Tracker.INSTANCE.offLine = true;
-                            Utils.saveUsernameAndPassword(LoginActivity.this, Constants.OFFLINE, "");
+                            Utils.saveUserEmailAndPassword(LoginActivity.this, Constants.OFFLINE, "");
                             startActivity(new Intent(Constants.MAIN_ACTIVITY));
                             finish();
                         } catch (Exception ex) {
@@ -364,7 +364,7 @@ public class LoginActivity extends Activity {
 
             if (success) {
                 try {
-                    Utils.saveUsernameAndPassword(LoginActivity.this, mUserEmail, mPassword);
+                    Utils.saveUserEmailAndPassword(LoginActivity.this, mUserEmail, mPassword);
                     Utils.updateDataFiles(LoginActivity.this);
                     new UploadTask(LoginActivity.this).execute();
                     startActivity(new Intent(Constants.MAIN_ACTIVITY));
