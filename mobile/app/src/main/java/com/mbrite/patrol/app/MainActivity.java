@@ -61,6 +61,10 @@ public class MainActivity extends ParentActivity {
         super.onResume();
         if (RecordProvider.INSTANCE.isRecordAvailableForUpload(this)) {
             refresh.setBackground(getResources().getDrawable(R.drawable.background_darkblue));
+            refresh.setCompoundDrawablesWithIntrinsicBounds(null,
+                    getResources().getDrawable(R.drawable.ic_menu_upload),
+                    null,
+                    null);
         }
         new UserNotificationTask().execute((Void) null);
     }
@@ -190,6 +194,10 @@ public class MainActivity extends ParentActivity {
         }
         new UploadTask(MainActivity.this).execute();
         refresh.setBackground(getResources().getDrawable(R.drawable.background_cyan));
+        refresh.setCompoundDrawablesWithIntrinsicBounds(null,
+                getResources().getDrawable(android.R.drawable.ic_menu_upload),
+                null,
+                null);
 
     }
 
