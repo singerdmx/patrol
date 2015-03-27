@@ -45,7 +45,7 @@
             android:layout_weight=".33"
             android:background="@drawable/background_cyan"
             android:clickable="true"
-            android:drawableTop="@drawable/refresh"
+            android:drawableTop="@android:drawable/ic_menu_upload"
             android:gravity="center"
             android:orientation="vertical"
             android:text="@string/synchronize_data"
