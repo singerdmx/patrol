@@ -5,12 +5,16 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +32,7 @@ import java.util.UUID;
 
 public class PointsFragment extends Fragment {
     private static final String TAG = PointsFragment.class.getSimpleName();
+    private static final int THUMB_SIZE = 256;
     protected PointGroup point;
     protected PointRecord pointRecord;
     protected View view;
@@ -42,6 +47,7 @@ public class PointsFragment extends Fragment {
             R.id.select_content,
             R.id.content,
             R.id.memo,
+            R.id.imageLine,
             R.id.recordLine
     };
     protected String value = "";
@@ -109,6 +115,7 @@ public class PointsFragment extends Fragment {
     }
 
     private void setupAddPhotoButton(View view) {
+        ImageView image = (ImageView) view.findViewById(R.id.image);
         Button button = (Button) view.findViewById(R.id.add_memo_photo);
         if (point.getImage() != null ||
                 (pointRecord != null && pointRecord.image != null)) {
@@ -117,9 +124,14 @@ public class PointsFragment extends Fragment {
             }
             button.setBackground(getResources().getDrawable(R.drawable.background_green));
             button.setText(R.string.change_photo);
+            String imagePath = FileMgr.getFullPath(getActivity(), point.getImage());
+            Bitmap bitmap = ThumbnailUtils.extractThumbnail(
+                    BitmapFactory.decodeFile(imagePath), THUMB_SIZE, THUMB_SIZE);
+            image.setImageBitmap(bitmap);
         } else {
             button.setBackground(getResources().getDrawable(R.drawable.background_cyan));
             button.setText(R.string.add_photo);
+            image.setImageBitmap(null);
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
