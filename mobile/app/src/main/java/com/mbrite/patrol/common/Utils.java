@@ -544,6 +544,7 @@ public class Utils {
 
     private static void logoutUser(Activity activity)
             throws IOException {
+        Tracker.INSTANCE.lastLoginTimestamp = null;
         RecordProvider.INSTANCE.completeCurrentRecord(activity);
         Utils.clearUserEmailAndPassword(activity);
         RestClient.INSTANCE.clearSession();
