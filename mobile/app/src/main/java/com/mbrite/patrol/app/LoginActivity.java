@@ -59,8 +59,7 @@ public class LoginActivity extends Activity {
         if (Tracker.INSTANCE.lastLoginTimestamp != null &&
                 System.currentTimeMillis() - Tracker.INSTANCE.lastLoginTimestamp < 60000) {
             Tracker.INSTANCE.lastLoginTimestamp = null;
-            startActivity(new Intent(Constants.MAIN_ACTIVITY));
-            finish();
+            goToMainActivity();
             return;
         }
         setContentView(R.layout.activity_login);
@@ -87,8 +86,7 @@ public class LoginActivity extends Activity {
             Record record = RecordProvider.INSTANCE.get(this);
             if (Tracker.INSTANCE.offLine || record != null) {
                 // If there is open record in progress, skip login
-                startActivity(new Intent(Constants.MAIN_ACTIVITY));
-                finish();
+                goToMainActivity();
                 return;
             }
         } catch (Exception ex) {
@@ -128,6 +126,26 @@ public class LoginActivity extends Activity {
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                    .setTitle(R.string.quit_app)
+                    .setMessage(R.string.confirm_quit_app)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            LoginActivity.super.onBackPressed();
+                        }
+                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Do nothing.
+                }
+            }).setIcon(android.R.drawable.ic_dialog_alert).show();
+            return;
+        }
+        super.onBackPressed();
     }
 
     private boolean isSiteURLEmpty() {
@@ -171,6 +189,13 @@ public class LoginActivity extends Activity {
             mPasswordView.setText(savedUsernameAndPassword[1]);
             mSignInButton.performClick();
         }
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(Constants.MAIN_ACTIVITY);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     /**
@@ -300,8 +325,7 @@ public class LoginActivity extends Activity {
                         try {
                             Tracker.INSTANCE.offLine = true;
                             Utils.saveUserEmailAndPassword(LoginActivity.this, Constants.OFFLINE, "");
-                            startActivity(new Intent(Constants.MAIN_ACTIVITY));
-                            finish();
+                            goToMainActivity();
                         } catch (Exception ex) {
                             Toast.makeText(
                                     LoginActivity.this,
@@ -376,8 +400,7 @@ public class LoginActivity extends Activity {
                     Utils.updateDataFiles(LoginActivity.this);
                     new UploadTask(LoginActivity.this).execute();
                     Tracker.INSTANCE.lastLoginTimestamp = System.currentTimeMillis();
-                    startActivity(new Intent(Constants.MAIN_ACTIVITY));
-                    LoginActivity.this.finish();
+                    goToMainActivity();
                 } catch (Exception ex) {
                     errorMsg = String.format(getString(R.string.error_of), ex.getLocalizedMessage());
                 }

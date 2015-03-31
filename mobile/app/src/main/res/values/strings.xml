@@ -74,6 +74,8 @@
 
     <!-- Strings related to logout -->
     <string name="logout_warning">Logout will save current data and you will be unable to change it</string>
+    <string name="quit_app">Quit app</string>
+    <string name="confirm_quit_app">are you sure to quit app?</string>
 
     <!-- Strings related to notification -->
     <string name="back_to_route_list">Back to Routes</string>
