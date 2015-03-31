@@ -73,7 +73,7 @@ public class ParentActivity extends Activity {
     // We will start from LoginActivity if so
     private void checkRecentActiveTime() {
         if (Tracker.INSTANCE == null || Tracker.INSTANCE.recentActiveTimestamp == null ||
-                (System.currentTimeMillis() - Tracker.INSTANCE.recentActiveTimestamp) > 10 * 60 * 1000) {
+                (System.currentTimeMillis() - Tracker.INSTANCE.recentActiveTimestamp) > 600000) {
             Tracker.INSTANCE.recentActiveTimestamp = System.currentTimeMillis();
             startActivity(new Intent(this, LoginActivity.class));
         }

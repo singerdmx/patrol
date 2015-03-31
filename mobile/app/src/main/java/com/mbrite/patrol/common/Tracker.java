@@ -32,6 +32,8 @@ public enum Tracker {
 
     public boolean offLine;
 
+    public Long lastLoginTimestamp = null;
+
     public Long recentActiveTimestamp = null;
 
     /**
