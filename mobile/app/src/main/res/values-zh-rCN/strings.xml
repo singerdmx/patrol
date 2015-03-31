@@ -47,6 +47,8 @@
     <string name="complete_task">结束任务</string>
 
     <string name="confirm_logout">登出会造成正在进行巡检的数据丢失！是否登出？</string>
+    <string name="quit_app">退出应用程序</string>
+    <string name="confirm_quit_app">确定要退出应用程序？</string>
 
     <!-- Strings related to settings -->
     <string name="server">服务器</string>

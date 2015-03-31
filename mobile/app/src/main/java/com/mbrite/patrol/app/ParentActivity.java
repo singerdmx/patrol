@@ -30,6 +30,26 @@ public class ParentActivity extends Activity {
         checkRecentActiveTime();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            new AlertDialog.Builder(this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                    .setTitle(R.string.quit_app)
+                    .setMessage(R.string.confirm_quit_app)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            ParentActivity.super.onBackPressed();
+                        }
+                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Do nothing.
+                }
+            }).setIcon(android.R.drawable.ic_dialog_alert).show();
+            return;
+        }
+        super.onBackPressed();
+    }
+
     protected void setWindowTitle(int titleResId) {
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
         TextView headerTitle = (TextView) findViewById(R.id.headerTitle);
