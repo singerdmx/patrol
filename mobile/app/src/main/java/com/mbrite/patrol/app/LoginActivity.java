@@ -60,6 +60,7 @@ public class LoginActivity extends Activity {
                 System.currentTimeMillis() - Tracker.INSTANCE.lastLoginTimestamp < 60000) {
             Tracker.INSTANCE.lastLoginTimestamp = null;
             startActivity(new Intent(Constants.MAIN_ACTIVITY));
+            finish();
             return;
         }
         setContentView(R.layout.activity_login);
