@@ -55,6 +55,13 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 //        Utils.setDefaultLocale(getBaseContext());
         super.onCreate(savedInstanceState);
+
+        if (Tracker.INSTANCE.lastLoginTimestamp != null &&
+                System.currentTimeMillis() - Tracker.INSTANCE.lastLoginTimestamp < 60000) {
+            Tracker.INSTANCE.lastLoginTimestamp = null;
+            startActivity(new Intent(Constants.MAIN_ACTIVITY));
+            return;
+        }
         setContentView(R.layout.activity_login);
 
         setupOffLineButton();
@@ -367,6 +374,7 @@ public class LoginActivity extends Activity {
                     Utils.saveUserEmailAndPassword(LoginActivity.this, mUserEmail, mPassword);
                     Utils.updateDataFiles(LoginActivity.this);
                     new UploadTask(LoginActivity.this).execute();
+                    Tracker.INSTANCE.lastLoginTimestamp = System.currentTimeMillis();
                     startActivity(new Intent(Constants.MAIN_ACTIVITY));
                     LoginActivity.this.finish();
                 } catch (Exception ex) {
