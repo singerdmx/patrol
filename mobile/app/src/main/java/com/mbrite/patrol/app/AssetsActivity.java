@@ -91,7 +91,9 @@ public class AssetsActivity extends ParentActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case R.id.summary:
-                startActivity(new Intent(this, SummaryActivity.class));
+                Intent intent = new Intent(this, SummaryActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 return true;
             default:
                 return false;

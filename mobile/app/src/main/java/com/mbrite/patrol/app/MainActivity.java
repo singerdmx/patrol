@@ -273,6 +273,7 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             }

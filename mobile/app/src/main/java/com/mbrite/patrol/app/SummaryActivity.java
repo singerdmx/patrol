@@ -124,6 +124,7 @@ public class SummaryActivity extends ParentActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SummaryActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
