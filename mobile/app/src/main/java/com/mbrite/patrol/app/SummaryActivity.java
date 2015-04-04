@@ -74,7 +74,7 @@ public class SummaryActivity extends ParentActivity {
         TextView time = (TextView) findViewById(R.id.time);
         Calendar c = Calendar.getInstance(timeZone);
         time.setText(String.format("%d/%02d/%02d   %s",
-                c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
+                c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH),
                 Constants.DAY_OF_WEEK[c.get(Calendar.DAY_OF_WEEK)]));
 
         TextView status = (TextView) findViewById(R.id.status);
