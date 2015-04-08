@@ -87,7 +87,7 @@ public class AssetAdapter extends BaseExpandableListAdapter {
         }
         convertView.setBackgroundResource(backgroundResId);
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -103,12 +103,15 @@ public class AssetAdapter extends BaseExpandableListAdapter {
                             }
                             return;
                         }
-                        Tracker.INSTANCE.pointGroups = Tracker.INSTANCE.getAllPointIdsInAsset(asset.id);
-                        Intent intent = new Intent(activity, PointsActivity.class);
-                        activity.startActivity(intent);
-                        activity.finish();
+                        goToPointsActivity(asset.id);
                         return;
                     }
+
+                    if (RecordStatus.NOT_STARTED != asset.getStatus()) {
+                        goToPointsActivity(asset.id);
+                        return;
+                    }
+
                     Tracker.INSTANCE.startScan(activity);
                 } catch (Exception ex) {
                     Toast.makeText(
@@ -118,7 +121,9 @@ public class AssetAdapter extends BaseExpandableListAdapter {
                             .show();
                 }
             }
-        });
+        };
+
+        convertView.setOnClickListener(listener);
         return convertView;
     }
 
@@ -175,5 +180,12 @@ public class AssetAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    private void goToPointsActivity(int assetId) {
+        Tracker.INSTANCE.pointGroups = Tracker.INSTANCE.getAllPointIdsInAsset(assetId);
+        Intent intent = new Intent(activity, PointsActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }
