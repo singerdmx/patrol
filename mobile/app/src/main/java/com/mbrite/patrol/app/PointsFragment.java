@@ -48,7 +48,8 @@ public class PointsFragment extends Fragment {
             R.id.content,
             R.id.memo,
             R.id.imageLine,
-            R.id.recordLine
+            R.id.recordLine,
+            R.id.show_graph
     };
     protected String value = "";
     protected int status = RecordStatus.PASS; // Default to Pass
