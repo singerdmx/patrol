@@ -108,8 +108,8 @@
     <string name="save_data">保存数据</string>
     <string name="data_saved">数据已保存</string>
     <string name="upload_data">上传所有数据？</string>
-    <string name="error_upload">%s条纪录上传失败</string>
-    <string name="upload_success">成功上传了%s条纪录</string>
+    <string name="error_upload">%s条记录上传失败</string>
+    <string name="upload_success">成功上传了%s条记录</string>
     <string name="manual_input_barcode">请手动输入编码</string>
     <string name="not_scanned">扫描没有完成</string>
     <string name="whether_save_record">所有巡检项目已完成，是否保存？（保存后数据不可再更改）</string>

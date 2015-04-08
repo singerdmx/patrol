@@ -84,6 +84,10 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
         }
 
         if (fails == 0) {
+            if (total == 0) {
+                return;
+            }
+
             activity.runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(activity,
