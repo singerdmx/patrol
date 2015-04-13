@@ -72,13 +72,6 @@ public class UploadTask extends AsyncTask<Void, Void, Integer> {
 
     @Override
     protected void onPostExecute(final Integer fails) {
-        if (total - fails > 0) {
-            Utils.updateDataFiles(activity);
-            if (activity instanceof ParentActivity) {
-                ((ParentActivity) activity).onResume();
-            }
-        }
-
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }

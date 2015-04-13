@@ -34,20 +34,20 @@
             android:drawableTop="@drawable/camera"
             android:gravity="center"
             android:orientation="vertical"
-            android:text="@string/scan_barcode"
+            android:text="@string/barcode"
             android:textColor="@color/white"></TextView>
 
         <TextView
-            android:id="@+id/input_button"
+            android:id="@+id/RFID_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".20"
             android:background="@drawable/background_cyan"
             android:clickable="true"
-            android:drawableTop="@drawable/lined_paper_pencil"
+            android:drawableTop="@drawable/rfid"
             android:gravity="center"
             android:orientation="vertical"
-            android:text="@string/manual_input"
+            android:text="RFID"
             android:textColor="@color/white"></TextView>
 
         <TextView
@@ -57,7 +57,7 @@
             android:layout_weight=".20"
             android:background="@drawable/background_cyan"
             android:clickable="true"
-            android:drawableTop="@drawable/lined_paper_lock"
+            android:drawableTop="@android:drawable/ic_menu_save"
             android:gravity="center"
             android:orientation="vertical"
             android:text="@string/save_data"
@@ -70,7 +70,7 @@
             android:layout_weight=".20"
             android:background="@drawable/background_cyan"
             android:clickable="true"
-            android:drawableTop="@drawable/lined_paper_check"
+            android:drawableTop="@drawable/ic_menu_mark"
             android:gravity="center"
             android:orientation="vertical"
             android:text="@string/complete_patrol"
