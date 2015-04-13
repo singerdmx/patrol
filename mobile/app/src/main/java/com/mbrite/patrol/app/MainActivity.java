@@ -189,9 +189,6 @@ public class MainActivity extends ParentActivity {
             return;
         }
 
-        if (Utils.updateDataFiles(MainActivity.this)) {
-            fragment.onResume();
-        }
         new UploadTask(MainActivity.this).execute();
         refresh.setBackground(getResources().getDrawable(R.drawable.background_cyan));
         refresh.setCompoundDrawablesWithIntrinsicBounds(null,
