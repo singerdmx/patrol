@@ -4,12 +4,16 @@
 
     <item
         android:id="@+id/logout"
-        android:icon="@drawable/userblock"
+        android:icon="@drawable/ic_menu_blocked_user"
         android:title="@string/logout" />
     <item
         android:id="@+id/settings"
         android:icon="@drawable/options"
         android:title="@string/settings" />
+    <item
+        android:id="@+id/manual_input"
+        android:icon="@drawable/lined_paper_pencil"
+        android:title="@string/manual_input" />
     <item
         android:id="@+id/summary"
         android:icon="@drawable/article"

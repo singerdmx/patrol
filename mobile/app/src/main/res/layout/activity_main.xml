@@ -58,7 +58,7 @@
             android:layout_weight=".33"
             android:background="@drawable/background_cyan"
             android:clickable="true"
-            android:drawableTop="@drawable/circleright"
+            android:drawableTop="@drawable/ic_go"
             android:gravity="center"
             android:orientation="vertical"
             android:text="@string/start_patrol"

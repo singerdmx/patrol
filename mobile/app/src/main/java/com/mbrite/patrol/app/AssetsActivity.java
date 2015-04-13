@@ -40,7 +40,6 @@ public class AssetsActivity extends ParentActivity {
         setContentView(R.layout.activity_assets);
         setWindowTitle(R.string.asset);
         setupScanButton();
-        setupInputButton();
         setupSaveDataButton();
         setupCompleteButton();
 
@@ -95,6 +94,9 @@ public class AssetsActivity extends ParentActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
+            case R.id.manual_input:
+                manualInput();
+                return true;
             default:
                 return false;
         }
@@ -139,36 +141,30 @@ public class AssetsActivity extends ParentActivity {
         });
     }
 
-    private void setupInputButton() {
-        TextView inputButton = (TextView) findViewById(R.id.input_button);
-        inputButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Tracker.INSTANCE.targetAsset = null;
-                final EditText input = new EditText(AssetsActivity.this);
-                new AlertDialog.Builder(AssetsActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
-                        .setTitle(getString(R.string.manual_input_barcode))
-                        .setView(input)
-                        .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String value = input.getText().toString();
-                                try {
-                                    checkBarcode(value, true);
-                                } catch (Exception ex) {
-                                    Toast.makeText(
-                                            AssetsActivity.this,
-                                            String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            }
-                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+    private void manualInput() {
+        Tracker.INSTANCE.targetAsset = null;
+        final EditText input = new EditText(AssetsActivity.this);
+        new AlertDialog.Builder(AssetsActivity.this, R.style.Theme_Base_AppCompat_Dialog_FixedSize)
+                .setTitle(getString(R.string.manual_input_barcode))
+                .setView(input)
+                .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Do nothing.
+                        String value = input.getText().toString();
+                        try {
+                            checkBarcode(value, true);
+                        } catch (Exception ex) {
+                            Toast.makeText(
+                                    AssetsActivity.this,
+                                    String.format(getString(R.string.error_of), ex.getLocalizedMessage()),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
-                }).setIcon(android.R.drawable.ic_menu_edit).show();
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Do nothing.
             }
-        });
+        }).setIcon(android.R.drawable.ic_menu_edit).show();
     }
 
     private void setupSaveDataButton() {

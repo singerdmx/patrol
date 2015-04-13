@@ -99,7 +99,7 @@
     <string name="confirm_asset">确认设备</string>
     <string name="selected_asset">选定的设备: %s</string>
     <string name="scan_barcode">扫描编码</string>
-    <string name="barcode">编码</string>
+    <string name="barcode">条形码</string>
     <string name="manual_input">手动输入</string>
     <string name="error_incorrect_barcode">编码与选中的设备或巡检点不相符</string>
     <string name="error_incomplete_assets">有未完成的数据，无法保存！</string>
