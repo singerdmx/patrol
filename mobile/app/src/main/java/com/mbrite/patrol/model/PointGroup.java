@@ -23,7 +23,8 @@ public class PointGroup extends Point {
                 point.choice,
                 point.defaultValue,
                 point.measureUnit,
-                point.pointCode);
+                point.pointCode,
+                point.standard);
         routeId = assetGroup.getRouteId();
         assetId = assetGroup.id;
     }

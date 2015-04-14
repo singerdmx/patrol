@@ -45,7 +45,8 @@ public enum PointProvider {
                     choice,
                     pointJSON.getString(Constants.DEFAULT_VALUE),
                     pointJSON.has("measure_unit") ? pointJSON.getString("measure_unit") : null,
-                    pointJSON.has("point_code") ? pointJSON.getString("point_code") : null);
+                    pointJSON.has("point_code") ? pointJSON.getString("point_code") : null,
+                    pointJSON.has("standard") ? pointJSON.getString("standard") : null);
 
             points.add(point);
         }

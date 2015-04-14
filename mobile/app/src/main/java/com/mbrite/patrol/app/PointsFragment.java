@@ -28,6 +28,8 @@ import com.mbrite.patrol.model.PointGroup;
 import com.mbrite.patrol.model.PointRecord;
 import com.mbrite.patrol.model.RecordStatus;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.UUID;
 
 public class PointsFragment extends Fragment {
@@ -53,6 +55,10 @@ public class PointsFragment extends Fragment {
     };
     protected String value = "";
     protected int status = RecordStatus.PASS; // Default to Pass
+    protected Double min;
+    protected Double low;
+    protected Double high;
+    protected Double max;
     private TextView recordBtn;
     private TextView playRecordingBtn;
     private TextView deleteRecordingBtn;
@@ -93,6 +99,7 @@ public class PointsFragment extends Fragment {
                 view.findViewById(R.id.show_graph).setVisibility(View.GONE);
             }
 
+            setNormalRangeValue(view);
             setupAddPhotoButton(view);
             setupRecordButton(view);
             setupPlayButton(view);
@@ -128,6 +135,44 @@ public class PointsFragment extends Fragment {
 
     public String getWarning() {
         return null;
+    }
+
+    private void setNormalRangeValue(View v) {
+        TextView rangeValue = (TextView) v.findViewById(R.id.normal_range_value);
+        String rangeDisplayValue = "N/A";
+        // Use "standard" first
+        if (StringUtils.isNoneBlank(point.standard)) {
+            rangeValue.setText(point.standard);
+            return;
+        }
+
+        if (point.category == 50) {
+            min = Utils.getDouble(point.choice.get(0));
+            low = Utils.getDouble(point.choice.get(1));
+            high = Utils.getDouble(point.choice.get(2));
+            max = Utils.getDouble(point.choice.get(3));
+            if (min != null && max != null) {
+                rangeDisplayValue =
+                        String.format(
+                                "%1$,.2f - %2$,.2f%3$s",
+                                min,
+                                max,
+                                point.getMeasureUnit());
+            } else if (min != null) {
+                rangeDisplayValue =
+                        String.format(
+                                "大于%1$,.0f%2$s",
+                                min,
+                                point.getMeasureUnit());
+            } else if (max != null) {
+                rangeDisplayValue =
+                        String.format(
+                                "小于%1$,.0f%2$s",
+                                max,
+                                point.getMeasureUnit());
+            }
+        }
+        rangeValue.setText(rangeDisplayValue);
     }
 
     private void setupAddPhotoButton(View view) {
