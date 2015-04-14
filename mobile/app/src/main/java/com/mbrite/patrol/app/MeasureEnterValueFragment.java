@@ -7,24 +7,16 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.mbrite.patrol.common.Utils;
 import com.mbrite.patrol.model.RecordStatus;
 
 import org.apache.commons.lang3.StringUtils;
 
 public class MeasureEnterValueFragment extends PointsFragment {
 
-    private Double min;
-    private Double low;
-    private Double high;
-    private Double max;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         renderView(inflater, R.layout.fragment_meaure_enter_value);
-        setNormalRangeValue(view);
 
         final EditText valueView = (EditText) view.findViewById(R.id.value);
         if (pointRecord != null) {
@@ -102,38 +94,6 @@ public class MeasureEnterValueFragment extends PointsFragment {
             return point.toString() + ": " + getString(R.string.error_no_data); // User did not enter value
         }
         return null;
-    }
-
-    private void setNormalRangeValue(View v) {
-        TextView rangeValue = (TextView) v.findViewById(R.id.normal_range_value);
-        String rangeDisplayValue = "N/A";
-        if (point.category == 50) {
-            min = Utils.getDouble(point.choice.get(0));
-            low = Utils.getDouble(point.choice.get(1));
-            high = Utils.getDouble(point.choice.get(2));
-            max = Utils.getDouble(point.choice.get(3));
-            if (min != null && max != null) {
-                rangeDisplayValue =
-                        String.format(
-                                "%1$,.2f - %2$,.2f%3$s",
-                                min,
-                                max,
-                                point.getMeasureUnit());
-            } else if (min != null) {
-                rangeDisplayValue =
-                        String.format(
-                                "大于%1$,.0f%2$s",
-                                min,
-                                point.getMeasureUnit());
-            } else if (max != null) {
-                rangeDisplayValue =
-                        String.format(
-                                "小于%1$,.0f%2$s",
-                                max,
-                                point.getMeasureUnit());
-            }
-        }
-        rangeValue.setText(rangeDisplayValue);
     }
 
 }

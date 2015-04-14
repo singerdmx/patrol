@@ -14,6 +14,7 @@ public class Point {
     public final String defaultValue;
     public final String measureUnit;
     public final String pointCode;
+    public final String standard;
 
     public Point(int id,
                  String name,
@@ -25,7 +26,8 @@ public class Point {
                  List<String> choice,
                  String defaultValue,
                  String measureUnit,
-                 String pointCode) {
+                 String pointCode,
+                 String standard) {
         this.id = id;
         this.description = description;
         this.name = name;
@@ -37,6 +39,7 @@ public class Point {
         this.defaultValue = defaultValue;
         this.measureUnit = measureUnit;
         this.pointCode = pointCode;
+        this.standard = standard;
     }
 
     public String getMeasureUnit() {
