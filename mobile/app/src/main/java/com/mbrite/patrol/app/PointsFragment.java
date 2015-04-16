@@ -138,6 +138,13 @@ public class PointsFragment extends Fragment {
     }
 
     private void setNormalRangeValue(View v) {
+        if (point.category == 50) {
+            min = Utils.getDouble(point.choice.get(0));
+            low = Utils.getDouble(point.choice.get(1));
+            high = Utils.getDouble(point.choice.get(2));
+            max = Utils.getDouble(point.choice.get(3));
+        }
+
         TextView rangeValue = (TextView) v.findViewById(R.id.normal_range_value);
         String rangeDisplayValue = "N/A";
         // Use "standard" first
@@ -147,10 +154,6 @@ public class PointsFragment extends Fragment {
         }
 
         if (point.category == 50) {
-            min = Utils.getDouble(point.choice.get(0));
-            low = Utils.getDouble(point.choice.get(1));
-            high = Utils.getDouble(point.choice.get(2));
-            max = Utils.getDouble(point.choice.get(3));
             if (min != null && max != null) {
                 rangeDisplayValue =
                         String.format(
